@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_50"
+    tools:context=".ui.activity.SplashActivity">
+
+    <ImageView
+        android:id="@+id/img_icon"
+        android:layout_width="@dimen/image_detail_small"
+        android:layout_height="@dimen/image_detail_small"
+        android:layout_centerInParent="true"
+        android:background="@drawable/oval_white"
+        android:padding="@dimen/padding_general_small"
+        android:src="@drawable/icon_negocio" />
+
+    <TextView
+        android:id="@+id/tv_powered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_company"
+        android:textColor="@color/grey_400"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:text="@string/powered_by"/>
+
+    <TextView
+        android:id="@+id/tv_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_vertical_medium"
+        android:text="@string/company"
+        android:textColor="@color/grey_400"
+        android:textStyle="bold" />
+
+</RelativeLayout>

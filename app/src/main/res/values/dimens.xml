@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stroke_width">1dp</dimen>
+    <dimen name="margin_vertical_large">34dp</dimen>
+    <dimen name="margin_vertical_medium">16dp</dimen>
+    <dimen name="margin_vertical_small">8dp</dimen>
+    <dimen name="margin_vertical_tiny">5dp</dimen>
+    <dimen name="padding_general_large">30dp</dimen>
+    <dimen name="padding_general_medium">16dp</dimen>
+    <dimen name="padding_general_small">8dp</dimen>
+    <dimen name="padding_general_tiny">5dp</dimen>
+    <dimen name="login_titulo">36sp</dimen>
+    <dimen name="margin_between_views">10dp</dimen>
+    <dimen name="nav_header_height">220dp</dimen>
+    <dimen name="nav_header_margin_top">32dp</dimen>
+    <dimen name="image_size_profile">70dp</dimen>
+    <dimen name="text_size_tiny">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="button_settings_width">200dp</dimen>
+    <dimen name="login_screen_width">450dp</dimen>
+    <dimen name="float_input">250dp</dimen>
+
+    <dimen name="rounded_corner_tiny">5dp</dimen>
+    <dimen name="rounded_corner_small">8dp</dimen>
+    <dimen name="rounded_corner_medium">12dp</dimen>
+    <dimen name="rounded_corner_large">18dp</dimen>
+    <dimen name="rounded_corner_oval">120dp</dimen>
+
+    <dimen name="image_size_dialog">150dp</dimen>
+    <dimen name="image_detail_tiny">70dp</dimen>
+    <dimen name="image_detail_small">100dp</dimen>
+    <dimen name="image_detail_medium">150dp</dimen>
+    <dimen name="image_detail_large">220dp</dimen>
+    <dimen name="image_size_listitem">45dp</dimen>
+    <dimen name="control_size_medium">45dp</dimen>
+    <dimen name="icon_size_quickacionItem">32dp</dimen>
+    <dimen name="min_width_resumen">150dp</dimen>
+    <dimen name="button_height">55dp</dimen>
+
+    <dimen name="headerTextSize">30sp</dimen>
+    <dimen name="newsMoreTextSize">12sp</dimen>
+    <dimen name="loginCardRadius">20dp</dimen>
+    <dimen name="loginViewsMargin">20dp</dimen>
+
+    <dimen name="signup_text_margin_top">10dp</dimen>
+
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Xalesmap_store_backups" translatable="false">
+        Xalesmap_store/Backups
+    </string>
+    <string name="Xalesmap_store_Picture" translatable="false">
+        Xalesmap_store/Xalesmap_store Picture
+    </string>
+    <string name="Xalesmap_store_PDF" translatable="false">
+        Xalesmap_store/Xalesmap_store PDF
+    </string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="span_count_marcas">2</integer>
+    <integer name="margin_10dp">10</integer>
+    <integer name="margin_8dp">8</integer>
+</resources>

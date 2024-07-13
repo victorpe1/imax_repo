@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="?android:selectableItemBackground"
+    android:padding="@dimen/padding_general_small">
+
+    <ImageView
+        android:id="@+id/img_icon"
+        android:layout_width="@dimen/image_detail_tiny"
+        android:layout_height="@dimen/image_detail_tiny"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/icon_paquete"/>
+
+    <TextView
+        android:id="@+id/tv_descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/margin_between_views"
+        android:layout_toRightOf="@+id/img_icon"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_small"
+        android:text="Product X Product X Product X Product X Product X" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_descripcion"
+        android:layout_marginTop="@dimen/margin_between_views"
+        android:layout_toRightOf="@+id/img_icon"
+        android:layout_marginLeft="@dimen/margin_between_views"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_precio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                android:text="S/. 0.00"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spn_unidadMedida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/margin_vertical_tiny"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|right">
+            <ImageView
+                android:id="@+id/btn_disminuir"
+                android:layout_width="@dimen/control_size_medium"
+                android:layout_height="@dimen/control_size_medium"
+                app:srcCompat="@drawable/ic_remove_circle"/>
+
+            <TextView
+                android:id="@+id/tv_cantidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="24dp"
+                android:minHeight="24dp"
+                android:text="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginLeft="@dimen/margin_vertical_tiny"
+                android:layout_marginRight="@dimen/margin_vertical_tiny"/>
+
+            <ImageView
+                android:id="@+id/btn_aumentar"
+                android:layout_width="@dimen/control_size_medium"
+                android:layout_height="@dimen/control_size_medium"
+                app:srcCompat="@drawable/ic_add_circle"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

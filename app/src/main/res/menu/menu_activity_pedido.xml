@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+   <!-- <item
+        android:id="@+id/menu_pedido_agregar_cliente"
+        app:showAsAction="never"
+        android:title="@string/agregar_cliente"
+        android:icon="@drawable/ic_agregar_cliente"/>-->
+    <item
+        android:id="@+id/menu_pedido_siguiente"
+        app:showAsAction="always"
+        android:title="@string/siguiente" />
+    <item
+        android:id="@+id/menu_pedido_guardar"
+        app:showAsAction="always"
+        android:title="@string/guardar" />
+</menu>

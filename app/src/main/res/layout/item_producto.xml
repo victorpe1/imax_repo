@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_general_small">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_between_views"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/icon_producto"/>
+    <TextView
+        android:id="@+id/tv_descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/icon"
+        android:text="PRODUCTO PRODUCTO PRODUCTO PRODUCTO PRODUCTO"/>
+    <TextView
+        android:id="@+id/label_codigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_descripcion"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/icon"
+        android:text="CODIGO:"/>
+    <TextView
+        android:id="@+id/tv_codigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/label_codigo"
+        android:layout_alignBaseline="@id/label_codigo"
+        android:layout_marginLeft="@dimen/margin_between_views"
+        android:text="000000"/>
+    <TextView
+        android:id="@+id/label_unidad_medida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label_codigo"
+        android:layout_toRightOf="@+id/icon"
+        android:text="UNIDAD MEDIDA:"/>
+    <TextView
+        android:id="@+id/tv_unidad_medida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/label_unidad_medida"
+        android:layout_alignBaseline="@id/label_unidad_medida"
+        android:layout_marginLeft="@dimen/margin_between_views"
+        android:text="Unidad"/>
+</RelativeLayout>

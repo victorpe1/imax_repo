@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.configuraciones.ConfiguracionesFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_general_medium">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextViewAsInputEditText"
+            android:text="@string/hint_punto_venta"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextViewAsInputEditText"
+            android:textSize="@dimen/text_size_tiny"
+            android:textStyle="italic"
+            android:text="@string/configuracion_punto_venta"/>
+        <Spinner
+            android:id="@+id/spn_punto_venta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overlapAnchor="false"
+            android:textSize="@dimen/text_size_medium"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_400"/>
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/img_sincronizar"
+        android:layout_width="@dimen/image_detail_medium"
+        android:layout_height="@dimen/image_detail_medium"
+        app:srcCompat="@drawable/icon_sincro"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/btn_sincronizar"/>
+
+    <Button
+        android:id="@+id/btn_sincronizar"
+        android:layout_width="@dimen/button_settings_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_vertical_medium"
+        android:layout_marginBottom="@dimen/padding_general_medium"
+        android:text="@string/sincronizar" />
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_between_views"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/grey_400"
+        android:layout_above="@+id/img_sincronizar"
+        android:text="@string/app_version"/>
+
+</RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <LinearLayout
+        android:id="@+id/linear_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/nav_header_margin_top"
+        android:paddingBottom="@dimen/margin_vertical_medium"
+        android:paddingStart="@dimen/margin_vertical_medium"
+        android:paddingEnd="@dimen/margin_vertical_medium"
+        android:background="@drawable/headerbkg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_tiny"
+            android:text="Lunes 1 Enero del 2018"/>
+        <!--<LinearLayout
+            android:layout_marginTop="@dimen/margin_vertical_tiny"
+            android:layout_width="@dimen/image_size_profile"
+            android:layout_height="@dimen/image_size_profile"
+            android:background="@drawable/oval_white"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/icon_team"
+                android:visibility="visible" />
+        </LinearLayout>-->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_marginTop="@dimen/margin_vertical_tiny"
+            android:layout_width="@dimen/image_size_profile"
+            android:layout_height="@dimen/image_size_profile"
+            app:srcCompat="@drawable/icon_team"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_tiny"
+            android:maxLines="1"
+            android:text="Nombre del Usuario"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+        <!--<TextView
+            android:id="@+id/tv_subTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:text="Tipo usuario"/>
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:text="Código de usuario: 15008"/>
+        <TextView
+            android:id="@+id/tv_sucursal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="right"
+            android:text="SUCURSAL: "/>
+        <TextView
+            android:id="@+id/tv_almacen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="right"
+            android:text="ALMACÉN: "/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/margin_between_textView"
+            android:id="@+id/tv_numeroGuia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            android:text="NÚMERO DE GUIA: "/>-->
+    </LinearLayout>
+
+</LinearLayout>

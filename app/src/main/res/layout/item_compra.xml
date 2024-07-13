@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="?android:selectableItemBackground" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_general_medium"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_empresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:maxLines="2"
+            android:text="Nombre de la empresa"
+            android:textColor="@color/secondary_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_empresa"
+            android:layout_marginTop="@dimen/margin_vertical_tiny"
+            android:layout_marginBottom="@dimen/margin_vertical_tiny"
+            android:background="@color/grey_300"/>
+
+        <TextView
+            android:id="@+id/label_numeroPedido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/separator"
+            android:layout_marginRight="@dimen/padding_general_medium"
+            android:textColor="@color/light_bg_dark_disabled_text"
+            android:text="@string/hint_numero_pedido" />
+
+        <TextView
+            android:id="@+id/tv_numeroPedido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/label_numeroPedido"
+            android:layout_below="@+id/label_numeroPedido"
+            android:layout_marginRight="@dimen/padding_general_medium"
+            android:textColor="@color/secondary_text"
+            android:text="000000000000" />
+
+        <TextView
+            android:id="@+id/label_fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/separator"
+            android:layout_toRightOf="@+id/label_numeroPedido"
+            android:textColor="@color/light_bg_dark_disabled_text"
+            android:text="@string/hint_fecha_compra" />
+
+        <TextView
+            android:id="@+id/tv_fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_fecha"
+            android:layout_toRightOf="@+id/label_numeroPedido"
+            android:text="01/01/2018" />
+        <TextView
+            android:id="@+id/tv_montoTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/separator"
+            android:text="S/.0.00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/tv_montoTotal"
+            android:layout_below="@+id/tv_montoTotal"
+            android:text="Enviado"
+            android:textColor="@color/green_500"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <!--<View
+        android:id="@+id/view_flag"
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+
+        android:layout_alignParentRight="true"
+        android:background="@color/green_500"/>-->
+
+</androidx.cardview.widget.CardView>

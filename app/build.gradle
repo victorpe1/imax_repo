@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+
+    signingConfigs {
+        release {
+        storeFile file('C:\\Users\\victorp\\Downloads\\REPOSITORY BYHCONSULTING\\ANDROID\\see-movil\\app\\src\\main\\assets\\jks\\jk1.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
+
+    compileSdkVersion 33
+    defaultConfig {
+        applicationId "com.sales.storeapp"
+        minSdkVersion 28
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        signingConfig signingConfigs.release
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        debug{
+            minifyEnabled false
+            buildConfigField "String", "API_BASE_URL", "\"http://10.0.2.2:8080/\""
+            buildConfigField "String", "SHA_512_SALT", "\"54FB59DF4FECF9746AD9709B3572D16C3371F659\""
+            buildConfigField "String", "SECRET_KEY", "\"3KAwGEnYQhOGxZCrx1BW1wcvflzGlKRgcLq6Hzk2\""
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            resValue("string", "app_version", "Versión: ${defaultConfig.versionName}${versionNameSuffix}")
+            resValue "string", "app_name", "GIZASI APP DESARROLLO"
+        }
+        rtest{
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_BASE_URL", "\"https://test.easyfact.pe/\""
+            buildConfigField "String", "SHA_512_SALT", "\"54FB59DF4FECF9746AD9709B3572D16C3371F659\""
+            buildConfigField "String", "SECRET_KEY", "\"3KAwGEnYQhOGxZCrx1BW1wcvflzGlKRgcLq6Hzk2\""
+            applicationIdSuffix ".test"
+            versionNameSuffix "-test"
+            resValue("string", "app_version", "Versión: ${defaultConfig.versionName}")
+            resValue "string", "app_name", "GIZASI APP TEST "
+        }
+        release {
+            //minifyEnabled true https://bizpos.bizlinks.com.pe/
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_BASE_URL", "\"https://easyfact.pe/\""
+            buildConfigField "String", "SHA_512_SALT", "\"54FB59DF4FECF9746AD9709B3572D16C3371F659\""
+            buildConfigField "String", "SECRET_KEY", "\"3KAwGEnYQhOGxZCrx1BW1wcvflzGlKRgcLq6Hzk2\""
+            resValue("string", "app_version", "Versión: ${defaultConfig.versionName}")
+            resValue "string", "app_name", "GIZASI APP PRODUCTION"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'com.scottyab:secure-preferences-lib:0.1.4'
+    implementation files('libs/RT_Android_Bluetooth_SDK_20150204.jar')
+    implementation 'com.romandanylyk:pageindicatorview:1.0.2'
+
+    implementation "androidx.constraintlayout:constraintlayout:2.1.0"
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //Para usar OkHttpLoader de Glide y modificar la carga de imagenes desde SSL en versiones anteriores
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0'
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+}
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'

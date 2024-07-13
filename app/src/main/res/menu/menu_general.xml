@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_buscar"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_buscar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="@string/buscar"/>
+    <item android:id="@+id/menu_pedido"
+        app:actionLayout="@layout/ic_count_camion"
+        app:showAsAction="always"
+
+        android:title="@string/mi_pedido"/>
+</menu>

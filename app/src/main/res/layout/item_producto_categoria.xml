@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_general_tiny">
+
+    <TextView
+        android:id="@+id/tv_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_800"
+        android:layout_margin="@dimen/margin_between_views"
+        android:textStyle="bold"
+        android:background="@drawable/shape_flat_white_border"
+        android:padding="@dimen/padding_general_small"
+        android:focusable="true"
+        android:text="Category A"/>
+
+</LinearLayout>

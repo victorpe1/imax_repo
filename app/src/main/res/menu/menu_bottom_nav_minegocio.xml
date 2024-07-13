@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_datos"
+        android:enabled="true"
+        android:title="@string/datos"
+        android:icon="@drawable/ic_action_negocio"/>
+    <item
+        android:id="@+id/tab_ubicacion"
+        android:enabled="true"
+        android:title="@string/ubicacion"
+        android:icon="@drawable/ic_action_location" />
+    <item
+        android:id="@+id/tab_proveedores"
+        android:enabled="true"
+        android:title="@string/proveedores"
+        android:icon="@drawable/ic_camion" />
+</menu>
