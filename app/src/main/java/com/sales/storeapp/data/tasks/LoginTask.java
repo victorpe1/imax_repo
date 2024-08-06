@@ -47,8 +47,9 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
         if (Util.isConnectingToRed(weakReference.get().getApplicationContext())) {
             String credentials = usuario + ":" + password;
 
-            final String basic =
-                    "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+            String token = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+            final String basic = "Basic " + token;
+
             try {
                 Response<ResponseBody> response = XMSApi.getApiEasyfact(weakReference.get().getApplicationContext()).login(basic).execute();
                 if (response.isSuccessful() && response.body() != null) {
@@ -79,6 +80,10 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
                         */
 
                         daoExtras.guardarUsuario(usuarioModel);
+
+
+                    weakReference.get().app.setPref_tokenType("Bearer");
+                    weakReference.get().app.setPref_token(token);
 
                     weakReference.get().app.setPref_serieUsuario("001");
                     weakReference.get().app.setPref_idPuntoVenta(1);
