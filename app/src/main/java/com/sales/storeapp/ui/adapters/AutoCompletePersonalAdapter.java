@@ -74,8 +74,9 @@ public class AutoCompletePersonalAdapter extends ArrayAdapter<Personal> {
             Personal personal = getItem(position);
             //Seteamos los valores a las vistas
             holder.tv_personal.setText(personal.getNombre());
-            holder.tv_dniruc.setText(personal.getRuc().trim().length() == 0 ?
-                    personal.getDni() : personal.getRuc());
+            holder.tv_dniruc.setText(personal.getRuc().equals( "null")
+                    || personal.getRuc() == null ? personal.getDni() : personal.getRuc());
+
         }catch (Exception e){
             Personal unidad = getItem(position);
             if (unidad != null) {

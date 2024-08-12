@@ -60,7 +60,7 @@ public class DAOPedido {
                 reg.put(TablesHelper.xms_order.id_cliente, cliente.getIdCliente());
                 reg.put(TablesHelper.xms_order.direcc, cliente.getDireccion());
                 reg.put(TablesHelper.xms_order.id_distrito, cliente.getIdDistrito());
-                reg.put(TablesHelper.xms_order.codubigeo, cliente.getCodUbigeo1());
+                reg.put(TablesHelper.xms_order.codubigeo, cliente.getCodUbigeo());
             }else{
                 reg.put(TablesHelper.xms_order.id_cliente, "");
                 reg.put(TablesHelper.xms_order.direcc, "");

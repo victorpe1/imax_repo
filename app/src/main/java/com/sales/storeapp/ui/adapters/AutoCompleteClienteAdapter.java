@@ -76,7 +76,7 @@ public class AutoCompleteClienteAdapter extends ArrayAdapter<ClienteModel> {
             ClienteModel cliente = getItem(position);
             //Seteamos los valores a las vistas
             holder.tv_cliente.setText(cliente.getRazonSocial());
-            holder.tv_dniruc.setText(cliente.getRuc() == null ? cliente.getDni() : cliente.getRuc());
+            holder.tv_dniruc.setText(cliente.getRuc().equals( "null") || cliente.getRuc() == null ? cliente.getDni() : cliente.getRuc());
         }catch (Exception e){
             ClienteModel cliente = getItem(position);
             if (cliente != null) {

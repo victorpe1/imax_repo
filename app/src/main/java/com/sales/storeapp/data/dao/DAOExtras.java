@@ -214,8 +214,8 @@ public class DAOExtras {
     }
 
     public ArrayList<CondicionPago> getListCondicionPago(){
-        String rawQuery;
-        rawQuery = "SELECT * from "+TablesHelper.xms_condiciones.table;
+        String rawQuery = "SELECT * FROM " + TablesHelper.xms_condiciones.table +
+                            " WHERE nombre LIKE '%CONTADO%'";
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
         Cursor cur = db.rawQuery(rawQuery, null);
 

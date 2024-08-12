@@ -47,7 +47,9 @@ public class DAOCliente {
                         ","+TablesHelper.xms_client.codubigeo2 +
                         ","+TablesHelper.xms_client.codubigeo3 +
                         ","+TablesHelper.xms_client.codubigeo4 +
-                        ", d."+TablesHelper.xms_distritos.nombre
+                        ", c."+TablesHelper.xms_client.codubigeo +
+                        ", d."+TablesHelper.xms_distritos.nombre +
+                        ", "+TablesHelper.xms_client.id_vendedor
                         + " FROM "+TablesHelper.xms_client.table+" c"
                         + " INNER JOIN "+TablesHelper.xms_distritos.table+" d ON c."
                         + TablesHelper.xms_client.id_distrito+" = d."+TablesHelper.xms_distritos.id_distrito
@@ -82,7 +84,14 @@ public class DAOCliente {
             clienteModel.setCodUbigeo2(cur.getString(20));
             clienteModel.setCodUbigeo3(cur.getString(21));
             clienteModel.setCodUbigeo4(cur.getString(22));
-            clienteModel.setDistrito(cur.getString(23));
+            clienteModel.setCodUbigeo(cur.getString(23));
+            clienteModel.setDistrito(cur.getString(24));
+
+            if (!cur.isNull(25)) {
+                clienteModel.setIdVendedor(cur.getInt(25));
+            } else {
+                clienteModel.setIdVendedor(0);
+            }
 
             lista.add(clienteModel);
             cur.moveToNext();

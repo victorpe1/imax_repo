@@ -286,33 +286,45 @@ public class PedidoCabeceraFragment extends Fragment {
            til_ubigeo.setVisibility(View.VISIBLE);
            til_distrito.setVisibility(View.VISIBLE);
 
-           edt_direccion.setText(clienteModel.getDireccion());
-           edt_ubigeo.setText(clienteModel.getCodUbigeo1());
+           edt_direccion.setText(clienteModel.getDomicilio());
+           edt_ubigeo.setText(clienteModel.getCodUbigeo());
            edt_distrito.setText(clienteModel.getDistrito());
            idCliente = clienteModel.getIdCliente();
 
            //Una vez se obtenga el codigo del cliente se tiene que mandar ese codigo al activity para poder usarlo
            ((PedidoActivity)getActivity()).setCliente(clienteModel);//Ahora el activity
+
+            int idVendedorCliente = clienteModel.getIdVendedor();
+            if (idVendedorCliente != 0) {
+                for (int i = 0; i < autocomplete_busquedaVendedor.getAdapter().getCount(); i++) {
+                    Personal personalModel = (Personal) autocomplete_busquedaVendedor.getAdapter().getItem(i);
+                    if (personalModel.getIdPersonal() == idVendedorCliente) {
+                        autocomplete_busquedaVendedor.setText(personalModel.getNombre());
+                        idVendedor = personalModel.getIdPersonal();
+
+                        ((PedidoActivity)getActivity()).setVendedor(personalModel);
+                        break;
+                    }
+                }
+            }
+
            edt_numeroPedido.requestFocus();
            Util.cerrarTeclado(getContext(), autocomplete_busqueda);
        });
-        autocomplete_busqueda.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                idCliente = "0";
-                autocomplete_busqueda.setText("");
+        autocomplete_busqueda.setOnLongClickListener(v -> {
+            idCliente = "0";
+            autocomplete_busqueda.setText("");
 
-                til_direccion.setVisibility(View.GONE);
-                til_ubigeo.setVisibility(View.GONE);
-                til_distrito.setVisibility(View.GONE);
+            til_direccion.setVisibility(View.GONE);
+            til_ubigeo.setVisibility(View.GONE);
+            til_distrito.setVisibility(View.GONE);
 
-                edt_direccion.setText("");
-                edt_ubigeo.setText("");
-                edt_distrito.setText("");
+            edt_direccion.setText("");
+            edt_ubigeo.setText("");
+            edt_distrito.setText("");
 
-                ((PedidoActivity)getActivity()).setCliente(null);//Ahora el activity
-                return true;
-            }
+            ((PedidoActivity)getActivity()).setCliente(null);//Ahora el activity
+            return true;
         });
 
         autocomplete_busquedaVendedor.setOnItemClickListener((parent, view13, position, id) -> {
@@ -323,6 +335,7 @@ public class PedidoCabeceraFragment extends Fragment {
 
             //Una vez se obtenga el codigo del cliente se tiene que mandar ese codigo al activity para poder usarlo
             ((PedidoActivity)getActivity()).setVendedor(personalModel);//Ahora el activity
+
             edt_numeroPedido.requestFocus();
             Util.cerrarTeclado(getContext(), autocomplete_busquedaVendedor);
         });

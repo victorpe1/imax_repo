@@ -19,7 +19,9 @@ public class ClienteModel {
     private String domicilio;
     private String representante;
     private int idDistrito;
+    private int idVendedor;
     private String distrito;
+    private String codUbigeo;
     private String codUbigeo1;
     private String codUbigeo2;
     private String codUbigeo3;
@@ -29,6 +31,23 @@ public class ClienteModel {
     private String email3;
     private String email4;
     private String moneda;
+
+
+    public int getIdVendedor() {
+        return idVendedor;
+    }
+
+    public void setIdVendedor(int idVendedor) {
+        this.idVendedor = idVendedor;
+    }
+
+    public String getCodUbigeo() {
+        return codUbigeo;
+    }
+
+    public void setCodUbigeo(String codUbigeo) {
+        this.codUbigeo = codUbigeo;
+    }
 
     public String getDistrito() {
         return distrito;
