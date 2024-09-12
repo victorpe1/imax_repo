@@ -236,8 +236,8 @@ public class DAOExtras {
     }
 
     public ArrayList<Almacen> getAlmacenes(){
-        String rawQuery;
-        rawQuery = "SELECT * from "+TablesHelper.xms_almacenes.table;
+        String rawQuery = "SELECT * FROM " + TablesHelper.xms_almacenes.table
+                + " WHERE nombre LIKE '%PROD TERMINADO%'";
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
         Cursor cur = db.rawQuery(rawQuery, null);
 
@@ -274,6 +274,20 @@ public class DAOExtras {
         cur.close();
 
         return cambioToday;
+    }
+
+    public List<GenericModel> getTipoDocumento(){
+        List<GenericModel> lista = new ArrayList<>();
+
+        GenericModel item = new GenericModel("FA", "FACTURA");
+        lista.add(item);
+        item = new GenericModel("BV", "BOLETA");
+        lista.add(item);
+        item = new GenericModel("NE", "NOTA DE ENTREGA");
+        lista.add(item);
+
+
+        return lista;
     }
 
     public ArrayList<Personal> getPersonal(){

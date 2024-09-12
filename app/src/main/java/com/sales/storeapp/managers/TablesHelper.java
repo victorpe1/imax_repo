@@ -87,6 +87,19 @@ public class TablesHelper {
         public static final String sunat = "sunat";
     }
 
+    public static final class xms_medidas {
+        public static final String table = "xms_medidas";
+
+        public static final String id_medida = "id_medida";
+        public static final String nombre = "nombre";
+        public static final String factor_medida = "factor_medida";
+        public static final String id_unidad = "id_unidad";
+        public static final String factor_conversion = "factor_conversion";
+        public static final String nume_orde = "nume_orde";
+        public static final String codigo = "codigo";
+        public static final String med_sunat = "med_sunat";
+    }
+
     public static final class xms_marcas {
         public static final String table = "xms_marcas";
 
@@ -281,13 +294,17 @@ public class TablesHelper {
         public static final String facturado = "facturado";
         public static final String factura = "factura";
         public static final String id_num_alt = "id_num_alt";
-         public static final String id_distrito = "id_distrito";
+        public static final String id_distrito = "id_distrito";
         public static final String email = "email";
         public static final String codubigeo = "codubigeo";
         public static final String ordcom = "ordcom";
         public static final String id_motirech = "id_motirech";
         public static final String id_ruta = "id_ruta";
         public static final String id_coordinador = "id_coordinador";
+        public static final String observacion = "observacion";
+        public static final String total_opexonerado = "total_opexonerado";
+        public static final String total_opgratuito = "total_opgratuito";
+        public static final String typeDocument = "typeDocument";
     }
 
     public static final class xms_order_detail {
@@ -311,6 +328,11 @@ public class TablesHelper {
         public static final String cantidad2 = "cantidad2";
         public static final String id_medida = "id_medida";
         public static final String order_item = "order_item";
+        public static final String tipotributo = "tipotributo";
+        public static final String bonificacion = "bonificacion";
+        public static final String precunitgrat = "precunitgrat";
+        public static final String montograt = "montograt";
+
     }
 
     public static final class xms_product {
@@ -336,6 +358,7 @@ public class TablesHelper {
         public static final String codigo = "codigo";
         public static final String unidad = "unidad";
         public static final String id_marca = "id_marca";
+        public static final String tipo_atributo = "tipo_atributo";
     }
 
     public static final class xms_client {

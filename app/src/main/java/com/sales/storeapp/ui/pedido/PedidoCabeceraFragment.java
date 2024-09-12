@@ -28,6 +28,7 @@ import com.sales.storeapp.data.dao.DAOPedido;
 import com.sales.storeapp.models.Almacen;
 import com.sales.storeapp.models.ClienteModel;
 import com.sales.storeapp.models.CondicionPago;
+import com.sales.storeapp.models.GenericModel;
 import com.sales.storeapp.models.Order;
 import com.sales.storeapp.models.Personal;
 import com.sales.storeapp.ui.adapters.AutoCompleteClienteAdapter;
@@ -47,11 +48,11 @@ public class PedidoCabeceraFragment extends Fragment {
             edt_fechaEmision, edt_fechaVencimiento, edt_distrito, edt_ubigeo;
     private TextInputLayout til_direccion, til_distrito, til_ubigeo;
     private AutoCompleteTextView autocomplete_busqueda, autocomplete_busquedaVendedor;
-    private Spinner spn_CondicionPago, spn_Almacen;
-
+    private Spinner spn_CondicionPago, spn_Almacen, spn_tipoDocumento;
     DecimalFormat formateador;
     List<CondicionPago> listCondicionPago;
     List<Almacen> listAlmacen;
+    List<GenericModel> listaTipoDocumento;
 
     String idCliente = "";
     int idUsuario = 0;
@@ -91,6 +92,8 @@ public class PedidoCabeceraFragment extends Fragment {
         til_direccion       = view.findViewById(R.id.til_direccion);
         til_distrito       = view.findViewById(R.id.til_distrito);
         til_ubigeo       = view.findViewById(R.id.til_ubigeo);
+
+        spn_tipoDocumento   = view.findViewById(R.id.spn_tipo_documento);
 
         edt_fechaEmision    = view.findViewById(R.id.edt_fecha_emision);
         edt_fechaVencimiento    = view.findViewById(R.id.edt_fecha_vencimiento);
@@ -278,6 +281,16 @@ public class PedidoCabeceraFragment extends Fragment {
         this.cargarClientes();
         this.cargarVendedor();
 
+        listaTipoDocumento = daoExtras.getTipoDocumento();
+        ArrayList<String> arrayDocumentos = new ArrayList<>();
+        for (GenericModel model : listaTipoDocumento) {
+            arrayDocumentos.add(model.getDescripcion());
+        }
+        ArrayAdapter adapterDocumento = new ArrayAdapter<>(getActivity(),
+                R.layout.my_spinner_item, arrayDocumentos);
+        spn_tipoDocumento.setAdapter(adapterDocumento);
+
+
         autocomplete_busqueda.setOnItemClickListener((parent, view13, position, id) -> {
            ClienteModel clienteModel = (ClienteModel) parent.getItemAtPosition(position);
            autocomplete_busqueda.setText(clienteModel.getRazonSocial());
@@ -386,13 +399,6 @@ public class PedidoCabeceraFragment extends Fragment {
         Order pedido = daoPedido.getPedidoCabecera(numeroPedido);
         if (pedido != null){
 
-            /*for (int i = 0; i < listAlmacen.size(); i++) {
-                if (listAlmacen.get(i).getIdAlmacen().equals(pedido.getIdTipoDocumento())) {
-                    //spn_tipoDocumento.setSelection(i);
-                    break;
-                }
-            }*/
-
             for (int i = 0; i < listCondicionPago.size(); i++) {
                 if (listCondicionPago.get(i).equals(pedido.getIdCond())) {
                     spn_CondicionPago.setSelection(i);
@@ -442,7 +448,7 @@ public class PedidoCabeceraFragment extends Fragment {
         }
 
         if (listAlmacen.size() == 0){
-            Toast.makeText(getActivity(),"No se tiene condicion de pago",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"No se tiene almacen",Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -493,6 +499,13 @@ public class PedidoCabeceraFragment extends Fragment {
         pedidoModel.setIdCond(listCondicionPago.get(spn_CondicionPago.getSelectedItemPosition()).getIdCondicion());
         pedidoModel.setDirecc(edt_direccion.getText().toString());
         pedidoModel.setCodubigeo(edt_ubigeo.getText().toString());
+        pedidoModel.setTypeDocument(listaTipoDocumento.get(spn_tipoDocumento.getSelectedItemPosition()).getId());
+
+        if (TextUtils.isEmpty(edt_observaciones.getText().toString())){
+            pedidoModel.setObservacion("");
+        }else{
+            pedidoModel.setObservacion(edt_observaciones.getText().toString());
+        }
 
         //pedidoModel.setFlag(PedidoCabeceraModel.FLAG_PENDIENTE);
         // pedidoModel.setMedioPago(listaMedioPago.get(spn_CondicionPago.getSelectedItemPosition()));

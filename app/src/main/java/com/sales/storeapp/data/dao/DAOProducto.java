@@ -59,12 +59,14 @@ public class DAOProducto {
                         " p."+TablesHelper.xms_product.preciovtamen+", "+
                         " p."+TablesHelper.xms_product.costo+", "+
                         " p."+TablesHelper.xms_product.codigo+", "+
-                        " lp."+TablesHelper.xms_unidad_medida.comercial+", "+
-                        " m."+TablesHelper.xms_marcas.descripcion+
+                        " lp."+TablesHelper.xms_medidas.nombre+", "+
+                        " m."+TablesHelper.xms_marcas.descripcion+", "+
+                        " p."+TablesHelper.xms_product.tipo_atributo +
                         " FROM "+TablesHelper.xms_product.table+" p "+
-                        " INNER JOIN " + TablesHelper.xms_unidad_medida.table + " lp ON p."+
-                        TablesHelper.xms_product.id_unidad + " = lp." + TablesHelper.xms_lista_precio.id +
-                        " INNER JOIN " + TablesHelper.xms_marcas.table + " m ON p."+
+                        " INNER JOIN " + TablesHelper.xms_medidas.table + " lp ON p."+
+                        TablesHelper.xms_product.id_medida + " = lp." +
+                        TablesHelper.xms_medidas.id_medida +
+                        " LEFT JOIN " + TablesHelper.xms_marcas.table + " m ON p."+
                         TablesHelper.xms_product.id_marca + " = m." + TablesHelper.xms_marcas.id;
 
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
@@ -88,8 +90,9 @@ public class DAOProducto {
             productoModel.setPrecioVtaMen(cur.getDouble(11));
             productoModel.setCosto(cur.getDouble(12));
             productoModel.setCodigo(cur.getString(13));
-            productoModel.setUnidad(cur.getString(14));
+            productoModel.setUnidad(cur.getString(14).trim());
             productoModel.setMarca(cur.getString(15));
+            productoModel.setTipoAtributo(cur.getInt(16));
 
             lista.add(productoModel);
             cur.moveToNext();

@@ -48,10 +48,9 @@
             android:icon="@drawable/ic_menu_ventas"
             android:title="@string/menu_ventas"/>
         <item
-            android:id="@+id/nav_ventas_historicas"
-            android:visible="false"
+            android:id="@+id/nav_ventas_lista"
             android:icon="@drawable/ic_action_pedido"
-            android:title="Ventas historicas"/>
+            android:title="Listado de pedidos"/>
 
     </group>
 

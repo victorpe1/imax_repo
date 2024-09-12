@@ -111,13 +111,14 @@ public class AutoCompleteProductoAdapter extends ArrayAdapter<XMSProductModel> {
                 for (XMSProductModel productoModel : listaTemporal){ //Por cada cliente de la lista original
                     //Log.v("AutoCompleteCliente","clienteModel:"+clienteModel.getRazonSocial());
                     if (TextUtils.isDigitsOnly(textoTratado)){
-                        //Se filtra por descripcion
-                        if (productoModel.getNombre().contains(textoTratado)){
+                        if(productoModel.getCodigo().contains(textoTratado)){
                             listaFiltrada.add(productoModel);
                         }
+
                     }else{
-                        //De lo contrario se filtra por la razon social
-                        if (productoModel.getNombre().toLowerCase().contains(textoTratado)){
+                        if (productoModel.getNombre().toLowerCase().contains(textoTratado) ||
+                                productoModel.getCodigo().toLowerCase().contains(textoTratado)
+                            ){
                             listaFiltrada.add(productoModel);
                         }
                     }

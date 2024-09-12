@@ -27,6 +27,8 @@ import com.sales.storeapp.utils.Util;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -132,6 +134,17 @@ public class SplashActivity extends AppCompatActivity {
 
                     response = XMSApi.getApiEasyfact(getApplicationContext()).getUnidadMedida().execute();
                     dataBaseHelper.sincro(response,TablesHelper.xms_unidad_medida.table);
+
+                    response = XMSApi.getApiEasyfact(getApplicationContext()).getMedidas().execute();
+                    dataBaseHelper.sincro(response,TablesHelper.xms_medidas.table);
+
+                    LocalDate today = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String fechaToday = today.format(formatter);
+                    //fechaToday = "2024-08-19";
+
+                    response = XMSApi.getApiEasyfact(getApplicationContext()).getPedidos(fechaToday).execute();
+                    dataBaseHelper.sincronizarPedido(response);
 
                     app.setPref_lastSyncro(System.currentTimeMillis());
                     app.setPref_serieUsuario("001");

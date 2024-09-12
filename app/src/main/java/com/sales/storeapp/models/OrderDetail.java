@@ -23,6 +23,42 @@ public class OrderDetail {
     private String medida;
     private String imagen;
     private int item;
+    private int tipotributo;
+    private double bonificacion;
+    private double precunitgrat;
+    private double montograt;
+
+    public int getTipotributo() {
+        return tipotributo;
+    }
+
+    public void setTipotributo(int tipotributo) {
+        this.tipotributo = tipotributo;
+    }
+
+    public double getBonificacion() {
+        return bonificacion;
+    }
+
+    public void setBonificacion(double bonificacion) {
+        this.bonificacion = bonificacion;
+    }
+
+    public double getPrecunitgrat() {
+        return precunitgrat;
+    }
+
+    public void setPrecunitgrat(double precunitgrat) {
+        this.precunitgrat = precunitgrat;
+    }
+
+    public double getMontograt() {
+        return montograt;
+    }
+
+    public void setMontograt(double montograt) {
+        this.montograt = montograt;
+    }
 
     public double getPeso() {
         return peso;

@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class Order implements Serializable {
 
     public static String DEFAULT_CLIENT_NAME = "PUBLICO GENERAL";
+    public static final String FLAG_PENDIENTE = "P";
+    public static final String FLAG_ENVIADO = "E";
 
     private String idNumero;
     private String fecha;
@@ -39,6 +41,42 @@ public class Order implements Serializable {
     private int idMotirech;
     private int idRuta;
     private int idCoordinador;
+    private String observacion;
+    private String total_opgratuito;
+    private String total_opexonerado;
+    private String typeDocument;
+
+    public String getTypeDocument() {
+        return typeDocument;
+    }
+
+    public void setTypeDocument(String typeDocument) {
+        this.typeDocument = typeDocument;
+    }
+
+    public String getTotal_opgratuito() {
+        return total_opgratuito;
+    }
+
+    public void setTotal_opgratuito(String total_opgratuito) {
+        this.total_opgratuito = total_opgratuito;
+    }
+
+    public String getTotal_opexonerado() {
+        return total_opexonerado;
+    }
+
+    public void setTotal_opexonerado(String total_opexonerado) {
+        this.total_opexonerado = total_opexonerado;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
     public String getIdNumero() {
         return idNumero;

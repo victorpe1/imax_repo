@@ -1,14 +1,15 @@
 package com.sales.storeapp.data.api.request;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderRequest {
-    private String idNumero;                // generas
-    private String fecha;            // generas
-    private String fechaDeVenc;      // front
-    private String fechaDeEntrega;   // front
-    private int idCliente;                  // front
-    private String direcc;                  // front - id
+    private String idNumero;
+    private String fecha;
+    private String fechaDeVenc;
+    private String fechaDeEntrega;
+    private int idCliente;
+    private String direcc;
     private int idCond;                     // front - id
     private int idVendedor;                 // front - id
     private int idCobrador;                 // front - preguntar
@@ -18,12 +19,48 @@ public class OrderRequest {
     private double subtotal;            // front
     private double descuento;           // 0.00
     private double total;               // front
-    private int idUsuario;                  // front
-    private String estado;                  // generas
-    private int idDistrito;                 // front
-    private String codUbigeo;               // preguntar
-    private List<OrderItemRequest> orderDetalle; // front
+    private int idUsuario;
+    private String estado;
+    private int idDistrito;
+    private String codUbigeo;
+    private String observacion;
+    private double totalOpgratuito;
+    private double totalOpExonerado;
+    private String typeDocument;
 
+    private List<OrderItemRequest> orderDetalle;
+
+    public String getTypeDocument() {
+        return typeDocument;
+    }
+
+    public void setTypeDocument(String typeDocument) {
+        this.typeDocument = typeDocument;
+    }
+
+    public double getTotalOpgratuito() {
+        return totalOpgratuito;
+    }
+
+    public void setTotalOpgratuito(double totalOpgratuito) {
+        this.totalOpgratuito = totalOpgratuito;
+    }
+
+    public double getTotalOpExonerado() {
+        return totalOpExonerado;
+    }
+
+    public void setTotalOpExonerado(double totalOpExonerado) {
+        this.totalOpExonerado = totalOpExonerado;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
 
     public String getIdNumero() {
         return idNumero;

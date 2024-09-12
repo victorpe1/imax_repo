@@ -23,6 +23,15 @@ public class XMSProductModel implements Serializable {
     private String unidad;
     private int idMarca;
     private String marca;
+    private int tipoAtributo;
+
+    public int getTipoAtributo() {
+        return tipoAtributo;
+    }
+
+    public void setTipoAtributo(int tipoAtributo) {
+        this.tipoAtributo = tipoAtributo;
+    }
 
     public String getMarca() {
         return marca;

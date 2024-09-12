@@ -60,6 +60,7 @@
     <string name="menu_cerrar_sesion">Cerrar sesión</string>
     <string name="menu_promociones">Promociones</string>
     <string name="menu_ventas">Ventas</string>
+    <string name="menu_ventas_listado">Listado de ventas diarias</string>
     <string name="menu_ventas_historicas">Ventas historica</string>
     <string name="menu_pedido_sugerido">Pedido sugerido</string>
 

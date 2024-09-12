@@ -46,6 +46,9 @@
             android:name="com.sales.storeapp.ui.activity.MenuPrincipalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeTransparente" />
+        <activity
+            android:name=".ui.detallepedido.DetallePedidoActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.sales.storeapp.ui.pedido.PedidoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.sales.storeapp.ui.pedido.AgregarProductoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.sales.storeapp.ui.activity.ConfiguracionActivity" android:screenOrientation="portrait"/>

@@ -40,11 +40,10 @@ public class RecyclerXMSPedidoAdapter  extends RecyclerView.Adapter<RecyclerXMSP
     public void onBindViewHolder(@NonNull RecyclerXMSPedidoAdapter.ItemViewHolder holder, final int position) {
         final Order model = lista.get(position);
 
-        String numeropedidoSimple = model.getIdNumero().substring(6);
-        holder.tv_numeroPedido.setText(numeropedidoSimple);
-        holder.tv_cliente.setText(model.getIdCliente());
+        holder.tv_numeroPedido.setText(model.getIdNumero());
+        holder.tv_cliente.setText(model.getObservacion()); //nombreCliente
         holder.tv_montoTotal.setText(fragment.getString(R.string.moneda) + model.getTotal());
-        holder.tv_condicionPago.setText(model.getIdCond());
+        holder.tv_condicionPago.setText(model.getEmail()); //nombreCond
         int color = fragment.getActivity().getResources().getColor(R.color.red_400);
         String flagTexto = fragment.getString(R.string.pendiente);
 

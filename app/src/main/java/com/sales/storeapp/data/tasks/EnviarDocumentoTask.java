@@ -9,11 +9,10 @@ import com.sales.storeapp.R;
 import com.sales.storeapp.data.api.EasyfactApiInterface;
 import com.sales.storeapp.data.api.XMSApi;
 import com.sales.storeapp.data.api.request.OrderRequest;
-import com.sales.storeapp.data.api.request.VentaRequest;
 import com.sales.storeapp.data.dao.DAOExtras;
 import com.sales.storeapp.data.dao.DAOPedido;
 import com.sales.storeapp.data.dao.DAOProducto;
-import com.sales.storeapp.models.PedidoCabeceraModel;
+import com.sales.storeapp.models.Order;
 import com.sales.storeapp.ui.listapedidos.PedidosFragment;
 import com.sales.storeapp.ui.pedido.PedidoActivity;
 import com.sales.storeapp.utils.Constants;
@@ -23,8 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -94,11 +91,11 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
                     return Constants.FAIL_TIME_MAX;
                 }
 
-                if (!response.isSuccessful()) {
-                   return Constants.FAIL_OTHER;
+                if (response.isSuccessful()) {
+                    return daoPedido.actualizarRepuestaPedido(response, ventaRequest.getIdNumero(), ventaRequest);
+                } else {
+                    return Constants.FAIL_OTHER;
                 }
-
-                return PedidoCabeceraModel.FLAG_ENVIADO;
             } catch (JsonParseException ex) {
                 ex.printStackTrace();
                 return Constants.FAIL_JSON;
@@ -120,12 +117,12 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
         int icon;
 
         switch (respuesta) {
-            case (PedidoCabeceraModel.FLAG_ENVIADO):
+            case (Order.FLAG_ENVIADO):
                 tituloRes = R.string.enviado;
                 mensajeRes = R.string.venta_registrada;
                 icon = R.drawable.ic_dialog_check;
                 break;
-            case PedidoCabeceraModel.FLAG_PENDIENTE:
+            case Order.FLAG_PENDIENTE:
                 tituloRes = R.string.atencion;
                 mensajeRes = R.string.error_no_registrar_venta;
                 icon = R.drawable.ic_dialog_error;
@@ -165,8 +162,7 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
         if (pedidoWeakReference != null) {
             pedidoWeakReference.get().hideLoader();
             pedidoWeakReference.get().showDialogoPostEnvio(tituloRes, mensajeRes, icon);
-        } else if (pedidosWeakReference != null) {
-            pedidosWeakReference.get().postEnvioPedido(numeroPedido, respuesta);
         }
+
     }
 }

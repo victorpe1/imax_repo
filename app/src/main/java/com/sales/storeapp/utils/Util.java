@@ -172,15 +172,27 @@ public class Util {
 
     public static OrderRequest generarCamposFacturacion(OrderRequest ventaRequest, double tCambio){
         double subTotal = 0.00d;
+        double subTotalOpex = 0.00d;
+        double subTotalOpgr = 0.00d;
 
         for (OrderItemRequest item : ventaRequest.getOrderDetalle()){
             item.setTipoDeCambio(tCambio);
             subTotal += item.getMonto();
+
+            if(Integer.parseInt(item.getTipotributo()) == 2){
+                subTotalOpex += item.getMonto();
+            }
+            if(Integer.parseInt(item.getTipotributo()) == 3){
+                subTotalOpgr += item.getMontograt();
+            }
+
         }
         ventaRequest.setSubtotal(subTotal);
         ventaRequest.setTotal(subTotal);
+        ventaRequest.setTotalOpExonerado(subTotalOpex);
+        ventaRequest.setTotalOpgratuito(subTotalOpgr);
 
-        ventaRequest.setEstado("C");
+        ventaRequest.setEstado("E");
         ventaRequest.setTipoDeCambio(tCambio);
 
         return ventaRequest;

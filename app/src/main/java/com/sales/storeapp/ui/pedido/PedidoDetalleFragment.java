@@ -127,7 +127,11 @@ public class PedidoDetalleFragment extends Fragment implements PopupMenu.OnMenuI
         adapter.notifyDataSetChanged();
 
         for (OrderDetail producto : listaProductos){
-            total += producto.getMonto();
+            if(producto.getTipotributo() == 3){
+                total += producto.getMontograt();
+            }else{
+                total += producto.getMonto();
+            }
         }
 
         montoTotal = Util.redondearDouble(total - descuento);

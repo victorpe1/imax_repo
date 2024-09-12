@@ -1,119 +1,36 @@
 package com.sales.storeapp.models;
 
+import com.sales.storeapp.managers.TablesHelper;
+
 import java.io.Serializable;
 
 public class PedidoCabeceraModel implements Serializable {
-    public static final String ESTADO_ANULADO = "A";
-    public static final String ESTADO_GENERADO = "G";
-    public static final String ESTADO_FACTURADO = "F";
-    public static final String ESTADO_MODIFICADO = "M";
-    public static final String ESTADO_ERROR = "E";
 
-    public static final String FLAG_PENDIENTE = "P";
-    public static final String FLAG_ENVIADO = "E";
-
-    public static final String ESTADO_COPIA_ITEM = "Z";
-
-    public static final String ID_TIPO_DOCUMENTO_BOLETA = "03";
-    public static final String ID_TIPO_DOCUMENTO_FACTURA = "01";
-    public static final String ID_TIPO_DOCUMENTO_TICKET = "12";
-
-    public static final String DEFAULT_CLIENT_DOC = "00000000";
-    public static String DEFAULT_CLIENT_NAME = "PUBLICO GENERAL";
-
-    //public String DEFAULT_CLIENT_NAME = "PUBLICO GENERAL";
-
-    private String numeroPedido;
-    private String idCliente;
-    private int idUsuario;
-    private String fechaPedido;
-    private String idFormaPago;
+    private String id_numero;
+    private String id_cliente;
+    private String nombre;
+    private String id_usuario;
+    private String fecha;
+    private String direcc;
+    private String id_vendedor;
+    private String nombrePersonal;
+    private String id_almacen;
+    private String nombreAlmacen;
+    private double subtotal;
+    private double descuento;
+    private double total;
+    private String codubigeo;
     private String observacion;
-    private double importeTotal;
-    private String estado;
-    private String flag;
-    private String serieDocumento;
-    private String numeroDocumento;
-    private String hash;
-    private String idTipoDocumento;
-    private String idMoneda;
-    private String fechaEmision;
-    private String horaEmision;
+    private double total_opgratuito;
+    private double total_opexonerado;
+    private String condicion;
 
-    private String direccion;
-    private String razonSocial;
-    private String rucDni;
-    private String formaPago;
-    private String moneda;
-    private String tipoDocumentoReceptor;
-    private String correoReceptor;
-    private int tipoCorreo;
-    private String qr_text;
-    private String medioPago;
-    private String formaPagoGlosa;
-
-    public String getFormaPagoGlosa() {
-        return formaPagoGlosa;
+    public String getCondicion() {
+        return condicion;
     }
 
-    public void setFormaPagoGlosa(String formaPagoGlosa) {
-        this.formaPagoGlosa = formaPagoGlosa;
-    }
-
-    public String getMedioPago() {
-        return medioPago;
-    }
-
-    public void setMedioPago(String medioPago) {
-        this.medioPago = medioPago;
-    }
-
-    public String getQr_text() {
-        return qr_text;
-    }
-
-    public void setQr_text(String qr_text) {
-        this.qr_text = qr_text;
-    }
-
-    public String getNumeroPedido() {
-        return numeroPedido;
-    }
-
-    public void setNumeroPedido(String numeroPedido) {
-        this.numeroPedido = numeroPedido;
-    }
-
-    public String getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getFechaPedido() {
-        return fechaPedido;
-    }
-
-    public void setFechaPedido(String fechaPedido) {
-        this.fechaPedido = fechaPedido;
-    }
-
-    public String getIdFormaPago() {
-        return idFormaPago;
-    }
-
-    public void setIdFormaPago(String idFormaPago) {
-        this.idFormaPago = idFormaPago;
+    public void setCondicion(String condicion) {
+        this.condicion = condicion;
     }
 
     public String getObservacion() {
@@ -124,147 +41,131 @@ public class PedidoCabeceraModel implements Serializable {
         this.observacion = observacion;
     }
 
-    public double getImporteTotal() {
-        return importeTotal;
+    public String getId_numero() {
+        return id_numero;
     }
 
-    public void setImporteTotal(double importeTotal) {
-        this.importeTotal = importeTotal;
+    public void setId_numero(String id_numero) {
+        this.id_numero = id_numero;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getId_cliente() {
+        return id_cliente;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setId_cliente(String id_cliente) {
+        this.id_cliente = id_cliente;
     }
 
-    public String getFlag() {
-        return flag;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setFlag(String flag) {
-        this.flag = flag;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getSerieDocumento() {
-        return serieDocumento;
+    public String getId_usuario() {
+        return id_usuario;
     }
 
-    public void setSerieDocumento(String serieDocumento) {
-        this.serieDocumento = serieDocumento;
+    public void setId_usuario(String id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
-    public String getNumeroDocumento() {
-        return numeroDocumento;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setNumeroDocumento(String numeroDocumento) {
-        this.numeroDocumento = numeroDocumento;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getDirecc() {
+        return direcc;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDirecc(String direcc) {
+        this.direcc = direcc;
     }
 
-    public String getRucDni() {
-        return rucDni;
+    public String getId_vendedor() {
+        return id_vendedor;
     }
 
-    public void setRucDni(String rucDni) {
-        this.rucDni = rucDni;
+    public void setId_vendedor(String id_vendedor) {
+        this.id_vendedor = id_vendedor;
     }
 
-    public String getFormaPago() {
-        return formaPago;
+    public String getNombrePersonal() {
+        return nombrePersonal;
     }
 
-    public void setFormaPago(String formaPago) {
-        this.formaPago = formaPago;
+    public void setNombrePersonal(String nombrePersonal) {
+        this.nombrePersonal = nombrePersonal;
     }
 
-    public String getRazonSocial() {
-        return razonSocial;
+    public String getId_almacen() {
+        return id_almacen;
     }
 
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
+    public void setId_almacen(String id_almacen) {
+        this.id_almacen = id_almacen;
     }
 
-    public String getHash() {
-        return hash;
+    public String getNombreAlmacen() {
+        return nombreAlmacen;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setNombreAlmacen(String nombreAlmacen) {
+        this.nombreAlmacen = nombreAlmacen;
     }
 
-    public String getIdTipoDocumento() {
-        return idTipoDocumento;
+    public double getSubtotal() {
+        return subtotal;
     }
 
-    public void setIdTipoDocumento(String idTipoDocumento) {
-        this.idTipoDocumento = idTipoDocumento;
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
 
-    public String getIdMoneda() {
-        return idMoneda;
+    public double getDescuento() {
+        return descuento;
     }
 
-    public void setIdMoneda(String idMoneda) {
-        this.idMoneda = idMoneda;
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
     }
 
-    public String getFechaEmision() {
-        return fechaEmision;
+    public double getTotal() {
+        return total;
     }
 
-    public void setFechaEmision(String fechaEmision) {
-        this.fechaEmision = fechaEmision;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
-    public String getHoraEmision() {
-        return horaEmision;
+    public String getCodubigeo() {
+        return codubigeo;
     }
 
-    public void setHoraEmision(String horaEmision) {
-        this.horaEmision = horaEmision;
+    public void setCodubigeo(String codubigeo) {
+        this.codubigeo = codubigeo;
     }
 
-    public String getMoneda() {
-        return moneda;
+    public double getTotal_opgratuito() {
+        return total_opgratuito;
     }
 
-    public void setMoneda(String moneda) {
-        this.moneda = moneda;
+    public void setTotal_opgratuito(double total_opgratuito) {
+        this.total_opgratuito = total_opgratuito;
     }
 
-    public String getTipoDocumentoReceptor() {
-        return tipoDocumentoReceptor;
+    public double getTotal_opexonerado() {
+        return total_opexonerado;
     }
 
-    public void setTipoDocumentoReceptor(String tipoDocumentoReceptor) {
-        this.tipoDocumentoReceptor = tipoDocumentoReceptor;
-    }
-
-    public String getCorreoReceptor() {
-        return correoReceptor;
-    }
-
-    public void setCorreoReceptor(String correoReceptor) {
-        this.correoReceptor = correoReceptor;
-    }
-
-    public int getTipoCorreo() {
-        return tipoCorreo;
-    }
-
-    public void setTipoCorreo(int tipoCorreo) {
-        this.tipoCorreo = tipoCorreo;
+    public void setTotal_opexonerado(double total_opexonerado) {
+        this.total_opexonerado = total_opexonerado;
     }
 }

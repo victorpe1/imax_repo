@@ -68,32 +68,29 @@ public class RecyclerViewProductoPedidoAdapter extends RecyclerView.Adapter<Recy
             holder.tv_codigoProducto.setText(producto.getCodigoProducto());
         }
         holder.tv_descripcion.setText(producto.getProducto());
-        holder.tv_precio.setText(activity.getString(R.string.moneda) + formateador.format(producto.getPrecioUnit()));
+        holder.tv_peso.setText(String.valueOf(Math.round(producto.getPeso())));
+
         holder.tv_cantidad.setText(String.valueOf(Math.round(producto.getCantidad())));
 
         holder.tv_unidadMedida.setText(producto.getMedida());
-        holder.tv_subTotal.setText(activity.getString(R.string.moneda) + formateador.format(producto.getMonto()));
 
-        //Los productos que son bonificacion no se pueden cambiar ni quitar
-        /*if (editarItems && (!producto.getTipoProducto().equals(TipoProducto.BONIFICACION.getCode()))) {
 
-            holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                @Override
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    MenuInflater inflater = activity.getMenuInflater();
-                    menu.setHeaderTitle(producto.getProducto());
-                    inflater.inflate(R.menu.menu_contextual_general, menu);
-                    positionItemSelected = position;
-                }
-            });
-
-            holder.itemView.setOnClickListener(v -> {
-                        positionItemSelected = position;
-                        listener.onItemClick(v);
-                    }
-            );
+        if(producto.getTipotributo() == 1){
+            holder.tv_tipo.setText("IGV");
+            holder.tv_precio.setText(activity.getString(R.string.moneda) + formateador.format(producto.getPrecioUnit()));
+            holder.tv_subTotal.setText(activity.getString(R.string.moneda) + formateador.format(producto.getMonto()));
+        }else if(producto.getTipotributo() == 2){
+            holder.tv_tipo.setText("EXONERADO");
+            holder.tv_precio.setText(activity.getString(R.string.moneda) + formateador.format(producto.getPrecioUnit()));
+            holder.tv_subTotal.setText(activity.getString(R.string.moneda) + formateador.format(producto.getMonto()));
+        }else{
+            holder.tv_tipo.setText("GRATUITO");
+            holder.tv_precio.setText(activity.getString(R.string.moneda) + formateador.format(producto.getPrecunitgrat()));
+            holder.tv_subTotal.setText(activity.getString(R.string.moneda) + formateador.format(producto.getMontograt()));
         }
-*/
+
+
+
         Glide.with(activity)
                 .setDefaultRequestOptions(requestOptions)
                 .load(producto.getImagen())
@@ -120,6 +117,8 @@ public class RecyclerViewProductoPedidoAdapter extends RecyclerView.Adapter<Recy
         private TextView tv_precio;
         private TextView tv_cantidad;
         private TextView tv_subTotal;
+        private TextView tv_peso;
+        private TextView tv_tipo;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -131,6 +130,8 @@ public class RecyclerViewProductoPedidoAdapter extends RecyclerView.Adapter<Recy
             tv_precio = itemView.findViewById(R.id.tv_precio);
             tv_cantidad = itemView.findViewById(R.id.tv_cantidad);
             tv_subTotal = itemView.findViewById(R.id.tv_subTotal);
+            tv_peso = itemView.findViewById(R.id.tv_peso);
+            tv_tipo = itemView.findViewById(R.id.tv_tipoAtributo);
         }
     }
 }

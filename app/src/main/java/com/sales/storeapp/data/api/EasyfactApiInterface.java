@@ -53,9 +53,15 @@ public interface EasyfactApiInterface {
     @GET("api/unidad")
     Call<ResponseBody> getUnidadMedida();
 
+    @GET("api/medidas")
+    Call<ResponseBody> getMedidas();
+
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("api/order/save")
     Call<ResponseBody> enviarPedido(@Body OrderRequest request);
+
+    @GET("api/order")
+    Call<ResponseBody> getPedidos(@Query("fecha") String fecha);
 
     /* -------------------------------------------------------------------------------------*/
 

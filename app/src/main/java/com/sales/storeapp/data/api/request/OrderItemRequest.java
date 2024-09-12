@@ -1,5 +1,7 @@
 package com.sales.storeapp.data.api.request;
 
+import java.math.BigDecimal;
+
 public class OrderItemRequest {
     private String idNumero;           // generas
     private int idProducto;            // front
@@ -12,6 +14,33 @@ public class OrderItemRequest {
     private double montoAlTipCam;
     private int idMedida;
     private double peso;
+    private String tipotributo;
+    private double montograt;
+    private double precunitgrat;
+
+    public double getMontograt() {
+        return montograt;
+    }
+
+    public void setMontograt(double montograt) {
+        this.montograt = montograt;
+    }
+
+    public double getPrecunitgrat() {
+        return precunitgrat;
+    }
+
+    public void setPrecunitgrat(double precunitgrat) {
+        this.precunitgrat = precunitgrat;
+    }
+
+    public String getTipotributo() {
+        return tipotributo;
+    }
+
+    public void setTipotributo(String tipotributo) {
+        this.tipotributo = tipotributo;
+    }
 
     public double getPeso() {
         return peso;

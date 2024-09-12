@@ -15,9 +15,16 @@ import com.sales.storeapp.managers.TablesHelper;
 import com.sales.storeapp.models.ClienteModel;
 import com.sales.storeapp.models.OrderDetail;
 import com.sales.storeapp.models.Order;
+import com.sales.storeapp.models.PedidoCabeceraModel;
 import com.sales.storeapp.models.Personal;
+import com.sales.storeapp.utils.Constants;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 public class DAOPedido {
     public final String TAG = getClass().getName();
@@ -133,6 +140,118 @@ public class DAOPedido {
             model.setTotal(cur.getDouble(8));
             model.setEstado(cur.getString(9));
 
+            cur.moveToNext();
+        }
+        cur.close();
+        return model;
+    }
+
+    public ArrayList<Order>getPedidosCabecera(String id_usuario) {
+        ArrayList<Order> orders = new ArrayList<>();
+        String rawQuery =
+                "SELECT pc."+TablesHelper.xms_order.id_numero +","+
+                        "pc."+TablesHelper.xms_order.id_cliente +","+
+                        "pc."+TablesHelper.xms_order.id_usuario +","+
+                        "pc."+TablesHelper.xms_order.id_cond +","+
+                        "pc."+TablesHelper.xms_order.id_vendedor +","+
+                        "pc."+TablesHelper.xms_order.id_cobrador +","+
+                        "pc."+TablesHelper.xms_order.id_almacen +","+
+                        TablesHelper.xms_order.fecha +","+
+                        TablesHelper.xms_order.total +","+
+                        TablesHelper.xms_order.estado +","+
+                        "c."+TablesHelper.xms_client.nombre +","+
+                        "co."+TablesHelper.xms_condiciones.nombre +
+                        " FROM "+TablesHelper.xms_order.table+" pc " +
+                        "LEFT JOIN "+TablesHelper.xms_client.table+" c ON pc."+TablesHelper.xms_order.id_cliente+
+                        " = c."+TablesHelper.xms_client.id_cliente +" " +
+                        "LEFT JOIN "+TablesHelper.xms_condiciones.table+" co ON pc."+TablesHelper.xms_order.id_cond+
+                        " = co."+TablesHelper.xms_condiciones.id_condicion +" " +
+                        "WHERE "+TablesHelper.xms_order.id_usuario+" = '" + id_usuario + "' ";
+
+        SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+        Cursor cur = db.rawQuery(rawQuery, null);
+        Order model = null;
+        cur.moveToFirst();
+        Log.d(TAG,rawQuery);
+        while (!cur.isAfterLast()) {
+            model = new Order();
+            model.setIdNumero(cur.getString(0));
+            model.setIdCliente(cur.getInt(1));
+            model.setIdUsuario(cur.getInt(2));
+            model.setCodubigeo(cur.getString(3));
+            model.setIdVendedor(cur.getInt(4));
+            model.setIdCobrador(cur.getInt(5));
+            model.setIdAlmacen(cur.getInt(6));
+            model.setFecha(cur.getString(7));
+            model.setTotal(cur.getDouble(8));
+            model.setEstado(cur.getString(9));
+            model.setObservacion(cur.getString(10)); //nombre cliente reference
+            model.setEmail(cur.getString(11)); //nombre condicion reference
+            orders.add(model);
+            cur.moveToNext();
+        }
+        cur.close();
+
+        return orders;
+    }
+
+    public PedidoCabeceraModel getPedidoCabeceraReporte(String numeroPedido) {
+        String rawQuery =
+                "SELECT pc." + TablesHelper.xms_order.id_numero + "," +
+                        "pc." + TablesHelper.xms_order.id_cliente + "," +
+                        "c." + TablesHelper.xms_client.nombre + "," +
+                        "pc." + TablesHelper.xms_order.id_usuario + "," +
+                        "pc." + TablesHelper.xms_order.fecha + "," +
+                        "pc." + TablesHelper.xms_order.direcc + "," +
+                        "pc." + TablesHelper.xms_order.id_vendedor + "," +
+                        "p." + TablesHelper.xms_personal.nombre + "," +
+                        "pc." + TablesHelper.xms_order.id_almacen + "," +
+                        "a." + TablesHelper.xms_almacenes.nombre + "," +
+                        "IFNULL(" + TablesHelper.xms_order.subtotal + ", 0.00) AS subtotal," +
+                        "IFNULL(" + TablesHelper.xms_order.descuento + ", 0.00) AS descuento," +
+                        "IFNULL(" + TablesHelper.xms_order.total + ", 0.00) AS total," +
+                        "pc." + TablesHelper.xms_order.codubigeo + "," +
+                        TablesHelper.xms_order.observacion + "," +
+                        "IFNULL(" + TablesHelper.xms_order.total_opgratuito + ", 0.00) AS total_opgratuito," +
+                        "IFNULL(" + TablesHelper.xms_order.total_opexonerado + ", 0.00) AS total_opexonerado," +
+                        "cc." + TablesHelper.xms_condiciones.nombre +
+                        " FROM " + TablesHelper.xms_order.table + " pc " +
+                        "LEFT JOIN " + TablesHelper.xms_client.table + " c ON pc." + TablesHelper.xms_order.id_cliente +
+                        " = c." + TablesHelper.xms_client.id_cliente + " " +
+                        "LEFT JOIN " + TablesHelper.xms_personal.table + " p ON pc." + TablesHelper.xms_order.id_vendedor +
+                        " = p." + TablesHelper.xms_personal.id_personal + " " +
+                        "LEFT JOIN " + TablesHelper.xms_almacenes.table + " a ON pc." + TablesHelper.xms_order.id_almacen +
+                        " = a." + TablesHelper.xms_almacenes.id_almacen + " " +
+                        "LEFT JOIN " + TablesHelper.xms_condiciones.table + " cc ON pc." + TablesHelper.xms_order.id_cond +
+                        " = cc." + TablesHelper.xms_condiciones.id_condicion + " " +
+                        "WHERE " + TablesHelper.xms_order.id_numero + " = '" + numeroPedido + "' ";
+        
+        SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+        Cursor cur = db.rawQuery(rawQuery, null);
+        PedidoCabeceraModel model = null;
+        cur.moveToFirst();
+        Log.d(TAG,rawQuery);
+        while (!cur.isAfterLast()) {
+            model = new PedidoCabeceraModel();
+
+            model.setId_numero(cur.getString(0));
+            model.setId_cliente(cur.getString(1));
+            model.setNombre(cur.getString(2));
+            model.setId_usuario(cur.getString(3));
+            model.setFecha(cur.getString(4));
+            model.setDirecc(cur.getString(5));
+            model.setId_vendedor(cur.getString(6));
+            model.setNombrePersonal(cur.getString(7));
+            model.setId_almacen(cur.getString(8));
+            model.setNombreAlmacen(cur.getString(9));
+            model.setSubtotal(cur.getDouble(10));
+            model.setDescuento(cur.getDouble(11));
+            model.setTotal(cur.getDouble(12));
+            model.setCodubigeo(cur.getString(13));
+            model.setObservacion(cur.getString(14));
+            model.setTotal_opgratuito(cur.getDouble(15));
+            model.setTotal_opexonerado(cur.getDouble(16));
+            model.setCondicion(cur.getString(17));
             cur.moveToNext();
         }
         cur.close();
@@ -258,14 +377,18 @@ public class DAOPedido {
                         + ",pd.cantidad"
                         + ",pd.preciounitaltipcam"
                         + ",pd.id_medida"
-                        + ",lp."+TablesHelper.xms_unidad_medida.comercial
+                        + ",lp."+TablesHelper.xms_medidas.nombre
                         + ",pd.order_item "
                         + ",ifnull(p.codigo, '') "
+                        + ",ifnull(pd.cantidad2, 0) "
+                        + ",ifnull(p.tipo_atributo, '1') "
+                        + ",ifnull(pd.precunitgrat, '0.00') "
+                        + ",ifnull(pd.montograt, '0.00') "
                         + "FROM "+TablesHelper.xms_order_detail.table+" pd "
                         + "INNER JOIN "+TablesHelper.xms_product.table+" p ON pd."
                         + TablesHelper.xms_order_detail.id_producto+" = p."+TablesHelper.xms_product.id_producto
-                        + " INNER JOIN " + TablesHelper.xms_unidad_medida.table + " lp ON p."+
-                        TablesHelper.xms_product.id_unidad + " = lp." + TablesHelper.xms_lista_precio.id
+                        + " INNER JOIN " + TablesHelper.xms_medidas.table + " lp ON p."+
+                        TablesHelper.xms_product.id_medida + " = lp." + TablesHelper.xms_medidas.id_medida
                         +" WHERE id_numero ='" + numeroPedido + "' "
                         + "ORDER BY order_item";
 
@@ -288,6 +411,10 @@ public class DAOPedido {
                 producto.setItem(cursor.getInt(8));
                 producto.setImagen("");
                 producto.setCodigoProducto(cursor.getString(9));
+                producto.setPeso(cursor.getDouble(10));
+                producto.setTipotributo(cursor.getInt(11));
+                producto.setPrecunitgrat(cursor.getDouble(12));
+                producto.setMontograt(cursor.getDouble(13));
                 lista.add(producto);
             } while (cursor.moveToNext());
         }
@@ -333,9 +460,10 @@ public class DAOPedido {
             Nreg.put(TablesHelper.xms_order.codubigeo,       cabecera.getCodubigeo());
             Nreg.put(TablesHelper.xms_order.estado,           cabecera.getEstado());
             Nreg.put(TablesHelper.xms_order.fechaDeEntrega,     cabecera.getFechaEntrega());
-            //Nreg.put(TablesHelper.xms_order.moneda,       cabecera.getMoneda());
+            Nreg.put(TablesHelper.xms_order.observacion,       cabecera.getObservacion());
             Nreg.put(TablesHelper.xms_order.email,   cabecera.getEmail());
             Nreg.put(TablesHelper.xms_order.fechaDeVenc, cabecera.getFechaVencimiento());
+            Nreg.put(TablesHelper.xms_order.typeDocument,  cabecera.getTypeDocument());
 
             db.update(TablesHelper.xms_order.table, Nreg, where, args);
 
@@ -365,6 +493,8 @@ public class DAOPedido {
             Nreg.put(TablesHelper.xms_order.estado,       cabecera.getEstado());
             Nreg.put(TablesHelper.xms_order.moneda,               "S");
             Nreg.put(TablesHelper.xms_order.direcc,      cabecera.getDirecc() == null ? "DIRECCION PRUEBA" : cabecera.getDirecc() );
+            Nreg.put(TablesHelper.xms_order.observacion,   "");
+            Nreg.put(TablesHelper.xms_order.typeDocument,  cabecera.getTypeDocument());
 
             db.insert(TablesHelper.xms_order.table, null, Nreg);
             Log.i(TAG, "guardarXMSPedidoCabecera: Registro insertado");
@@ -478,10 +608,24 @@ public class DAOPedido {
 
             Nreg.put(TablesHelper.xms_order_detail.id_numero, item.getIdNumber());
             Nreg.put(TablesHelper.xms_order_detail.id_producto, item.getIdProduct());
-            Nreg.put(TablesHelper.xms_order_detail.precioUnit, item.getPrecioUnit());
-            Nreg.put(TablesHelper.xms_order_detail.precioUnitAlTipCam, item.getPrecioUnitTipoCambio());
+
+            if(item.getTipotributo() == 3){
+                Nreg.put(TablesHelper.xms_order_detail.precioUnit, Double.parseDouble("0.00"));
+                Nreg.put(TablesHelper.xms_order_detail.precioUnitAlTipCam, Double.parseDouble("0.00"));
+                Nreg.put(TablesHelper.xms_order_detail.monto, Double.parseDouble("0.00"));
+
+                Nreg.put(TablesHelper.xms_order_detail.precunitgrat, item.getPrecioUnit());
+                Nreg.put(TablesHelper.xms_order_detail.montograt, item.getMonto());
+            }else{
+                Nreg.put(TablesHelper.xms_order_detail.precioUnit, item.getPrecioUnit());
+                Nreg.put(TablesHelper.xms_order_detail.precioUnitAlTipCam, item.getPrecioUnitTipoCambio());
+                Nreg.put(TablesHelper.xms_order_detail.monto, item.getMonto());
+
+                Nreg.put(TablesHelper.xms_order_detail.precunitgrat, Double.parseDouble("0.00"));
+                Nreg.put(TablesHelper.xms_order_detail.montograt, Double.parseDouble("0.00"));
+            }
+
             Nreg.put(TablesHelper.xms_order_detail.cantidad, item.getCantidad());
-            Nreg.put(TablesHelper.xms_order_detail.monto, item.getMonto());
             Nreg.put(TablesHelper.xms_order_detail.moneda, "S");
             Nreg.put(TablesHelper.xms_order_detail.tipoDeCambio, item.getTipoCambio());
             Nreg.put(TablesHelper.xms_order_detail.id_medida, item.getIdMedida());
@@ -516,8 +660,8 @@ public class DAOPedido {
     }
 
     public boolean verificarPedidoTieneDetalle(String numeroPedido) {
-        String rawQuery = "SELECT * FROM " + TablesHelper.xms_order.table+
-                " WHERE " + TablesHelper.xms_order.id_numero
+        String rawQuery = "SELECT * FROM " + TablesHelper.xms_order_detail.table+
+                " WHERE " + TablesHelper.xms_order_detail.id_numero
                 +"= '"+numeroPedido+"'";
 
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
@@ -639,6 +783,10 @@ public class DAOPedido {
             ventaRequest.setEstado(cur.getString(20));
             ventaRequest.setIdDistrito(cur.getInt(26));
             ventaRequest.setCodUbigeo(cur.getString(28));
+            ventaRequest.setObservacion(cur.getString(33));
+            ventaRequest.setTotalOpExonerado(cur.getDouble(34));
+            ventaRequest.setTotalOpgratuito(cur.getDouble(35));
+            ventaRequest.setTypeDocument(cur.getString(36));
 
             cur.moveToNext();
         }
@@ -666,6 +814,9 @@ public class DAOPedido {
                 ",pd."+TablesHelper.xms_order_detail.monto +
                 ",pd."+TablesHelper.xms_order_detail.tipoDeCambio +
                 ",pd."+TablesHelper.xms_order_detail.cantidad2 +
+                ",p."+TablesHelper.xms_product.tipo_atributo +
+                ",pd."+TablesHelper.xms_order_detail.precunitgrat +
+                ",pd."+TablesHelper.xms_order_detail.montograt +
                 " FROM "+ TablesHelper.xms_order_detail.table + " pd " +
                 " INNER JOIN "+ TablesHelper.xms_product.table + " p ON pd."+
                 TablesHelper.xms_order_detail.id_producto+" = p."+TablesHelper.xms_product.id_producto +
@@ -690,10 +841,41 @@ public class DAOPedido {
                 pedidoDetalle.setMontoAlTipCam(cur.getDouble(6));
                 pedidoDetalle.setTipoDeCambio(cur.getDouble(7));
                 pedidoDetalle.setPeso(cur.getDouble(8));
+                pedidoDetalle.setTipotributo(cur.getString(9));
+                pedidoDetalle.setPrecunitgrat(cur.getDouble(10));
+                pedidoDetalle.setMontograt(cur.getDouble(11));
+
                 lista.add(pedidoDetalle);
             } while (cur.moveToNext());
         }
         cur.close();
         return lista;
     }
+
+    public String actualizarRepuestaPedido(Response<ResponseBody> response, String numeroPedido,
+                                           OrderRequest venta) throws Exception{
+
+        JSONObject body = new JSONObject(response.body().string());
+
+        if (body.has("status")){
+                SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                String where = TablesHelper.xms_order.id_numero + " = ?";
+
+                ContentValues updateValues = new ContentValues();
+                updateValues.put(TablesHelper.xms_order.total, venta.getTotal());
+                updateValues.put(TablesHelper.xms_order.subtotal, venta.getSubtotal());
+                updateValues.put(TablesHelper.xms_order.total_opexonerado, venta.getTotalOpExonerado());
+                updateValues.put(TablesHelper.xms_order.total_opgratuito, venta.getTotalOpgratuito());
+
+                String[] args = { numeroPedido };
+
+                Log.i(TAG, "Actualizar "+TablesHelper.xms_order.table+": modificando..."+numeroPedido);
+                db.update(TablesHelper.xms_order.table, updateValues, where, args );
+
+                return Order.FLAG_ENVIADO;
+        }else {
+            return Constants.FAIL_CONNECTION;
+        }
+    }
+
 }

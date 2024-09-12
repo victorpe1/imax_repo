@@ -137,8 +137,10 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
                 //replaceFragment(new MiCuentaFragment());
                 break;
             case R.id.nav_ventas:
-                //replaceFragment(new PedidosFragment());
                 nuevoPedido();
+                break;
+            case R.id.nav_ventas_lista:
+                replaceFragment(new PedidosFragment());
                 break;
             /*case R.id.nav_blu:
                 Intent intent = new Intent(this, ImprimirPedidoActivity.class);

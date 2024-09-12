@@ -77,21 +77,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_nuevoPedido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/linear"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="@dimen/margin_vertical_medium"
-            android:layout_marginTop="@dimen/margin_vertical_medium"
-            android:layout_marginEnd="@dimen/margin_vertical_medium"
-            android:layout_marginBottom="@dimen/margin_vertical_medium"
-            android:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_add_white"
-            app:tint="@android:color/white" />
-
     </RelativeLayout>
 
     <!--<android.support.design.widget.FloatingActionButton

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
+   <!-- <item
         android:id="@+id/menu_pedido_detalle_anular"
         app:showAsAction="always"
         android:icon="@drawable/icon_document_anular"
@@ -22,5 +22,5 @@
         android:id="@+id/menu_pedido_detalle_pdf"
         app:showAsAction="always"
         android:icon="@drawable/icon_pdf"
-        android:title="@string/imprimir" />
+        android:title="@string/imprimir" />-->
 </menu>

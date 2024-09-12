@@ -146,20 +146,24 @@ public class DataBaseHelper extends SQLiteAssetHelper {
         }
     }
 
-    public void sincroSimpleList(Response<ResponseBody> response, String table) throws Exception {
+
+    public void sincronizarPedido(Response<ResponseBody> response) throws Exception {
+        String table = "xms_order";
+
         try {
             if (response.isSuccessful()) {
+                String message = "";
                 JSONObject jsonObject = new JSONObject(response.body().string());
-                JSONArray jsonArray;
+
                 if (jsonObject.has("data")){
-                    jsonArray = jsonObject.getJSONArray("data");
+                    JSONArray jsonstring = jsonObject.getJSONArray("data");
+
                     String method = "actualizar_byh_"+table;
-                    Log.i(TAG, table + ": " + jsonArray.length() + " registros - "+method);
-                    Method helperMethod = getClass().getMethod(method, JSONArray.class);
-                    helperMethod.invoke(this, jsonArray);
+                    Log.i(TAG, table + ": " + jsonstring.length() + " registros - "+method);
+                    actualizar_byh_xms_order(jsonstring);
                     Log.i(TAG, table + " SINCRONIZADO ");
                 }else{
-                    throw new Exception();
+                    throw new Exception(message);
                 }
             } else {
                 JSONObject jsonError;
@@ -220,6 +224,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
             }
         }
     }
+
 
     public void sincroObject(Response<ResponseBody> response, String table) throws Exception {
         try {
@@ -292,6 +297,137 @@ public class DataBaseHelper extends SQLiteAssetHelper {
     }
 
     /** Sincronización de tablas **/
+
+    public void actualizar_byh_xms_order(JSONArray jArray) {
+        JSONObject jsonData = null;
+
+        ContentValues cv = new ContentValues();
+
+        String table = TablesHelper.xms_order.table;
+
+        String id_numero = TablesHelper.xms_order.id_numero;
+        String fecha = TablesHelper.xms_order.fecha;
+        String fechaDeVenc = TablesHelper.xms_order.fechaDeVenc;
+        String fechaDeEntrega = TablesHelper.xms_order.fechaDeEntrega;
+        String id_cliente = TablesHelper.xms_order.id_cliente;
+        String direcc = TablesHelper.xms_order.direcc;
+        String id_cond = TablesHelper.xms_order.id_cond;
+        String id_vendedor = TablesHelper.xms_order.id_vendedor;
+        String id_cobrador = TablesHelper.xms_order.id_cobrador;
+        String id_almacen = TablesHelper.xms_order.id_almacen;
+        String moneda = TablesHelper.xms_order.moneda;
+        String tipodecambio = TablesHelper.xms_order.tipodecambio;
+        String subtotal = TablesHelper.xms_order.subtotal;
+        String descuento = TablesHelper.xms_order.descuento;
+        String total = TablesHelper.xms_order.total;
+        String id_usuario = TablesHelper.xms_order.id_usuario;
+        String id_distrito = TablesHelper.xms_order.id_distrito;
+        String codubigeo = TablesHelper.xms_order.codubigeo;
+        String total_opgratuito = TablesHelper.xms_order.total_opgratuito;
+        String total_opexonerado = TablesHelper.xms_order.total_opexonerado;
+
+
+        String table_detalle = TablesHelper.xms_order_detail.table;
+
+        String id_numero_detalle = TablesHelper.xms_order_detail.id_numero;
+        String id_producto_detalle = TablesHelper.xms_order_detail.id_producto;
+        String moneda_detalle = TablesHelper.xms_order_detail.moneda;
+        String tipoDeCambio_detalle = TablesHelper.xms_order_detail.tipoDeCambio;
+        String precioUnit_detalle = TablesHelper.xms_order_detail.precioUnit;
+        String cantidad = TablesHelper.xms_order_detail.cantidad;
+        String monto = TablesHelper.xms_order_detail.monto;
+        String precioUnitAlTipCam = TablesHelper.xms_order_detail.precioUnitAlTipCam;
+        String montoAlTipCam = TablesHelper.xms_order_detail.montoAlTipCam;
+        String cantidad2 = TablesHelper.xms_order_detail.cantidad2;
+        String tipotributo = TablesHelper.xms_order_detail.tipotributo;
+        String bonificacion = TablesHelper.xms_order_detail.bonificacion;
+        String precunitgrat = TablesHelper.xms_order_detail.precunitgrat;
+        String montograt = TablesHelper.xms_order_detail.montograt;
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+
+        try {
+            db.delete(table, null, null);
+            db.delete(table_detalle, null, null);
+
+            for (int i = 0; i < jArray.length(); i++) {
+                jsonData = jArray.getJSONObject(i);
+
+                cv.put(id_numero, jsonData.getString("idNumero"));
+                cv.put(fecha, jsonData.getString("fecha"));
+                cv.put(fechaDeVenc, jsonData.getString("fechaDeVenc"));
+                cv.put(fechaDeEntrega, jsonData.getString("fechaDeEntrega"));
+                cv.put(id_cliente, jsonData.getString("idCliente"));
+                cv.put(direcc, jsonData.getString("direccion"));
+                cv.put(id_cond, jsonData.getString("idCond"));
+                cv.put(id_vendedor, jsonData.getString("idVendedor"));
+                cv.put(id_cobrador, jsonData.optInt("idCobrador", -1));
+                cv.put(id_almacen, jsonData.getString("idAlmacen"));
+                cv.put(moneda, jsonData.getString("moneda"));
+                cv.put(tipodecambio, jsonData.getString("tipoDeCambio"));
+                cv.put(subtotal, jsonData.getString("subtotal"));
+                cv.put(descuento, jsonData.getString("descuento"));
+                cv.put(total, jsonData.getString("total"));
+                cv.put(id_usuario, jsonData.getString("idUsuario"));
+                cv.put(id_distrito, jsonData.getString("idDistrito"));
+                cv.put(codubigeo, jsonData.getString("codUbigeo"));
+                cv.put(total_opgratuito, jsonData.getString("total_opgratuito"));
+                cv.put(total_opexonerado, jsonData.getString("total_opexonerado"));
+
+                if(jsonData.has("ordenPedidoDetalleList")){
+                    JSONArray jsonArrayDetalle = jsonData.getJSONArray("ordenPedidoDetalleList");
+
+                    for (int j = 0; j < jsonArrayDetalle.length(); j++) {
+                        ContentValues cv_detalle = new ContentValues();
+
+                        JSONObject jsonDataDetalle = jsonArrayDetalle.getJSONObject(j);
+
+                        SQLiteDatabase db_detalle = getWritableDatabase();
+                        db_detalle.beginTransaction();
+
+                        try {
+
+                            cv_detalle.put(id_numero_detalle, jsonDataDetalle.getString("idNumero"));
+                            cv_detalle.put(id_producto_detalle, jsonDataDetalle.getString("idProducto"));
+                            cv_detalle.put(moneda_detalle, jsonDataDetalle.getString("moneda"));
+                            cv_detalle.put(tipoDeCambio_detalle, jsonDataDetalle.getString("tipoDeCambio"));
+                            cv_detalle.put(precioUnit_detalle, jsonDataDetalle.getString("precioUnit"));
+                            cv_detalle.put(cantidad, jsonDataDetalle.getString("cantidad"));
+                            cv_detalle.put(monto, jsonDataDetalle.getString("monto"));
+                            cv_detalle.put(precioUnitAlTipCam, jsonDataDetalle.getString("precioUnitAlTipCam"));
+                            cv_detalle.put(montoAlTipCam, jsonDataDetalle.getString("montoAlTipCam"));
+                            cv_detalle.put(cantidad2, jsonDataDetalle.getString("cantidad2"));
+                            cv_detalle.put(tipotributo, jsonDataDetalle.getString("tipotributo"));
+                            cv_detalle.put(bonificacion, jsonDataDetalle.getString("bonificacion"));
+                            cv_detalle.put(precunitgrat, jsonDataDetalle.getString("precunitgrat"));
+                            cv_detalle.put(montograt, jsonDataDetalle.getString("montograt"));
+
+                            db_detalle.insertOrThrow(table_detalle, null, cv_detalle);
+                            db_detalle.setTransactionSuccessful();
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, table_detalle + ":" + e.getMessage());
+                            throw new RuntimeException(e);
+                        } finally {
+                            db_detalle.endTransaction();
+                        }
+                        
+                    }
+                }
+
+                db.insertOrThrow(table, null, cv);
+            }
+            db.setTransactionSuccessful();
+            Log.i(TAG, table + ": BD Actualizada");
+        } catch (JSONException e) {
+            Log.e(TAG, table + ":" + e.getMessage());
+            throw new RuntimeException(e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
 
     public void actualizar_byh_xms_client(JSONArray jArray) {
         JSONObject jsonData = null;
@@ -422,6 +558,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
         String codigo = TablesHelper.xms_product.codigo;
         String unidad = TablesHelper.xms_product.unidad;
         String id_marca = TablesHelper.xms_product.id_marca;
+        String tipo_atributo = TablesHelper.xms_product.tipo_atributo;
 
         SQLiteDatabase db = getWritableDatabase();
 
@@ -450,6 +587,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                 cv.put(codigo, jsonData.getString("codigo"));
                 cv.put(unidad, jsonData.getString("unidad"));
                 cv.put(id_marca, jsonData.getString("id_marca"));
+                cv.put(tipo_atributo, jsonData.getString("tipotributo"));
 
                 db.insertOrThrow(table, null, cv);
             }
@@ -672,6 +810,38 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                 cv.put(descripcion, jsonData.getString("nombre"));
                 cv.put(comercial, jsonData.getString("nombre"));
                 cv.put(sunat, jsonData.getString("nombre"));
+
+                db.insertOrThrow(table, null, cv);
+            }
+            db.setTransactionSuccessful();
+            Log.i(TAG, table + ": BD Actualizada");
+        } catch (JSONException e) {
+            Log.e(TAG, table + ":" + e.getMessage());
+            throw new RuntimeException(e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public void actualizar_byh_xms_medidas(JSONArray jArray) {
+        JSONObject jsonData = null;
+        ContentValues cv = new ContentValues();
+        String table = TablesHelper.xms_medidas.table;
+
+        String id = TablesHelper.xms_medidas.id_medida;
+        String nombre = TablesHelper.xms_medidas.nombre;
+        String codigo = TablesHelper.xms_medidas.codigo;
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+
+        try {
+            db.delete(table, null, null);
+            for (int i = 0; i < jArray.length(); i++) {
+                jsonData = jArray.getJSONObject(i);
+                cv.put(id, jsonData.getString("idMedida"));
+                cv.put(nombre, jsonData.getString("nombre"));
+                cv.put(codigo, jsonData.getString("codigo"));
 
                 db.insertOrThrow(table, null, cv);
             }

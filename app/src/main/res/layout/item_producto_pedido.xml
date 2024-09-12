@@ -30,14 +30,15 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_between_views"
             android:text="0000"/>
+
         <TextView
             android:id="@+id/tv_descripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_codigoProducto"
-            android:textStyle="bold"
             android:maxLines="2"
-            android:text="Descripción del Producto"/>
+            android:text="Descripción del Producto"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lbl_cantidad"
@@ -46,7 +47,7 @@
             android:layout_below="@+id/tv_descripcion"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="@dimen/margin_between_views"
-            android:text="@string/label_cantidad"/>
+            android:text="@string/label_cantidad" />
 
         <TextView
             android:id="@+id/tv_cantidad"
@@ -54,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_descripcion"
             android:layout_toRightOf="@+id/lbl_cantidad"
-            android:textStyle="bold"
-            android:text="0"/>
+            android:text="0"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lbl_precio"
@@ -95,6 +96,42 @@
             android:text="UN"/>
 
         <TextView
+            android:id="@+id/lbl_peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_unidadMedida"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="@dimen/margin_between_views"
+            android:text="Peso: " />
+
+        <TextView
+            android:id="@+id/tv_peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_unidadMedida"
+            android:layout_toRightOf="@+id/lbl_unidadMedida"
+            android:text="0"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lbl_tipoAtributo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_peso"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="20dp"
+            android:text="Tipo: " />
+
+        <TextView
+            android:id="@+id/tv_tipoAtributo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_peso"
+            android:layout_toRightOf="@+id/lbl_unidadMedida"
+            android:text="IGV"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/lbl_subTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -110,9 +147,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_precio"
             android:layout_alignParentRight="true"
+            android:text="S/. 0.00"
             android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:text="S/. 0.00"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </LinearLayout>

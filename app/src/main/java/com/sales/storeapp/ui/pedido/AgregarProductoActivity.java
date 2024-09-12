@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,8 +44,9 @@ public class AgregarProductoActivity extends AppCompatActivity {
     private int ACCION_PRODUCTO;
 
     private TextView tv_idProducto;
-    private TextInputEditText  edt_precio, edt_cantidad, edt_total, edt_und, edt_marca, edt_peso;
+    private TextInputEditText  edt_precio, edt_cantidad, edt_total, edt_und, edt_marca, edt_peso, edt_tipo_tributo;
     private DAOProducto daoProducto;
+    private CheckBox checkboxBonificacion ;
     private DAOPedido daoPedido;
 
     private App app;
@@ -54,7 +56,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
     String idCliente = "";
     String numeroPedido = "";
     double precioForzado = 0.0;
-    boolean forzarPrecio;
+    boolean forzarPrecio = false;
 
     private XMSProductModel productModel;
 
@@ -87,7 +89,10 @@ public class AgregarProductoActivity extends AppCompatActivity {
         edt_total               = findViewById(R.id.edt_total);
         edt_und                 = findViewById(R.id.edt_und);
         edt_marca               = findViewById(R.id.edt_marca);
-        edt_peso              = findViewById(R.id.edt_peso);
+        edt_peso                = findViewById(R.id.edt_peso);
+        edt_tipo_tributo        = findViewById(R.id.edt_tipo_tributo);
+        checkboxBonificacion    = findViewById(R.id.checkbox_bonificacion);
+
         edt_cantidad.requestFocus();
 
         //Se obtiene el parametro del tipo para saber si la accion a realizar es para agregar o modificar un producto
@@ -102,6 +107,15 @@ public class AgregarProductoActivity extends AppCompatActivity {
               XMSProductModel productoModel = (XMSProductModel) parent.getItemAtPosition(position);
               setProductoModel(productoModel);
               double precio = daoProducto.getPrecioProducto(String.valueOf(productoModel.getIdProducto()));
+
+              if (Double.compare(precio, 0.0) == 0) {
+                  forzarPrecio = true;
+                  edt_precio.setEnabled(false);
+              }else{
+                  forzarPrecio = false;
+                  edt_precio.setEnabled(true);
+              }
+
               edt_precio.setText(String.valueOf(precio));
           });
 
@@ -117,6 +131,7 @@ public class AgregarProductoActivity extends AppCompatActivity {
             productModel = (XMSProductModel) data2.getSerializableExtra(EXTRA_PRODUCTO);
             edt_cantidad.setText("1");
             edt_peso.setText("1");
+            edt_tipo_tributo.setText("IGV");
             //edt_und.setText(productModel.getUnidad());
             cargarPreciosUnidades();
 
@@ -142,7 +157,6 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 //cargar precios
 
                 Log.e(TAG, "producto.getPrecioNeto():" + productoPedido.getPrecioUnit());
-                forzarPrecio = true;
                 precioForzado = productoPedido.getPrecioUnitTipoCambio();
                 edt_precio.setText(String.valueOf(productoPedido.getMonto()));
                 edt_cantidad.setText(String.valueOf(productoPedido.getCantidad()));
@@ -215,6 +229,17 @@ public class AgregarProductoActivity extends AppCompatActivity {
         edt_peso.setText("1");
         edt_und.setText(productModel.getUnidad());
         edt_marca.setText(productModel.getMarca());
+
+        if(productModel.getTipoAtributo() == 1){
+            edt_tipo_tributo.setText("IGV");
+            checkboxBonificacion.setChecked(false);
+        }else if(productModel.getTipoAtributo() == 2){
+            edt_tipo_tributo.setText("EXONERADO");
+            checkboxBonificacion.setChecked(false);
+        }else{
+            edt_tipo_tributo.setText("GRATUITO");
+            checkboxBonificacion.setChecked(true);
+        }
 
         //Una vez se obtenga el codigo del cliente se tiene que mandar ese codigo al activity para poder usarlo
         autocomplete_busqueda.requestFocus();
@@ -363,7 +388,8 @@ public class AgregarProductoActivity extends AppCompatActivity {
                 Double.parseDouble(edt_cantidad.getText().toString()),
                 Double.parseDouble(edt_peso.getText().toString()),
                 Double.parseDouble(edt_total.getText().toString()),
-                productModel.getIdMedida()
+                productModel.getIdMedida(),
+                productModel.getTipoAtributo()
         );
 
         Intent returnIntent = new Intent();
@@ -419,11 +445,16 @@ public class AgregarProductoActivity extends AppCompatActivity {
 
         if (settings_productoSinPrecio) {
             if (TextUtils.isEmpty(edt_precio.getText().toString()) || Double.parseDouble(edt_precio.getText().toString()) == 0) {
+
                 edt_precio.setText("0.0");
                 showSinPrecioDialog();
                 return false;
             }
         } else {
+            if(forzarPrecio){
+                return true;
+            }
+
             if (TextUtils.isEmpty(edt_precio.getText().toString()) || Double.parseDouble(edt_precio.getText().toString()) == 0) {
                 edt_precio.setError("No tiene precio");
                 edt_precio.requestFocus();

@@ -12,6 +12,7 @@ class AgregarProductoArgument(
         val peso: Double,
         val total: Double,
         val idMedida: Int,
+        val idTipoAtributo: Int,
 ) : Serializable {
     fun toPedidoDetalleModel(numeroPedido: String): OrderDetail {
         val pedidoDetalleModel = OrderDetail()
@@ -25,6 +26,7 @@ class AgregarProductoArgument(
         pedidoDetalleModel.producto = descripcion
         pedidoDetalleModel.idMedida = idMedida
         pedidoDetalleModel.moneda = "PEN"
+        pedidoDetalleModel.tipotributo = idTipoAtributo
 
         return pedidoDetalleModel
     }
