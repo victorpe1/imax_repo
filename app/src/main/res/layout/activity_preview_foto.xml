@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Título principal -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro Fotográfico"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp" />
+
+        <!-- Subtítulo de la sección -->
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="La toma de fotografías deberá hacerse desde espacios exteriores del entorno hacia ambientes interiores del inmueble a tasar. SIEMPRE EN HORIZONTAL"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Sección de Importante -->
+        <TextView
+            android:id="@+id/important_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Importante:"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <!-- Lista de items importantes -->
+        <TextView
+            android:id="@+id/important_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Las fotografías deben ser tomadas con buena resolución, que permita la correcta visibilidad de los ambientes.\n\n- Las fotografías no deberán ser distorsionadas. Deberán encontrarse correctamente escaladas y cuadradas.\n\n- Las fotografías de exteriores deben ser tomadas de día."
+            android:textSize="14sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Sección de Prohibido -->
+        <TextView
+            android:id="@+id/prohibited_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prohibido:"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <!-- Lista de items prohibidos -->
+        <TextView
+            android:id="@+id/prohibited_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- NO realizar tomas fotográficas de los ambientes con la presencia de menores de edad.\n\n- NO realizar tomas fotográficas de exteriores de noche."
+            android:textSize="14sp" />
+    </LinearLayout>
+</ScrollView>

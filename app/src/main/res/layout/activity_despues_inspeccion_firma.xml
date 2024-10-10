@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.RegistroDespuesInspeccionFirmaActivity">
+    <include layout="@layout/actionbar_toolbar" />
+    <TextView
+        android:id="@+id/tv_razonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DESPUES DE LA INSPECCIÓN"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingTop="10dp"
+        android:gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+            <LinearLayout
+                android:id="@+id/til_inmueble_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:boxBackgroundColor="@color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OBSERVACIONES Y(O COMENTARIOS"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Observaciones *"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="#00796B"
+                        android:layout_marginBottom="8dp"/>
+                    <EditText
+                        android:id="@+id/edt_observaciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="Escribe tus observaciones aquí"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="(Indicar información relevante como precio tentativo de venta, uso predominante en la zona, estado de conservación de la zona, etc; caso contrario, indicar NO CORRESPONDE)"
+                        android:textSize="12sp"
+                        android:textColor="#757575"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Firma de confirmación de la información *"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="#00796B"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.github.gcacace.signaturepad.views.SignaturePad
+                        android:id="@+id/signature_pad"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@android:color/white"
+                        android:layout_marginBottom="16dp"/>
+
+                    <Button
+                        android:id="@+id/btn_clear_signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Clear"
+                        android:textColor="#FFFFFF"
+                        android:backgroundTint="#00796B"/>
+                </LinearLayout>
+
+            </LinearLayout>
+    </ScrollView>
+</LinearLayout>

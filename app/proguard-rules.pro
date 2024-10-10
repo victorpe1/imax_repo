@@ -19,9 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keepclassmembers class com.sales.storeapp.managers.DataBaseHelper { *; }
--keep class com.sales.storeapp.data.api.request.** { *; }
--keep class com.sales.storeapp.data.api.response.** { *; }
+-keepclassmembers class com.imax.app.managers.DataBaseHelper { *; }
+-keep class com.imax.app.data.api.request.** { *; }
+-keep class com.imax.app.data.api.response.** { *; }
 -keep class android.support.v7.widget.SearchView { *; }
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule

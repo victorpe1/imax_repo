@@ -1,0 +1,221 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_asignar"
+            style="@style/TextViewAsInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_medium"
+            android:text="INSPECCIONES ASIGNADAS"
+            android:textSize="15sp"
+            android:textColor="#00796B"/>
+
+        <Spinner
+            android:id="@+id/spn_asignarNumero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_asignar"
+            android:textSize="@dimen/text_size_medium" />
+
+        <!-- Texto de descripción -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENTORNO: (mínimo 6). Se debe visualizar el perfil urbano, uso predominante, estado de conservación de las vías, entre otras características urbanas de la zona."
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:padding="10dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Layout para los botones de fotos -->
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:layout_gravity="center">
+
+            <!-- Entorno 1 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entorno 1 *"
+                    android:textSize="14sp"/>
+                <Button
+                    android:id="@+id/btnTakePhoto1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar Foto"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Entorno 2 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entorno 2 *"
+                    android:textSize="14sp"/>
+                <Button
+                    android:id="@+id/btnTakePhoto2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar Foto"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Entorno 3 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entorno 3 *"
+                    android:textSize="14sp"/>
+                <Button
+                    android:id="@+id/btnTakePhoto3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar Foto"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Entorno 4 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entorno 4 *"
+                    android:textSize="14sp"/>
+                <Button
+                    android:id="@+id/btnTakePhoto4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar Foto"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Entorno 5 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entorno 5 *"
+                    android:textSize="14sp"/>
+                <Button
+                    android:id="@+id/btnTakePhoto5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar Foto"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Entorno 6 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entorno 6 *"
+                    android:textSize="14sp"/>
+                <Button
+                    android:id="@+id/btnTakePhoto6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar Foto"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </GridLayout>
+
+        <!-- Sección adicional para adjuntar archivos -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subir Archivos adjuntos de documentos adicionales"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:background="@drawable/dashed_border"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_up"
+                        android:contentDescription="Subir archivo"
+                        android:layout_marginBottom="8dp" />
+
+                    <Button
+                        android:id="@+id/btn_browse_files"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Buscar archivo"
+                        android:textColor="#00796B"
+                        android:background="@android:color/transparent"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_files"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:visibility="gone" /> <!-- Inicialmente invisible hasta que se suban archivos -->
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

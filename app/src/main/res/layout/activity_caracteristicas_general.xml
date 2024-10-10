@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.RegistrarCaractGeneralesActivity">
+    <include layout="@layout/actionbar_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_razonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CARACTERISTICAS GENERALES DEL INMUEBLE"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingTop="10dp"
+        android:gravity="center"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminate="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@color/white">
+                <TextView
+                    style="@style/TextViewAsInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_vertical_medium"
+                    android:text="TIPO INMUEBLE *"
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small" />
+                <Spinner
+                    android:id="@+id/spn_modalidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:text="OTRO"
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small" />
+                <EditText
+                    android:id="@+id/edt_otros"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/edit_text"                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:hint="ESPECIFICAR"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textSize="@dimen/text_size_small" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Si seleccionó otro tipo de inmueble por favor especificar."
+                    android:textColor="@color/black"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/tv_grid_inmueble"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="USO DEL INMUEBLE *"
+                    android:textColor="#00796B"
+                    android:layout_marginTop="@dimen/margin_vertical_medium"
+                    android:textSize="@dimen/text_size_small" />
+                <GridLayout
+                    android:id="@+id/grid_checkbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="3">
+                    <CheckBox
+                        android:id="@+id/cb_vivienda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VIVIENDA" />
+
+                    <CheckBox
+                        android:id="@+id/cb_comercio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="COMERCIO" />
+
+                    <CheckBox
+                        android:id="@+id/cb_industria"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INDUSTRIA" />
+
+                    <CheckBox
+                        android:id="@+id/cb_educativo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EDUCATIVO" />
+
+                    <CheckBox
+                        android:id="@+id/cb_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OTHER" />
+                </GridLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingTop="15dp"
+                    android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO."
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small"/>
+                <EditText
+                    android:id="@+id/edt_comentarios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Comentarios adicionales"
+                    android:minLines="4"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    style="@style/TextViewAsInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_vertical_medium"
+                    android:text="¿QUIEN RECIBE EN EL INMUEBLE? * "
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small" />
+                <Spinner
+                    android:id="@+id/spn_recibe_inmueble"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingTop="5dp"
+                    android:text="Especificar número de pisos y sótanos del edificio donde se ubica el bien inmueble a tasar, tipo de ubicación (esquina/frente a calle o avenida/frente a parque), número de frentes, áreas comunes (recepción, lobby, SUM, piscina, etc.) y obras complementarias e instalaciones fijas - permanentes (cercos, cisterna, tanque elevado, ascensores, instalaciones contraincendios, instalaciones de aire acondicionado, entre otros)."
+                    android:textColor="@color/black"
+                    android:textSize="11sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DESCRIPCIÓN *"
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginTop="8dp" />
+                <EditText
+                    android:id="@+id/edt_n_pisos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/edit_text"                    android:hint="Descripción"
+                    android:minLines="4"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_n_depart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingTop="5dp"
+                    android:text="Para el caso de departamento, especificar si es flat/duplex/triplex, si tiene vista interior/exterior y detallar los ambientes por nive de manera secuencia (desde el ingreso hasta el último ambiente). Para el caso de estacionamiento, especificar si es simple/doble, cantidad y nivel que ocupa. Para el caso de depósitos, indicar cantidad y nivel que ocupa."
+                    android:textColor="@color/black"
+                    android:textSize="11sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DISTRIBUCIÓN *"
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginTop="8dp" />
+                <EditText
+                    android:id="@+id/edt_n_depart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/edit_text"                    android:hint="Descripción"
+                    android:minLines="4"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="REFERENCIA"
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginTop="8dp" />
+                <EditText
+                    android:id="@+id/edt_referencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/edit_text"                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DEPARTAMENTO"
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginTop="8dp" />
+                <EditText
+                    android:id="@+id/edt_depto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/edit_text"                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:hint="Sotano x: Piso x:"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textSize="@dimen/text_size_small" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ESTACIONAMIENTO"
+                        android:textColor="#00796B"
+                        android:textSize="@dimen/text_size_small" />
+                    <EditText
+                        android:id="@+id/edt_d"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/edit_text"                            android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:hint="Semisotano: Piso x:"
+                        android:textSize="@dimen/text_size_small" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="DEPOSITO"
+                        android:textColor="#00796B"
+                        android:textSize="@dimen/text_size_small" />
+                    <EditText
+                        android:id="@+id/edt_deposito"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/edit_text"                            android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:hint="Semisotano: Piso x:"
+                        android:textSize="@dimen/text_size_small" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

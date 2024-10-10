@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.RegistroCaractInfraestruturaActivity">
+    <include layout="@layout/actionbar_toolbar" />
+    <TextView
+        android:id="@+id/tv_razonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CARACTERISTICAS E INFRAESTRUCTURAS DE SERVICIOS DEL ENTORNO"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingTop="10dp"
+        android:gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+        <LinearLayout
+            android:id="@+id/til_inmueble_multiple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_inmueble_multiple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Infraestructura *"
+                android:textColor="#00796B"
+                android:textSize="@dimen/text_size_small"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/edt_comentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:hint="La zona es residencial en proceso de consolidación y cuenta con las obras de infraestructura urbana y servicios públicos de alumbrado público, alcantarillado, agua y desagüe, gas natural y vías públicas. Sus principales vías de acceso (mínimo 3 nombres) son: Av. Jose Saco Rojas, Casuarinas, Av. Camino Real, Panamericana Norte. Referencia: Colegios, hospitales, estadios, etc."
+                android:gravity="top"
+                android:padding="10dp"
+                android:textSize="@dimen/text_size_small"
+                android:minLines="5"
+                android:maxLines="10"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

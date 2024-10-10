@@ -118,6 +118,8 @@
     <string name="error_login">No se pudo iniciar sesión. Por favor ingrese las credenciales correctas</string>
 
     <string name="nuevo_pedido">Nuevo pedido</string>
+    <string name="nuevo_registro">Nuevo registro</string>
+    <string name="caracteristicas">Caracteristicas generales</string>
 
     <string name="agregar_cliente">Agregar cliente</string>
 
@@ -165,9 +167,9 @@
     <string name="descartar">Descartar</string>
     <string name="error_agregue_productos">Agregue productos</string>
     <string name="enviando_pedido">Enviando pedido&#8230;&#8230;&#8230;</string>
-    <string name="venta_registrada">La venta fue registrada</string>
+    <string name="venta_registrada">Se remitió la información al área de coordinación de IMAX.</string>
     <string name="atencion">Atención</string>
-    <string name="error_no_registrar_venta">No se pudo registrar la venta</string>
+    <string name="error_no_registrar_venta">No se pudo registrar la inspección</string>
     <string name="error">Error</string>
     <string name="sin_internet_localmente">Es probable que no tenga acceso a INTERNET, se guardó localmente</string>
     <string name="se_guardo_localmente">No se pudo enviar, se guardó localmente</string>

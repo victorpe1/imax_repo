@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.RegistroDespuesInspeccionActivity">
+    <include layout="@layout/actionbar_toolbar" />
+    <TextView
+        android:id="@+id/tv_razonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DESPUES DE LA INSPECCIÓN"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingTop="10dp"
+        android:gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+            <LinearLayout
+                android:id="@+id/til_inmueble_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:boxBackgroundColor="@color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="REVISIÓN DE DOCUMENTACIÓN"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/tv_rb1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¿LA INFORMACIÓN EN DOCUMENTOS COINCIDE CON LO INSPECCIONADO? *"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="#00796B"
+                        android:layout_marginBottom="8dp"/>
+                    <RadioGroup
+                        android:id="@+id/radioGroup_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+                        <RadioButton
+                            android:id="@+id/radio_tiene"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SI"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:id="@+id/radio_no_tiene"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NO"
+                            android:checked="false" />
+                    </RadioGroup>
+                    <TextView
+                        android:id="@+id/tv_especificar_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Especificar"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_marginBottom="8dp"/>
+                    <EditText
+                        android:id="@+id/edt_especificar"                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="Descripción"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:padding="8dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_rb2"
+                        android:text="¿SE SOLICITÓ O PRESENTÓ DOCUMENTACIÓN ADICIONAL IN SITU? *"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="#00796B"/>
+                    <RadioGroup
+                        android:id="@+id/radioGroup_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <RadioButton
+                            android:id="@+id/radio_tiene_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SI"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:id="@+id/radio_no_tiene_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NO"
+                            android:checked="false" />
+                    </RadioGroup>
+                    <TextView
+                        android:id="@+id/tv_especificar_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Especificar"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_marginBottom="8dp"/>
+                    <EditText
+                        android:id="@+id/edt_especificar_2"                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="Descripción"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:padding="8dp"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="15dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_small"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                        <TextView
+                            android:id="@+id/tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subir Archivos adjuntos de documentos adicionales"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_small"
+                            android:layout_marginBottom="8dp"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="16dp"
+                            android:background="@drawable/dashed_border"
+                            android:layout_marginBottom="16dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_arrow_up"
+                                    android:contentDescription="Subir archivo"
+                                    android:layout_marginBottom="8dp" />
+
+                                <Button
+                                    android:id="@+id/btn_browse_files"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Buscar archivo"
+                                    android:textColor="#00796B"
+                                    android:background="@android:color/transparent"
+                                    android:textStyle="bold"
+                                    android:layout_marginBottom="8dp" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recycler_files"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="16dp"
+                                    android:visibility="gone" /> <!-- Inicialmente invisible hasta que se suban archivos -->
+
+                            </LinearLayout>
+                        </FrameLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+    </ScrollView>
+</LinearLayout>

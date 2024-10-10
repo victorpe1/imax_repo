@@ -2,89 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/grupo1" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_mi_cuenta"
+            android:id="@+id/nav_registro"
+            android:icon="@drawable/ic_menu_configuracion"
+            android:title="REGISTRO DE INSPECCION TECNICA" />
+        <item
+            android:id="@+id/nav_foto"
             android:icon="@drawable/ic_menu_cuenta"
-            android:title="@string/menu_cuenta" />
-        <item
-            android:id="@+id/nav_mi_negocio"
-            android:icon="@drawable/ic_menu_negocio"
-            android:visible="false"
-            android:title="@string/menu_negocio" />
-        <item
-            android:id="@+id/nav_marcas"
-            android:icon="@drawable/ic_menu_cuenta"
-            android:visible="false"
-            android:title="@string/menu_marcas" />
-        <item
-            android:id="@+id/nav_compras"
-            android:icon="@drawable/ic_menu_compras"
-            android:visible="false"
-            android:title="@string/menu_compras" />
-        <item
-            android:id="@+id/nav_menu_pedido_sugerido"
-            android:icon="@drawable/ic_menu_pedido_sugerido"
-            android:visible="false"
-            android:title="@string/menu_pedido_sugerido" />
-        <item
-            android:id="@+id/nav_promociones"
-            android:icon="@drawable/ic_menu_promociones"
-            android:visible="false"
-            android:title="@string/menu_promociones"/>
-
-        <item
-            android:id="@+id/nav_clientes"
-            android:visible="false"
-            android:icon="@drawable/ic_menu_clientes"
-            android:title="@string/menu_clientes" />
-
-        <item
-            android:id="@+id/nav_productos"
-            android:visible="false"
-            android:icon="@drawable/ic_menu_producto"
-            android:title="@string/menu_productos" />
-
-        <item
-            android:id="@+id/nav_ventas"
-            android:icon="@drawable/ic_menu_ventas"
-            android:title="@string/menu_ventas"/>
-        <item
-            android:id="@+id/nav_ventas_lista"
-            android:icon="@drawable/ic_action_pedido"
-            android:title="Listado de pedidos"/>
-
+            android:title="REGISTRO FOTOGRAFICO" />
     </group>
 
     <group android:id="@+id/grupo2" android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_blu"
-            android:icon="@drawable/icon_bluetooth"
-            android:visible="false"
-            android:title="Bluetooth" />
-        <item
-            android:id="@+id/nav_configuracion"
-            android:icon="@drawable/ic_menu_configuracion"
-            android:visible="false"
-            android:title="@string/menu_configuracion" />
         <item
             android:id="@+id/nav_salir"
             android:icon="@drawable/ic_menu_cerrar_sesion"
             android:title="@string/menu_cerrar_sesion" />
     </group>
-    <!--endpoint
-    preguntar como saber si es un bodeguero
-    como se genera el dinero, quién paga (los bodequeros?)
-    el bodequero a quién hace pedidos? AJE Humana? o a verios. Si es así como obtengo stock de los productos iguales donde mas de un distribuidos lo tengo Stock distribuidor A + distribuidor B
-
-    Registro 2 tipos de usuario
-    personal: compra en bodegas cercanas
-    negocio: vende y equipa tu bodega
-
-    preguntar si es marca > categoria? familia? presentacion? cual es?
-
-    snackbar cuando no haya conexion
-
-    ventana marcas
-
-
-    -->
 </menu>

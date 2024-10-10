@@ -31,8 +31,11 @@
     <color name="light_bg_dark_disabled_text">#61000000</color>
     <color name="light_bg_dark_hint_text">#61000000</color>
 
-    <color name="colorPrimary">#5C85ED</color>
-    <color name="colorPrimaryDark">#6274CA</color>
+    <color name="primaryTextColor">#009ADB</color>
+    <color name="whiteTextColor">#FFFFFF</color>
+
+    <color name="colorPrimary">#009ADB</color>
+    <color name="colorPrimaryDark">#008BC5</color>
     <color name="colorAccent">#009ADB</color>
     <color name="colorAccentDark">#008BC5</color>
 
@@ -48,11 +51,4 @@
     <color name="grey_80">#8A000000</color>
     <color name="blue_grey_500">#607D8B</color>
 
-    <!--colors for modern ui-->
-    <color name="whiteTextColor">#fff</color>
-    <color name="primaryTextColor">#2661FA</color>
-    <color name="loginBkColor">#f0f0f0</color>
-
-    <!--colros for card-->
-    <color name="whiteCardColor">#fff</color>
 </resources>

@@ -1,16 +1,16 @@
 {
   "project_info": {
     "project_number": "387369757434",
-    "firebase_url": "https://sales-app.firebaseio.com",
-    "project_id": "sales-app",
-    "storage_bucket": "sales-app.appspot.com"
+    "firebase_url": "https://imax-app.firebaseio.com",
+    "project_id": "imax-app",
+    "storage_bucket": "imax-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:387369757434:android:0a572fef64da21b542b743",
         "android_client_info": {
-          "package_name": "com.sales.storeapp"
+          "package_name": "com.imax.app"
         }
       },
       "oauth_client": [
@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:387369757434:android:eca73ec83467e48e42b743",
         "android_client_info": {
-          "package_name": "com.sales.storeapp.debug"
+          "package_name": "com.imax.app.debug"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "387369757434-tujhh4to5ehtu41be8nvrl1umrj2ljgu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.sales.storeapp.debug",
+            "package_name": "com.imax.app.debug",
             "certificate_hash": "2e8da5f8480effe3834e947544d278e59c52dda6"
           }
         },
