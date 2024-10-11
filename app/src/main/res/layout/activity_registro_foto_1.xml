@@ -1,14 +1,24 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
-
+    android:orientation="vertical"
+    tools:context=".ui.foto.RegistroFotoInsertActivity">
+    <include layout="@layout/actionbar_toolbar" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:indeterminate="true"/>
 
         <TextView
             android:id="@+id/tv_asignar"
@@ -64,6 +74,13 @@
                     android:layout_height="wrap_content"
                     android:text="Tomar Foto"
                     android:layout_marginTop="4dp"/>
+                <ImageView
+                    android:id="@+id/imgPreview1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@android:color/darker_gray"/>
             </LinearLayout>
 
             <!-- Entorno 2 -->
@@ -218,4 +235,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

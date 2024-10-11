@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    tools:context=".ui.foto.RegistroFotoActivity">
+    <include layout="@layout/actionbar_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,4 +73,5 @@
             android:text="- NO realizar tomas fotográficas de los ambientes con la presencia de menores de edad.\n\n- NO realizar tomas fotográficas de exteriores de noche."
             android:textSize="14sp" />
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

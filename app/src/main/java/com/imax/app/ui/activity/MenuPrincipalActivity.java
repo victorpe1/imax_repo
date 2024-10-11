@@ -35,6 +35,7 @@ import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOPedido;
 import com.imax.app.intents.CaracteristicasGenerales;
 import com.imax.app.models.UsuarioModel;
+import com.imax.app.ui.foto.RegistroFotoActivity;
 import com.imax.app.ui.pedido.PedidoActivity;
 import com.imax.app.utils.Util;
 import com.imax.app.ui.configuraciones.ConfiguracionesFragment;
@@ -127,8 +128,7 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
                 nuevoRegistro();
                 break;
             case R.id.nav_foto:
-                /* Intent intent = new Intent(this, RegistroDespuesInspeccionActivity.class);
-                startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);*/
+                nuevoRegistroFotografico();
                 break;
             case R.id.nav_salir:
                 Salir();
@@ -140,6 +140,12 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
 
     private void nuevoRegistro() {
         Intent intent = new Intent(this, RegistroInspeccionActivity.class);
+        intent.putExtra("accion", RegistroInspeccionActivity.ACCION_NUEVO_REGISTRO);
+        startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);
+    }
+
+    private void nuevoRegistroFotografico() {
+        Intent intent = new Intent(this, RegistroFotoActivity.class);
         intent.putExtra("accion", RegistroInspeccionActivity.ACCION_NUEVO_REGISTRO);
         startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);
     }

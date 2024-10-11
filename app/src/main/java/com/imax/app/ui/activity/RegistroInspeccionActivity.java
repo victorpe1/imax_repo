@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -254,17 +255,23 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
     }
 
     private void openGoogleMaps(String latitude, String longitude) {
-        String geoUri = "geo:" + latitude + "," + longitude;
-        Uri gmmIntentUri = Uri.parse(geoUri);
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        try {
+            double lat = Double.parseDouble(latitude);
+            double lon = Double.parseDouble(longitude);
+            String uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", lat, lon, lat, lon);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            intent.setPackage("com.google.android.apps.maps");
 
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        } else {
-            Toast.makeText(this, "No hay aplicaciones disponibles para manejar la acción",
-                    Toast.LENGTH_SHORT).show();
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Google Maps no está instalado", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Coordenadas inválidas", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void loadDataModalidad(){
         List<CatalogModel> modalidades = new ArrayList<>();
