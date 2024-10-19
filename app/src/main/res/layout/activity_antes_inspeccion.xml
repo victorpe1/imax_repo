@@ -289,7 +289,7 @@
                             android:layout_height="wrap_content"
                             android:text="PROVINCIA"
                             android:textColor="#00796B"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/text_size_small" />
                         <EditText
                             android:id="@+id/edt_provincia"
                             android:layout_width="match_parent"

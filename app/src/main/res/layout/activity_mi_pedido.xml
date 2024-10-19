@@ -9,33 +9,6 @@
 
     <include android:id="@+id/appBarLayout" layout="@layout/actionbar_toolbar"/>
 
-    <com.rd.PageIndicatorView
-        android:id="@+id/pageIndicatorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/appBarLayout"
-        android:layout_marginTop="@dimen/margin_vertical_tiny"
-        android:layout_marginBottom="@dimen/margin_vertical_tiny"
-        app:piv_animationType="drop"
-        app:piv_dynamicCount="true"
-        app:piv_interactiveAnimation="true"
-        app:piv_selectedColor="@color/colorPrimary"
-        app:piv_unselectedColor="@color/grey_300"
-        app:piv_viewPager="@+id/viewpager"
-        attrs:piv_radius="5dp" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_below="@+id/pageIndicatorView"
-        android:layout_above="@+id/btn_comprar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </androidx.viewpager.widget.ViewPager>
-
-
-
     <Button
         android:id="@+id/btn_comprar"
         android:layout_width="@dimen/button_settings_width"

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Nombre del archivo"
-        android:textSize="16sp" />
+        android:textSize="@dimen/text_size_small" />
 
     <ImageView
         android:id="@+id/img_delete"

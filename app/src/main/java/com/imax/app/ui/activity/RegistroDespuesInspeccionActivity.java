@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -50,6 +53,7 @@ import com.imax.app.utils.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,9 +89,12 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
     private Button btnBrowseFiles;
     private RecyclerView recyclerFiles;
     private FilesAdapter filesAdapter;
-    private List<String> filesList;
     private SignatureView signatureView;
-    List<String> filePaths = new ArrayList<>();
+    private LinearLayout filesContainer;
+
+    private List<String> filePaths = new ArrayList<>();
+    private List<String> fileBase64List = new ArrayList<>();
+    private List<String> filesNameList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,32 +129,31 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
 
         btnBrowseFiles = findViewById(R.id.btn_browse_files);
         recyclerFiles = findViewById(R.id.recycler_files);
+        filesContainer = findViewById(R.id.files_container);
 
-        filesList = new ArrayList<>();
+        filesAdapter = new FilesAdapter(filesNameList,this);
 
-        filesAdapter = new FilesAdapter(filesList, this);
         recyclerFiles.setLayoutManager(new LinearLayoutManager(this));
         recyclerFiles.setAdapter(filesAdapter);
 
-        btnBrowseFiles.setOnClickListener(v -> openFilePicker());
-
         loadDataIfExists(inspeccion.getNumInspeccion());
+
+        btnBrowseFiles.setOnClickListener(v -> openFilePicker());
 
         progressDialog = new ProgressDialog(RegistroDespuesInspeccionActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-
     }
-
 
     private void loadDataIfExists(String numero){
         InspeccionRequest inspeccionRequest =  daoExtras.getListAsignacionByNumero(numero);
 
-        edt_especificar.setText(inspeccionRequest.getInfraestructura_comentario());
-        edt_especificar_2.setText(inspeccionRequest.getInfraestructura_comentario());
+        edt_especificar.setText(inspeccionRequest.getEspecificar());
+        edt_especificar_2.setText(inspeccionRequest.getEspecificar2());
 
-        String cbCoincideInformacion = inspeccionRequest.getSistemaIncendio();
-        String cbDocumentacionSITU = inspeccionRequest.getSistemaIncendio();
+        String cbCoincideInformacion = inspeccionRequest.getCbCoincideInformacion();
+        String cbDocumentacionSITU = inspeccionRequest.getCbDocumentacionSITU();
+
         if ("SI".equals(cbCoincideInformacion)) {
             radioTiene.setChecked(true);
             radioNoTiene.setChecked(false);
@@ -170,17 +176,55 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         }
 
         if(inspeccionRequest.getFiles() != null){
-            filesList.addAll(inspeccionRequest.getFiles());
+            for (String file : inspeccionRequest.getFiles()) {
+                int base64Start = file.indexOf(";base64,") + 8;
+                int nameStart = file.indexOf("name=") + 5;
+                int nameEnd = file.indexOf(";base64,");
+
+                String base64Data = file.substring(base64Start);
+                String fileName = file.substring(nameStart, nameEnd);
+
+                filesNameList.add(fileName);
+                fileBase64List.add(base64Data);
+                filePaths.add("Rutas");
+            }
+            showFiles();
+        }
+    }
+
+    private void removeFile(int index) {
+        filesNameList.remove(index);
+        fileBase64List.remove(index);
+
+        showFiles();
+    }
+
+    private void showFiles() {
+        filesContainer.removeAllViews();
+
+        for (int i = 0; i < filesNameList.size(); i++) {
+            final int index = i;
+
+            View fileItemView = LayoutInflater.from(this).inflate(R.layout.item_cliente, filesContainer, false);
+            TextView tvFileName = fileItemView.findViewById(R.id.tv_file_name);
+            tvFileName.setText(filesNameList.get(i));
+
+            ImageView imgDelete = fileItemView.findViewById(R.id.img_delete);
+            imgDelete.setOnClickListener(v -> {
+                removeFile(index);
+            });
+
+            filesContainer.addView(fileItemView);
         }
     }
 
     private void openFilePicker() {
+
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Seleccionar archivos"), PICK_FILES_REQUEST);
     }
-
     private boolean validarCampos(){
         boolean isValid = true;
 
@@ -193,7 +237,6 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         } else {
             tv_radioGroup.setBackground(defaultBackground);
         }
-
         if (radioGroup2.getCheckedRadioButtonId() == -1) {
             isValid = false;
             tv_radioGroup2.setBackground(errorBackground);
@@ -230,13 +273,25 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                     String especificar = edt_especificar.getText().toString();
                     String especificar2 = edt_especificar_2.getText().toString();
 
-                    List<String> selectedFiles = filesList;
+                    List<String> selectedFiles = filesNameList; //nombreList
                     List<String> selected64Files = filePaths;
 
                     DespuesInspeccion despuesInspeccion = new DespuesInspeccion(tiene, tiene2, especificar, especificar2, selectedFiles);
-                    //despuesInspeccion.setFilesBase64(selected64Files);
 
-                    daoExtras.actualizarRegistroDespuesInspeccion(despuesInspeccion, inspeccion.getNumInspeccion(), filesList);
+                    if (selected64Files != null) {
+                        for (String path : selected64Files) {
+                            File file = new File(path);
+                            if (file.exists()) {
+                                String fileBase64 = convertFileToBase64FromPath(file.getAbsolutePath());
+                                if (fileBase64 != null) {
+                                    fileBase64List.add(fileBase64);
+                                }
+                            }
+                        }
+                    }
+
+                    List<String> combinedList = combineBase64AndFileNames(fileBase64List, filesNameList);
+                    daoExtras.actualizarRegistroDespuesInspeccion(despuesInspeccion, inspeccion.getNumInspeccion(), combinedList);
 
                     Intent intent = new Intent(RegistroDespuesInspeccionActivity.this, RegistroDespuesInspeccionFirmaActivity.class);
                     intent.putExtra("despuesInspeccion", despuesInspeccion);
@@ -244,8 +299,7 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                     intent.putExtra("inspeccion", inspeccion);
                     intent.putExtra("caracteristicasGenerales", caracteristicasGenerales);
                     intent.putExtra("caracteristicasEdificacion", caracteristicasEdificacion);
-                    intent.putStringArrayListExtra("filePaths", new ArrayList<>(selected64Files));  // Pasa la lista de rutas
-                    intent.putStringArrayListExtra("filesListName", new ArrayList<>(filesList));
+                    intent.putStringArrayListExtra("filesListName", new ArrayList<>(filesNameList));
                     startActivity(intent);
                 }
                 break;
@@ -257,6 +311,46 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static List<String> combineBase64AndFileNames(List<String> fileBase64List, List<String> filesList) {
+        List<String> combined = new ArrayList<>();
+
+        for (int i = 0; i < fileBase64List.size(); i++) {
+            String base64 = fileBase64List.get(i);
+            String fileName = filesList.get(i);
+
+            String mimeType = getMimeType(fileName);
+            String combinedItem = "data:" + mimeType + ";name=" + fileName + ";base64," + base64;
+            combined.add(combinedItem);
+        }
+        return combined;
+    }
+
+    public static String getMimeType(String fileName) {
+        if (fileName.endsWith(".png")) {
+            return "image/png";
+        } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+            return "image/jpeg";
+        } else if (fileName.endsWith(".pdf")) {
+            return "application/pdf";
+        } else if (fileName.endsWith(".txt")) {
+            return "text/plain";
+        }
+        return "application/octet-stream";
+    }
+    private String convertFileToBase64FromPath(String filePath) {
+        try {
+            File file = new File(filePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] bytes = new byte[(int) file.length()];
+            fileInputStream.read(bytes);
+            fileInputStream.close();
+            return Base64.encodeToString(bytes, Base64.DEFAULT);  // Convertir a Base64
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -286,6 +380,7 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        filesContainer.removeAllViews();
         if (requestCode == PICK_FILES_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 if (data.getClipData() != null) {  // Se seleccionaron múltiples archivos
@@ -298,7 +393,7 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                         if (filePath != null) {
                             filePaths.add(filePath);  // Agregar la ruta del archivo a la lista
                         }
-                        filesList.add(fileName);  // Agregar el nombre del archivo a la lista para mostrar
+                        filesNameList.add(fileName);  // Agregar el nombre del archivo a la lista para mostrar
                     }
                 } else if (data.getData() != null) {  // Se seleccionó un solo archivo
                     Uri fileUri = data.getData();
@@ -309,13 +404,13 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                     if (filePath != null) {
                         filePaths.add(filePath);
                     }
-
-                    filesList.add(fileName);
+                    filesNameList.add(fileName);
                 }
 
-                if (!filesList.isEmpty()) {
+                if (!filesNameList.isEmpty()) {
                     recyclerFiles.setVisibility(View.VISIBLE);
                 }
+
                 filesAdapter.notifyDataSetChanged();
             }
         }
@@ -334,7 +429,6 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
             return null;
         }
     }
-
 
     @SuppressLint("Range")
     private String getFileName(Uri uri) {
@@ -367,14 +461,14 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         }
     }
 
-
     @Override
     public void onFileRemoved(int position) {
-        filesList.remove(position);
+        filesNameList.remove(position);
+        fileBase64List.remove(position);
         filePaths.remove(position);
-        filesAdapter.notifyItemRemoved(position);
 
-        if (filesList.isEmpty()) {
+        filesAdapter.notifyItemRemoved(position);
+        if (filesNameList.isEmpty()) {
             recyclerFiles.setVisibility(View.GONE);
         }
 

@@ -174,7 +174,7 @@
     <string name="sin_internet_localmente">Es probable que no tenga acceso a INTERNET, se guardó localmente</string>
     <string name="se_guardo_localmente">No se pudo enviar, se guardó localmente</string>
     <string name="pedido_proceso_facturacion">El pedido se encuentra en proceso de facturación</string>
-    <string name="venta_no_verificada">La venta fue enviada, pero no se pude verificar</string>
+    <string name="venta_no_verificada">La inspección fue enviada, pero no se pude verificar</string>
     <string name="venta_time_max">La solicitud no puede ser atendida fuera del horario permitido (5AM a 7PM).</string>
     <string name="pendientes">Pendientes</string>
     <string name="enviar">Enviar</string>
@@ -210,7 +210,7 @@
     <string name="error_operacion">No se pudo realizar la operación</string>
     <string name="error_inesperado">Ocurrió algo inesperado, inténtelo nuevamente</string>
     <string name="cliente_registrado">Cliente registrado</string>
-    <string name="venta_registrada_no_facturada">La venta fue registrada pero no ha sido facturada</string>
+    <string name="venta_registrada_no_facturada">La inspección fue registrada pero no ha sido enviado al servidor</string>
     <string name="pedidos_registrados_no_facturados">Los pedidos fueron registrado pero no han sido facturados</string>
     <string name="pedido_facturado">El pedido ha sido facturado</string>
     <string name="anulando_venta">Anulando venta...</string>

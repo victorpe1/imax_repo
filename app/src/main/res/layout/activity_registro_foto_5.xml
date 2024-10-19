@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.foto.RegistroFotoInsert5Activity">
+    <include layout="@layout/actionbar_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="17dp"
+        android:orientation="vertical">
+
+        <!-- Título principal -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FOTOGRAFIA DE INTERIORES"
+            android:textStyle="bold"
+            android:textSize="19sp"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp" />
+
+        <!-- Lista de items importantes -->
+        <TextView
+            android:id="@+id/important_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Se deben tomar fotografías de cada ambiente de manera secuencial (desde el ingreso hasta el último ambiente). Estas deben plasmar ambientes lo más completos posibles en donde se pueda apreciar: sistema constructivo, acabados, revestimientos, puertas, ventanas, mamparas, baños, aparatos sanitarios, grifería, muebles (cocina y dormitorios), enchape de tablero, entre otros.
+            \n\n- En caso de inspección de edificios, tomar foto de la placa de numeración que cada piso previo al recorrido de cada nivel.
+            \n\n- En caso de inspección de vivienda, local comercial u otro que cuenta con varios niveles, escribir en una hoja el número de nivel para tomarle foto antes de iniciar el recorrido en dicho nivel."
+            android:textSize="14sp"
+            android:paddingBottom="16dp" />
+
+
+        <!-- Sección adicional para adjuntar archivos -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Adicionales:"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/dashed_border"
+                android:paddingTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="Subir archivo"
+                        android:src="@drawable/ic_arrow_up" />
+
+                    <Button
+                        android:id="@+id/btn_browse_files"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="@android:color/transparent"
+                        android:text="Buscar archivo"
+                        android:textColor="#00796B"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_files"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:visibility="gone" /> <!-- Inicialmente invisible hasta que se suban archivos -->
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

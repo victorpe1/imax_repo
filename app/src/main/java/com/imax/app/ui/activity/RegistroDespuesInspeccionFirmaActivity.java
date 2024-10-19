@@ -81,7 +81,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
     private SignaturePad signaturePad;
     DespuesInspeccion despuesInspeccion;
-    List<String> base64FilesList = new ArrayList<>();
     ArrayList<String> fileNames = new ArrayList<>();
 
     private InspeccionRequest inspeccionRequest = new InspeccionRequest();
@@ -108,20 +107,8 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
         daoExtras = new DAOExtras(getApplicationContext());
 
-        ArrayList<String> filePaths = getIntent().getStringArrayListExtra("filePaths");
-
-        if (filePaths != null) {
-            for (String path : filePaths) {
-                File file = new File(path);
-                if (file.exists()) {
-                    String fileBase64 = convertFileToBase64FromPath(file.getAbsolutePath());
-                    if (fileBase64 != null) {
-                        base64FilesList.add(fileBase64);
-                    }
-                }
-            }
-        }
-
+        inspeccionRequest =  daoExtras.getListAsignacionByNumero(inspeccion.getNumInspeccion());
+        
         edt_especificar = findViewById(R.id.edt_observaciones);
         signaturePad = findViewById(R.id.signature_pad);
         btnClearSignature = findViewById(R.id.btn_clear_signature);
@@ -151,31 +138,14 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
         progressDialog = new ProgressDialog(RegistroDespuesInspeccionFirmaActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-
-    }
-
-    private String convertFileToBase64FromPath(String filePath) {
-        try {
-            File file = new File(filePath);
-            FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] bytes = new byte[(int) file.length()];
-            fileInputStream.read(bytes);
-            fileInputStream.close();
-            return Base64.encodeToString(bytes, Base64.DEFAULT);  // Convertir a Base64
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public boolean hasUserSigned() {
         return !signaturePad.isEmpty();
     }
-
     public Bitmap getSignatureBitmap() {
         return signaturePad.getSignatureBitmap();
     }
-
     public String getSignatureAsBase64() {
         Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -187,7 +157,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
     public void clearSignature() {
         signaturePad.clear();
     }
-
     private boolean validarCampos(){
         boolean isValid = true;
 
@@ -202,7 +171,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
         return isValid;
     }
-
     private boolean validarEditText(EditText editText, Drawable errorBackground) {
         Drawable defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
 
@@ -258,7 +226,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
         dialog.show();
 
         TextView tvAsignacion = dialogView.findViewById(R.id.tv_asignacion_valor);
-        TextView tvModalidad = dialogView.findViewById(R.id.tv_modalidad_valor);
         TextView tvTipoInspeccion = dialogView.findViewById(R.id.tv_tipo_inspeccion_valor);
         TextView tvFechaInspeccion = dialogView.findViewById(R.id.tv_fecha_inspeccion_valor);
         TextView tvContacto = dialogView.findViewById(R.id.tv_contacto_valor);
@@ -320,7 +287,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
 
         tvAsignacion.setText(inspeccion.getNumInspeccion());
-        tvModalidad.setText(inspeccion.getModalidad());
         tvTipoInspeccion.setText(inspeccion.getInscripcion());
         tvFechaInspeccion.setText(inspeccion.getFecha() + " " + inspeccion.getHora());
         tvContacto.setText(inspeccion.getContacto());
@@ -390,17 +356,13 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
         LinearLayout layoutAdjuntos = dialogView.findViewById(R.id.layout_adjuntos);
 
-        List<String> listaBase64 = base64FilesList;
-        for (int i = 0; i < listaBase64.size(); i++) {
+        for (int i = 0; i < fileNames.size(); i++) {
             String nombreArchivo = fileNames.get(i);
             agregarArchivoAdjunto(layoutAdjuntos, nombreArchivo);
         }
 
-        InspeccionRequest inspeccionRequest = new InspeccionRequest(inspeccion,
-                caracteristicasGenerales, caracteristicasEdificacion,
-                infraestructura_comentario, despuesInspeccion,
-                edt_especificar.getText().toString(), getSignatureAsBase64());
-        inspeccionRequest.setFiles(listaBase64);
+        inspeccionRequest.setObservacion(edt_especificar.getText().toString());
+        inspeccionRequest.setBase64Firma(getSignatureAsBase64());
 
         String requestJSON = new Gson().toJson(inspeccionRequest);
         Log.i("inspeccionRequest -> ", requestJSON);
@@ -414,7 +376,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
             new EnviarDocumentoTask(this, inspeccionRequest).execute();
         });
     }
-
     private void agregarArchivoAdjunto(LinearLayout layoutAdjuntos, String nombreArchivo) {
         LinearLayout contenedorArchivo = new LinearLayout(this);
         contenedorArchivo.setOrientation(LinearLayout.HORIZONTAL);
@@ -436,7 +397,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
         layoutAdjuntos.addView(contenedorArchivo);
     }
-
     public void setBase64Image(ImageView imageView, String base64String) {
         if (base64String.contains(",")) {
             base64String = base64String.split(",")[1];
@@ -446,7 +406,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
         Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
         imageView.setImageBitmap(decodedBitmap);
     }
-
     public void mostrarPopup(@StringRes int tituloRes, @StringRes int mensajeRes, @DrawableRes int iconResId) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView2 = inflater.inflate(R.layout.popup_gracias, null);
@@ -466,14 +425,11 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
 
         btnAceptar.setOnClickListener(v -> {
             dialog2.dismiss();
-            //finish();
+            finish();
             Intent intent = new Intent(RegistroDespuesInspeccionFirmaActivity.this, MenuPrincipalActivity.class);
             startActivity(intent);
         });
     }
-
-
-
 
     @Override
     public void onBackPressed() {
@@ -502,7 +458,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
     public void showLoader() {
         progressDialog.show();
     }
-
     public void hideLoader() {
         progressDialog.dismiss();
     }
@@ -525,5 +480,4 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
         });
         builder.show();
     }
-
 }

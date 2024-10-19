@@ -150,7 +150,6 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         edtDistribucion = findViewById(R.id.edt_n_depart);
 
         loadDataTipoInmueble();
-        loadDataRecibeInmueble();
 
         loadDataIfExists(inspeccion.getNumInspeccion());
 
@@ -172,8 +171,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoInmueble.setAdapter(adapter);
     }
-
-    private void loadDataRecibeInmueble(){
+    private void loadDataRecibeInmueble(String valorBD){
         List<CatalogModel> modalidades = new ArrayList<>();
         modalidades.add(new CatalogModel("00", "Seleccione una opción"));
         modalidades.add(new CatalogModel("01", "DESOCUPADO"));
@@ -185,6 +183,22 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnRecibeInmueble.setAdapter(adapter);
+
+        if (valorBD != null && !valorBD.trim().isEmpty()) {
+            int position = getIndex(modalidades, valorBD);
+            spnRecibeInmueble.setSelection(Math.max(position, 0));
+        } else {
+            spnRecibeInmueble.setSelection(0);
+        }
+    }
+
+    private int getIndex(List<CatalogModel> modalidades, String valorBD) {
+        for (int i = 0; i < modalidades.size(); i++) {
+            if (modalidades.get(i).getDescripcion().equals(valorBD)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void loadDataIfExists(String numero){
@@ -206,7 +220,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         edtDeposito.setText(inspeccionRequest.getDeposito());
         edtEstacionamiento.setText(inspeccionRequest.getEstacionamiento());
         edtDepto.setText(inspeccionRequest.getDepto());
-
+        loadDataRecibeInmueble(inspeccionRequest.getRecibeInmueble());
     }
 
     @Override

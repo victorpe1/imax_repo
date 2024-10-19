@@ -1,10 +1,7 @@
 package com.imax.app.ui.foto;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -25,23 +22,18 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -49,19 +41,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
-import com.imax.app.data.api.request.FotoRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.intents.AntesInspeccion;
-import com.imax.app.intents.SignatureView;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
-import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.activity.RegistrarCaractGeneralesActivity;
-import com.imax.app.ui.activity.RegistroInspeccionActivity;
 import com.imax.app.ui.adapters.FilesAdapter;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.MyDetailDialog;
 import com.imax.app.utils.UnauthorizedException;
@@ -69,25 +53,19 @@ import com.imax.app.utils.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.nio.file.Files;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-public class RegistroFotoInsertActivity extends AppCompatActivity implements FilesAdapter.OnFileRemoveListener{
+public class RegistroFotoInsert5Activity extends AppCompatActivity implements FilesAdapter.OnFileRemoveListener{
     private final String TAG = getClass().getName();
 
     public static final int ACCION_NUEVO_REGISTRO = 1;
@@ -144,7 +122,6 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
     private FilesAdapter filesAdapter;
     private List<String> filesList;
     List<String> filePaths = new ArrayList<>();
-    private List<String> fileBase64List = new ArrayList<>();
 
     private String[] imagePaths = new String[6];
 
@@ -227,10 +204,11 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
         btnBrowseFiles.setOnClickListener(v -> openFilePicker());
 
-        progressDialog = new ProgressDialog(RegistroFotoInsertActivity.this);
+        progressDialog = new ProgressDialog(RegistroFotoInsert5Activity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
+
 
         showAlertMaxMB("ADVENTENCIA", "Solo se acepta fotograficas con maximo de 8MB, de otro modo configurar resolución.");
 
@@ -255,9 +233,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
     private void openFilePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("image/*");
-        String[] mimeTypes = {"image/jpeg", "image/png"};
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Seleccionar archivos"), PICK_FILES_REQUEST);
     }
@@ -296,6 +272,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                     if (filePath != null) {
                         filePaths.add(filePath);
                     }
+
                     filesList.add(fileName);
                 }
 
@@ -441,34 +418,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
                 System.out.println("imagePaths " + imagePaths);
 
-                if (selected64Files != null) {
-                    for (String path : selected64Files) {
-                        File file = new File(path);
-                        if (file.exists()) {
-                            String fileBase64 = convertFileToBase64FromPath(file.getAbsolutePath());
-                            if (fileBase64 != null) {
-                                fileBase64List.add(fileBase64);
-                            }
-                        }
-                    }
-                }
 
-                List<String> combinedList = combineBase64AndFileNames(fileBase64List, selectedFiles);
-
-                FotoRequest fotoRequest = new FotoRequest();
-                fotoRequest.setNumInspeccion(spnAsignarNumero.getSelectedItem().toString());
-                fotoRequest.setFotoArray1(Arrays.asList(imagePaths));
-                fotoRequest.setFotosArrayAdjunto1(combinedList);
-
-                if(daoExtras.existeRegistroFoto(spnAsignarNumero.getSelectedItem().toString())){
-                    daoExtras.actualizarRegistroInpeccionFoto(fotoRequest);
-                }else{
-                    daoExtras.crearRegistroFoto(fotoRequest);
-                }
-
-                Intent intent = new Intent(this, RegistroFotoInsert2Activity.class);
-                intent.putExtra("fotoRequest", fotoRequest);
-                startActivity(intent);
 
                 break;
             case R.id.menu_pedido_guardar:
@@ -480,27 +430,13 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         return super.onOptionsItemSelected(item);
     }
 
-    private String convertFileToBase64FromPath(String filePath) {
-        try {
-            File file = new File(filePath);
-            FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] bytes = new byte[(int) file.length()];
-            fileInputStream.read(bytes);
-            fileInputStream.close();
-            return Base64.encodeToString(bytes, Base64.DEFAULT);  // Convertir a Base64
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
     private void DialogoConfirmacion() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroFotoInsertActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroFotoInsert5Activity.this);
         builder.setTitle(getString(R.string.descartar_cambios));
         builder.setMessage(getString(R.string.se_perdera_cambios));
         builder.setNegativeButton(getString(R.string.cancelar), null);
@@ -533,13 +469,13 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         protected String doInBackground(Void... voids) {
             try {
 
-                if (Util.isConnectingToRed(RegistroFotoInsertActivity.this)) {
+                if (Util.isConnectingToRed(RegistroFotoInsert5Activity.this)) {
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
                     String domain = "[[\"user_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
 
-                    response = XMSApi.getApiEasyfact(RegistroFotoInsertActivity.this.getApplicationContext())
+                    response = XMSApi.getApiEasyfact(RegistroFotoInsert5Activity.this.getApplicationContext())
                             .obtenerTickets(domain, 500).execute();
                     dataBaseHelper.sincro(response, TablesHelper.xms_asignacion.table);
 
@@ -575,10 +511,10 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
                     break;
                 case Constants.FAIL_CONNECTION:
-                    Toast.makeText(RegistroFotoInsertActivity.this, R.string.error_no_autorizado, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistroFotoInsert5Activity.this, R.string.error_no_autorizado, Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    MyDetailDialog myDetailDialog = new MyDetailDialog(RegistroFotoInsertActivity.this,
+                    MyDetailDialog myDetailDialog = new MyDetailDialog(RegistroFotoInsert5Activity.this,
                             R.drawable.ic_dialog_alert, getString(R.string.oops), getString(R.string.error_sincronizacion), result);
                     myDetailDialog.show();
                     break;
@@ -667,7 +603,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
     }
 
     public void showDialogoPostEnvio(@StringRes int tituloRes, @StringRes int mensajeRes, @DrawableRes int icon) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroFotoInsertActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroFotoInsert5Activity.this);
         builder.setTitle(tituloRes);
         builder.setMessage(mensajeRes);
         builder.setIcon(icon);

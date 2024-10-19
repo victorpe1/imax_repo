@@ -14,7 +14,7 @@
         android:text="DESPUES DE LA INSPECCIÓN"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_small"
         android:paddingTop="10dp"
         android:gravity="center"/>
     <ScrollView

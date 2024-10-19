@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.imax.app.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.FileViewHolder> {
@@ -20,6 +22,10 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.FileViewHold
     public FilesAdapter(List<String> filesList, OnFileRemoveListener listener) {
         this.filesList = filesList;
         this.listener = listener;
+    }
+
+    public void updateFiles(List<String> newFiles) {
+        this.filesList = newFiles;
     }
 
     @NonNull
@@ -49,8 +55,8 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.FileViewHold
     // Método para eliminar un archivo de la lista
     public void removeFile(int position) {
         if (position >= 0 && position < filesList.size()) {
-            filesList.remove(position);  // Elimina el archivo de la lista
-            notifyItemRemoved(position);  // Notifica al adaptador que un archivo ha sido eliminado
+            filesList.remove(position);
+            notifyItemRemoved(position);
         }
     }
 
@@ -66,6 +72,10 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.FileViewHold
     }
 
     public interface OnFileRemoveListener {
+        void onFileRemoved(int position);
+    }
+
+    public interface OnFileListener {
         void onFileRemoved(int position);
     }
 }

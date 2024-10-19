@@ -207,6 +207,25 @@ public class TablesHelper {
         public static final String estado = "estado"; // Para marcar si fue enviado o no
     }
 
+    public static final class xml_inspeccion_fotografia {
+        public static final String table = "xml_inspeccion_fotografia";
+
+        public static final String id = "id";
+        public static final String numInspeccion = "numInspeccion";
+        public static final String foto_array_1 = "foto_array_1";
+        public static final String fotos_array_adjunto_1 = "fotos_array_adjunto_1";
+        public static final String foto_array_2 = "foto_array_2";
+        public static final String fotos_array_adjunto_2 = "fotos_array_adjunto_2";
+        public static final String foto_array_3 = "foto_array_3";
+        public static final String fotos_array_adjunto_3 = "fotos_array_adjunto_3";
+        public static final String foto_array_4 = "foto_array_4";
+        public static final String fotos_array_adjunto_4 = "fotos_array_adjunto_4";
+        public static final String fotos_array_adjunto_5 = "fotos_array_adjunto_5";
+
+        public static final String estado = "estado";
+    }
+
+
     public static final class xms_cliente {
         public static final String table = "xms_cliente";
 

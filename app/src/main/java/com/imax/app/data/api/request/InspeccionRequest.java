@@ -201,7 +201,9 @@ public class InspeccionRequest implements Serializable {
     }
 
     // Constructor vacío
-    public InspeccionRequest() {}
+    public InspeccionRequest() {
+        this.numInspeccion = "";
+    }
 
     public String getNumInspeccion() {
         return numInspeccion;

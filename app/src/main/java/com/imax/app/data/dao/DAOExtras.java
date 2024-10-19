@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.imax.app.App;
+import com.imax.app.data.api.request.FotoRequest;
 import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.CaracteristicasEdificacion;
@@ -576,6 +577,24 @@ public class DAOExtras {
         return existe;
     }
 
+    public boolean existeRegistroFoto(String idAsignacion){
+
+        boolean existe = false;
+
+        String rawQuery = "SELECT * FROM xml_inspeccion_fotografia WHERE numInspeccion = ?";
+        SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+        Cursor cur = db.rawQuery(rawQuery, new String[]{idAsignacion});
+
+        cur.moveToFirst();
+        while (!cur.isAfterLast()) {
+            existe = true;
+            cur.moveToNext();
+        }
+        cur.close();
+
+        return existe;
+    }
+
     public void actualizarRegistroInpeccion(AntesInspeccion antesInspeccion){
         String where = TablesHelper.xml_inspeccion.numInspeccion + " = ?";
         String[] args = { antesInspeccion.getNumInspeccion() };
@@ -605,6 +624,134 @@ public class DAOExtras {
             e.printStackTrace();
         }
     }
+
+
+    public void actualizarRegistroInpeccionFoto(FotoRequest fotoRequest){
+        String where = TablesHelper.xml_inspeccion_fotografia.numInspeccion + " = ?";
+        String[] args = { fotoRequest.getNumInspeccion() };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Gson gson = new Gson();
+            String jsonListaBase64 = gson.toJson( fotoRequest.getFotoArray1());
+            Gson gson2 = new Gson();
+            String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto1());
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.foto_array_1,    jsonListaBase64);
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.fotos_array_adjunto_1, jsonListaBase642);
+
+            db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroInpeccionFoto2(FotoRequest fotoRequest){
+        String where = TablesHelper.xml_inspeccion_fotografia.numInspeccion + " = ?";
+        String[] args = { fotoRequest.getNumInspeccion() };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Gson gson = new Gson();
+            String jsonListaBase64 = gson.toJson( fotoRequest.getFotoArray2());
+            Gson gson2 = new Gson();
+            String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto2());
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.foto_array_2,    jsonListaBase64);
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.fotos_array_adjunto_2, jsonListaBase642);
+
+            db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroInpeccionFoto3(FotoRequest fotoRequest){
+        String where = TablesHelper.xml_inspeccion_fotografia.numInspeccion + " = ?";
+        String[] args = { fotoRequest.getNumInspeccion() };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Gson gson = new Gson();
+            String jsonListaBase64 = gson.toJson( fotoRequest.getFotoArray3());
+            Gson gson2 = new Gson();
+            String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto3());
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.foto_array_3,    jsonListaBase64);
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.fotos_array_adjunto_3, jsonListaBase642);
+
+            db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroInpeccionFoto4(FotoRequest fotoRequest){
+        String where = TablesHelper.xml_inspeccion_fotografia.numInspeccion + " = ?";
+        String[] args = { fotoRequest.getNumInspeccion() };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Gson gson = new Gson();
+            String jsonListaBase64 = gson.toJson( fotoRequest.getFotoArray4());
+            Gson gson2 = new Gson();
+            String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto4());
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.foto_array_4,    jsonListaBase64);
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.fotos_array_adjunto_4, jsonListaBase642);
+
+            db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroInpeccionFoto5(FotoRequest fotoRequest){
+        String where = TablesHelper.xml_inspeccion_fotografia.numInspeccion + " = ?";
+        String[] args = { fotoRequest.getNumInspeccion() };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+            ContentValues Nreg = new ContentValues();
+
+            Gson gson2 = new Gson();
+            String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto5());
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.fotos_array_adjunto_5, jsonListaBase642);
+
+            db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
 
     public void actualizarRegistroCaracGeneral(CaracteristicasGenerales caracteristicasGenerales, String numInspeccion){
         String where = TablesHelper.xml_inspeccion.numInspeccion + " = ?";
@@ -692,6 +839,7 @@ public class DAOExtras {
             Nreg.put(TablesHelper.xml_inspeccion.pisosCocina,           caracteristicasEdificacion.getPisosCocina());
             Nreg.put(TablesHelper.xml_inspeccion.pisosBaños,           caracteristicasEdificacion.getPisosBaños());
             Nreg.put(TablesHelper.xml_inspeccion.paredesBaño,        caracteristicasEdificacion.getParedesBaño());
+            Nreg.put(TablesHelper.xml_inspeccion.paredesCocina,        caracteristicasEdificacion.getParedesCocina());
 
             db.update(TablesHelper.xml_inspeccion.table, Nreg, where, args);
 
@@ -793,6 +941,33 @@ public class DAOExtras {
             Log.i(TAG, "xml_inspeccion: Registro insertado");
         } catch (Exception e) {
             Log.e(TAG, "xml_inspeccion: Error al insertar registro");
+            e.printStackTrace();
+        }
+    }
+
+
+    public void crearRegistroFoto(FotoRequest fotoRequest){
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Gson gson = new Gson();
+            String jsonListaBase64 = gson.toJson( fotoRequest.getFotoArray1());
+
+            Gson gson2 = new Gson();
+            String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto1());
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.numInspeccion,        fotoRequest.getNumInspeccion());
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.foto_array_1,    jsonListaBase64);
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.fotos_array_adjunto_1, jsonListaBase642);
+
+            Nreg.put(TablesHelper.xml_inspeccion_fotografia.estado,       "P");
+
+            db.insert(TablesHelper.xml_inspeccion_fotografia.table, null, Nreg);
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro insertado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al insertar registro");
             e.printStackTrace();
         }
     }

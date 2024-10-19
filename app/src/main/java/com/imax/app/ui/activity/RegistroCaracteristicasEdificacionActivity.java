@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +43,9 @@ import com.imax.app.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivity {
     private final String TAG = getClass().getName();
@@ -209,7 +213,6 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         }
 
     }
-
     private void loadDataEstructura(String valoresBD) {
         List<CatalogModel> opciones = new ArrayList<>();
         opciones.add(new CatalogModel("001", "Laminares Curvadas"));
@@ -222,27 +225,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("008", "Vigas y columnas de concreto armado"));
         opciones.add(new CatalogModel("009", "Otro"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiAutoCompleteTextView.setAdapter(adapter);
-        multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiAutoCompleteTextView.setOnClickListener(v -> multiAutoCompleteTextView.showDropDown());
-
-        multiAutoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiAutoCompleteTextView.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiAutoCompleteTextView.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiAutoCompleteTextView, opciones, valoresBD);
     }
     private void loadDataMuro(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -256,27 +239,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("008", "De Piedra"));
         opciones.add(new CatalogModel("009", "Otro"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiCompleteMuros.setAdapter(adapter);
-        multiCompleteMuros.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiCompleteMuros.setOnClickListener(v -> multiCompleteMuros.showDropDown());
-
-        multiCompleteMuros.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiCompleteMuros.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompleteMuros.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiCompleteMuros, opciones, valoresBD);
     }
     private void loadDataRevestimiento(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -291,27 +254,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("009", "Papel mural"));
         opciones.add(new CatalogModel("010", "Otro"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiCompleteRevestimiento.setAdapter(adapter);
-        multiCompleteRevestimiento.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiCompleteRevestimiento.setOnClickListener(v -> multiCompleteRevestimiento.showDropDown());
-
-        multiCompleteRevestimiento.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiCompleteRevestimiento.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompleteRevestimiento.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiCompleteRevestimiento, opciones, valoresBD);
     }
     private void loadDataPisos(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -337,27 +280,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("020", "Tierra Compactada"));
         opciones.add(new CatalogModel("021", "Otros"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiCompletePisos.setAdapter(adapter);
-        multiCompletePisos.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiCompletePisos.setOnClickListener(v -> multiCompletePisos.showDropDown());
-
-        multiCompletePisos.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiCompletePisos.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompletePisos.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiCompletePisos, opciones, valoresBD);
     }
     private void loadDataPisosCocina(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -383,27 +306,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("020", "Tierra Compactada"));
         opciones.add(new CatalogModel("021", "Otros"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiCompletePisosCocina.setAdapter(adapter);
-        multiCompletePisosCocina.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiCompletePisosCocina.setOnClickListener(v -> multiCompletePisosCocina.showDropDown());
-
-        multiCompletePisosCocina.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiCompletePisosCocina.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompletePisosCocina.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiCompletePisosCocina, opciones, valoresBD);
     }
     private void loadDataParedesCocina(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -419,27 +322,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("010", "Papel mural "));
         opciones.add(new CatalogModel("011", "Otros"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiCompleteParedesCocina.setAdapter(adapter);
-        multiCompleteParedesCocina.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiCompleteParedesCocina.setOnClickListener(v -> multiCompleteParedesCocina.showDropDown());
-
-        multiCompleteParedesCocina.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiCompleteParedesCocina.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompleteParedesCocina.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiCompleteParedesCocina, opciones, valoresBD);
     }
     private void loadDataPisosBaños(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -465,27 +348,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("020", "Tierra Compactada"));
         opciones.add(new CatalogModel("021", "Otros"));
 
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                opciones
-        );
-
-        multiCompletePisosBaños.setAdapter(adapter);
-        multiCompletePisosBaños.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
-        multiCompletePisosBaños.setOnClickListener(v -> multiCompletePisosBaños.showDropDown());
-
-        multiCompletePisosBaños.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                multiCompletePisosBaños.showDropDown();
-            }
-        });
-
-        if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompletePisosBaños.setText(TextUtils.join(", ", valoresSeleccionados));
-        }
+        setupMultiAutoCompleteTextView(multiCompletePisosBaños, opciones, valoresBD);
     }
     private void loadDataParedesBaños(String valoresBD){
         List<CatalogModel> opciones = new ArrayList<>();
@@ -501,29 +364,81 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         opciones.add(new CatalogModel("010", "Papel mural "));
         opciones.add(new CatalogModel("011", "Otros"));
 
+        setupMultiAutoCompleteTextView(multiCompleteParedesBaño, opciones, valoresBD);
+    }
+
+    private void setupMultiAutoCompleteTextView(MultiAutoCompleteTextView multiAuto,
+                                                List<CatalogModel> opciones, String valoresBD) {
+        Set<String> seleccionados = new LinkedHashSet<>();
+
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_dropdown_item_1line,
-                opciones
+                new ArrayList<>(opciones)
         );
 
-        multiCompleteParedesBaño.setAdapter(adapter);
-        multiCompleteParedesBaño.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        multiAuto.setAdapter(adapter);
+        multiAuto.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        multiCompleteParedesBaño.setOnClickListener(v -> multiCompleteParedesBaño.showDropDown());
-
-        multiCompleteParedesBaño.setOnFocusChangeListener((v, hasFocus) -> {
+        multiAuto.setOnClickListener(v -> multiAuto.showDropDown());
+        multiAuto.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                multiCompleteParedesBaño.showDropDown();
+                multiAuto.showDropDown();
             }
         });
 
         if (valoresBD != null && !valoresBD.trim().isEmpty()) {
             String[] valoresSeleccionados = valoresBD.split(", ");
-            multiCompleteParedesBaño.setText(TextUtils.join(", ", valoresSeleccionados));
+            for (String valor : valoresSeleccionados) {
+                seleccionados.add(valor.trim());
+            }
+            String textoInicial = TextUtils.join(", ", seleccionados);
+            if (!textoInicial.endsWith(", ")) {
+                textoInicial += ", ";
+            }
+            multiAuto.setText(textoInicial);
+            multiAuto.setSelection(multiAuto.getText().length());
         }
-    }
 
+        multiAuto.setOnItemClickListener((parent, view, position, id) -> {
+            CatalogModel seleccion = adapter.getItem(position);
+            if (seleccion != null) {
+                String selectedValue = seleccion.toString();
+                if (!seleccionados.contains(selectedValue)) {
+                    seleccionados.add(selectedValue);  // Agregar el nuevo valor
+                    multiAuto.setText(TextUtils.join(", ", seleccionados) + ", ");  // Actualizar el texto con coma
+                    multiAuto.setSelection(multiAuto.getText().length());  // Colocar el cursor al final
+                }
+            }
+        });
+        multiAuto.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String[] valores = s.toString().split(", ");
+                seleccionados.clear();
+
+                for (String valor : valores) {
+                    if (isInCatalog(valor.trim(), opciones)) {
+                        seleccionados.add(valor.trim());
+                    }
+                }
+            }
+        });
+    }
+    private boolean isInCatalog(String value, List<CatalogModel> catalog) {
+        for (CatalogModel item : catalog) {
+            if (item.toString().equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
     private int getIndex(List<CatalogModel> modalidades, String valorBD) {
         for (int i = 0; i < modalidades.size(); i++) {
             if (modalidades.get(i).getDescripcion().equals(valorBD)) {
@@ -970,8 +885,6 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
 
         return isValid;
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -38,6 +38,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
+import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.managers.DataBaseHelper;
@@ -56,6 +57,7 @@ import java.net.SocketTimeoutException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -115,7 +117,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         daoExtras = new DAOExtras(getApplicationContext());
 
-        // Enlazar los componentes
         edtFecha = findViewById(R.id.edt_fecha);
         edtHora = findViewById(R.id.edt_hora);
         edtContacto = findViewById(R.id.ed_contacto_situ);
@@ -131,32 +132,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         txtLongitude = findViewById(R.id.txt_longitude);
 
         btnOpenMaps = findViewById(R.id.btn_open_maps);
-
-       /* Ejemplo: configurar un listener para el botón
-        btnSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Capturar los valores de los componentes
-                //String fecha = edtFecha.getText().toString();
-                //String hora = edtHora.getText().toString();
-                //String contacto = edtContacto.getText().toString();
-                //String asignarNumero = spnAsignarNumero.getSelectedItem().toString();
-                //String modalidad = spnModalidad.getSelectedItem().toString();
-                //String inspeccion = spnInspeccion.getSelectedItem().toString();
-
-                Intent intent = new Intent(RegistroInspeccionActivity.this, RegistrarCaractGeneralesActivity.class);
-
-                // Enviar los datos con el intent
-                //intent.putExtra("fecha", fecha);
-                //intent.putExtra("hora", hora);
-                //intent.putExtra("contacto", contacto);
-                //intent.putExtra("asignarNumero", asignarNumero);
-                //intent.putExtra("modalidad", modalidad);
-                //intent.putExtra("inspeccion", inspeccion);
-
-                startActivity(intent);
-            }
-        }); */
 
         edtFecha.setOnClickListener(v -> {
             int year = calendar.get(Calendar.YEAR);
@@ -198,7 +173,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         spnAsignarNumero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                edtContacto.setText(lista.get(position).getInspectorName());
+                //edtContacto.setText(lista.get(position).getInspectorName());
 
                 edtDireccion.setText(lista.get(position).getAddress());
                 edtDistrito.setText(lista.get(position).getCustomField1());
@@ -214,6 +189,8 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
                 loadDataTipoInscripcion(modalidadSeleccionada);
 
                 setDateTimeInEditText(lista.get(position).getInspectionDate(), edtFecha, edtHora);
+
+                loadDataIfExists(lista.get(position).getNumber());
             }
 
             @Override
@@ -225,7 +202,16 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
+    }
 
+    private void loadDataIfExists(String numero){
+        InspeccionRequest inspeccionRequest =  daoExtras.getListAsignacionByNumero(numero);
+
+        if(inspeccionRequest.getNumInspeccion().trim().length() != 0){
+            edtContacto.setText(inspeccionRequest.getContacto());
+        }else{
+            edtContacto.setText("");
+        }
     }
 
     public void setDateTimeInEditText(String fecha, EditText edtFecha, EditText edtHora) {
@@ -253,7 +239,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         edtFecha.setText(formattedDate);
         edtHora.setText(formattedTime);
     }
-
     private void openGoogleMaps(String latitude, String longitude) {
         try {
             double lat = Double.parseDouble(latitude);
@@ -272,39 +257,14 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         }
     }
 
-
     private void loadDataModalidad(){
         List<CatalogModel> modalidades = new ArrayList<>();
         modalidades.add(new CatalogModel("00", "Seleccione una opción"));
         modalidades.add(new CatalogModel("01", "PRESENCIAL"));
         modalidades.add(new CatalogModel("02", "VIRTUAL"));
-/*
-        ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerModalidad.setAdapter(adapter);
-
-
-        spinnerModalidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Obtener el objeto seleccionado
-                CatalogModel modalidadSeleccionada = (CatalogModel) parent.getSelectedItem();
-
-                Toast.makeText(RegistroInspeccionActivity.this, "ID: " + modalidadSeleccionada.getCodigo() + ", Descripción: " +
-                        modalidadSeleccionada.getDescripcion(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Cuando no se selecciona nada
-            }
-        });
-*/
     }
     private void loadDataTipoInscripcion(CatalogModel modalidadSeleccionada) {
-        // Lista de tipos de inscripción
         List<CatalogModel> inscripciones = new ArrayList<>();
-
 
         if(modalidadSeleccionada.getDescripcion().trim().length() != 0){
             inscripciones.add(modalidadSeleccionada);
@@ -330,7 +290,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         }
     }
 
-
     private boolean validarCampos() {
         boolean isValid = true;
         Drawable errorBackground = ContextCompat.getDrawable(this, R.drawable.error_border);
@@ -349,7 +308,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
 
         return isValid;
     }
-
     private boolean validarEditText(EditText editText, Drawable errorBackground) {
         if (editText.getText().toString().isEmpty()) {
             editText.setBackground(errorBackground);
@@ -359,7 +317,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
             return true;
         }
     }
-
     private boolean validarSpinner(Spinner spinner, Drawable errorBackground) {
         String defaultValue = "Seleccione una opción";
         if (spinner.getSelectedItem().toString().equals(defaultValue)) {
@@ -378,7 +335,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         menu.findItem(R.id.menu_pedido_guardar).setVisible(false);
         return true;
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -548,7 +504,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
     public void showLoader() {
         progressDialog.show();
     }
-
     public void hideLoader() {
         progressDialog.dismiss();
     }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.foto.RegistroFotoInsertActivity">
+    tools:context=".ui.foto.RegistroFotoInsert4Activity">
 
     <include layout="@layout/actionbar_toolbar" />
 
@@ -24,23 +24,6 @@
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
                 android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tv_asignar"
-                style="@style/TextViewAsInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_vertical_medium"
-                android:text="INSPECCIONES ASIGNADAS"
-                android:textColor="#00796B"
-                android:textSize="15sp" />
-
-            <Spinner
-                android:id="@+id/spn_asignarNumero"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_asignar"
-                android:textSize="@dimen/text_size_medium" />
 
             <!-- Texto de descripción -->
             <TextView
@@ -72,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Entorno 1 *"
+                        android:text="Agua"
                         android:textSize="14sp" />
 
                     <Button
@@ -101,7 +84,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Entorno 2 *"
+                        android:text="Luz"
                         android:textSize="14sp" />
 
                     <Button
@@ -131,7 +114,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Entorno 3 *"
+                        android:text="Gas"
                         android:textSize="14sp" />
 
                     <Button
@@ -160,7 +143,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Entorno 4 *"
+                        android:text="Otro"
                         android:textSize="14sp" />
 
                     <Button
@@ -179,63 +162,6 @@
                         android:scaleType="centerCrop" />
                 </LinearLayout>
 
-                <!-- Entorno 5 -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Entorno 5 *"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/btnTakePhoto5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Tomar Foto" />
-
-                    <ImageView
-                        android:id="@+id/imgPreview5"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@android:color/darker_gray"
-                        android:scaleType="centerCrop" />
-                </LinearLayout>
-
-                <!-- Entorno 6 -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Entorno 6 *"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/btnTakePhoto6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Tomar Foto" />
-
-                    <ImageView
-                        android:id="@+id/imgPreview6"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@android:color/darker_gray"
-                        android:scaleType="centerCrop" />
-                </LinearLayout>
             </GridLayout>
 
             <!-- Sección adicional para adjuntar archivos -->
@@ -250,7 +176,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Adicionales:"                    android:textColor="@color/black"
+                    android:text="Adicionales:"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <FrameLayout

@@ -148,7 +148,6 @@ public class RegistroFotoActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return true;

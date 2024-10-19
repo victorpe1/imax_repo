@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="17dp"
         android:orientation="vertical">
 
         <!-- Título principal -->
@@ -19,9 +20,9 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registro Fotográfico"
+            android:text="REGISTRO FOTOGRAFICO"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="19sp"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="16dp" />
 
@@ -30,8 +31,8 @@
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="La toma de fotografías deberá hacerse desde espacios exteriores del entorno hacia ambientes interiores del inmueble a tasar. SIEMPRE EN HORIZONTAL"
             android:textStyle="bold"
+            android:text="La toma de fotografías deberá hacerse desde espacios exteriores del entorno hacia ambientes interiores del inmueble a tasar. SIEMPRE EN HORIZONTAL"
             android:textSize="16sp"
             android:paddingBottom="16dp" />
 
