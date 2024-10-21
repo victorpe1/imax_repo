@@ -407,14 +407,13 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                 }
 
                 try {
-                    File photoFile = createImageFileForIndex(currentImageIndex);  // Crear archivo para la foto
+                    File photoFile = createImageFile();  // Crear archivo para la foto
                     if (photoFile != null) {
                         FileOutputStream fos = new FileOutputStream(photoFile);
                         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);  // Guardar la imagen
                         fos.flush();
                         fos.close();
 
-                        //String imagePath = photoFile.getAbsolutePath();
                         byte[] imageBytes = Files.readAllBytes(photoFile.toPath());
                         String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
                         String mimeType = getMimeType(photoFile.getAbsolutePath());
@@ -473,7 +472,17 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         }
     }
 
-
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir   
+        );
+        return image;
+    }
 
     private File createImageFileForIndex(int index) throws IOException {
         String imageFileName = "IMG_" + index + ".jpg";

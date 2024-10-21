@@ -63,9 +63,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -355,7 +357,7 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
                 }
 
                 try {
-                    File photoFile = createImageFileForIndex(currentImageIndex);  // Crear archivo para la foto
+                    File photoFile = createImageFile();  // Crear archivo para la foto
                     if (photoFile != null) {
                         FileOutputStream fos = new FileOutputStream(photoFile);
                         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);  // Guardar la imagen
@@ -399,6 +401,18 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
             }
 
         }
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        return image;
     }
 
     private File createImageFileForIndex(int index) throws IOException {
