@@ -55,7 +55,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Agua"
+                        android:text="Entorno 1 *"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <Button
@@ -63,12 +64,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Tomar Foto" />
+                        android:drawableLeft="@mipmap/camara"
+                        android:text="Tomar Foto"
+                        app:cornerRadius="5dp"
+                        android:backgroundTint="#56647E"/>
 
                     <ImageView
                         android:id="@+id/imgPreview1"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="130dp"
+                        android:layout_height="120dp"
                         android:layout_marginTop="8dp"
                         android:background="@android:color/darker_gray"
                         android:scaleType="centerCrop" />
@@ -84,7 +88,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Luz"
+                        android:text="Entorno 2 *"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <Button
@@ -92,12 +97,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Tomar Foto" />
+                        android:drawableLeft="@mipmap/camara"
+                        android:text="Tomar Foto"
+                        app:cornerRadius="5dp"
+                        android:backgroundTint="#56647E" />
 
                     <ImageView
                         android:id="@+id/imgPreview2"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="130dp"
+                        android:layout_height="120dp"
                         android:layout_marginTop="8dp"
                         android:background="@android:color/darker_gray"
                         android:scaleType="centerCrop" />
@@ -114,7 +122,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gas"
+                        android:text="Entorno 3 *"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <Button
@@ -122,12 +131,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Tomar Foto" />
+                        android:drawableLeft="@mipmap/camara"
+                        android:text="Tomar Foto"
+                        app:cornerRadius="5dp"
+                        android:backgroundTint="#56647E"/>
 
                     <ImageView
                         android:id="@+id/imgPreview3"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="130dp"
+                        android:layout_height="120dp"
                         android:layout_marginTop="8dp"
                         android:background="@android:color/darker_gray"
                         android:scaleType="centerCrop" />
@@ -143,7 +155,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Otro"
+                        android:text="Entorno 4 *"
+                        android:textColor="#000000"
                         android:textSize="14sp" />
 
                     <Button
@@ -151,12 +164,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Tomar Foto" />
+                        android:drawableLeft="@mipmap/camara"
+                        android:text="Tomar Foto"
+                        app:cornerRadius="5dp"
+                        android:backgroundTint="#56647E"/>
 
                     <ImageView
                         android:id="@+id/imgPreview4"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="130dp"
+                        android:layout_height="120dp"
                         android:layout_marginTop="8dp"
                         android:background="@android:color/darker_gray"
                         android:scaleType="centerCrop" />
