@@ -274,21 +274,8 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                     String especificar2 = edt_especificar_2.getText().toString();
 
                     List<String> selectedFiles = filesNameList; //nombreList
-                    List<String> selected64Files = filePaths;
 
                     DespuesInspeccion despuesInspeccion = new DespuesInspeccion(tiene, tiene2, especificar, especificar2, selectedFiles);
-
-                    if (selected64Files != null) {
-                        for (String path : selected64Files) {
-                            File file = new File(path);
-                            if (file.exists()) {
-                                String fileBase64 = convertFileToBase64FromPath(file.getAbsolutePath());
-                                if (fileBase64 != null) {
-                                    fileBase64List.add(fileBase64);
-                                }
-                            }
-                        }
-                    }
 
                     List<String> combinedList = combineBase64AndFileNames(fileBase64List, filesNameList);
                     daoExtras.actualizarRegistroDespuesInspeccion(despuesInspeccion, inspeccion.getNumInspeccion(), combinedList);
@@ -383,26 +370,32 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         filesContainer.removeAllViews();
         if (requestCode == PICK_FILES_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
-                if (data.getClipData() != null) {  // Se seleccionaron múltiples archivos
+                if (data.getClipData() != null) {
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
                         Uri fileUri = data.getClipData().getItemAt(i).getUri();
                         String fileName = getFileName(fileUri);
                         String fileBase64 = convertFileToBase64(fileUri);
-                        String filePath = saveFileToInternalStorage(fileBase64, fileName + ".txt");
+                        String filePath = saveFileToInternalStorage(fileBase64, fileName);
                         if (filePath != null) {
-                            filePaths.add(filePath);  // Agregar la ruta del archivo a la lista
+                            filePaths.add(filePath);
+
+                            File file = new File(filePath);
+                            if (file.exists()) fileBase64List.add(fileBase64);
                         }
-                        filesNameList.add(fileName);  // Agregar el nombre del archivo a la lista para mostrar
+                        filesNameList.add(fileName);
                     }
-                } else if (data.getData() != null) {  // Se seleccionó un solo archivo
+                } else if (data.getData() != null) {
                     Uri fileUri = data.getData();
                     String fileName = getFileName(fileUri);
                     String fileBase64 = convertFileToBase64(fileUri);
+                    String filePath = saveFileToInternalStorage(fileBase64, fileName);
 
-                    String filePath = saveFileToInternalStorage(fileBase64, fileName + ".txt");
                     if (filePath != null) {
                         filePaths.add(filePath);
+
+                        File file = new File(filePath);
+                        if (file.exists()) fileBase64List.add(fileBase64);
                     }
                     filesNameList.add(fileName);
                 }
@@ -410,7 +403,6 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                 if (!filesNameList.isEmpty()) {
                     recyclerFiles.setVisibility(View.VISIBLE);
                 }
-
                 filesAdapter.notifyDataSetChanged();
             }
         }

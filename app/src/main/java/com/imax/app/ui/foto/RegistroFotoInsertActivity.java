@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,6 +53,7 @@ import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.FotoRequest;
+import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.SignatureView;
@@ -122,6 +126,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
     private ImageView imgPreview5;
     private ImageView imgPreview6;
     private Uri imageUri;
+    private static final int PICK_FILES_REQUEST = 2;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int MAX_PIXELS = 8 * 1000000; // 8 MB
     private int currentImageIndex = -1; // -1 indica que no hay imagen seleccionada
@@ -136,18 +141,18 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
     Button btnOpenMaps;
     private ProgressBar progress;
     private DataBaseHelper dataBaseHelper;
-    private ArrayList<AsignacionModel> lista = new ArrayList<>();
 
-    private static final int PICK_FILES_REQUEST = 1;
     private Button btnBrowseFiles;
     private RecyclerView recyclerFiles;
     private FilesAdapter filesAdapter;
-    private List<String> filesList;
-    List<String> filePaths = new ArrayList<>();
+
+    private List<String> filePaths = new ArrayList<>();
     private List<String> fileBase64List = new ArrayList<>();
+    private List<String> filesNameList = new ArrayList<>();
+    private ArrayList<AsignacionModel> lista = new ArrayList<>();
 
     private String[] imagePaths = new String[6];
-
+    private LinearLayout filesContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,13 +172,23 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         spnAsignarNumero = findViewById(R.id.spn_asignarNumero);
         btnTakePhoto1 = findViewById(R.id.btnTakePhoto1);
         imgPreview1 = findViewById(R.id.imgPreview1);
+        btnTakePhoto2 = findViewById(R.id.btnTakePhoto2);
+        imgPreview2 = findViewById(R.id.imgPreview2);
+        btnTakePhoto3 = findViewById(R.id.btnTakePhoto3);
+        imgPreview3 = findViewById(R.id.imgPreview3);
+        btnTakePhoto4 = findViewById(R.id.btnTakePhoto4);
+        imgPreview4 = findViewById(R.id.imgPreview4);
+        btnTakePhoto5 = findViewById(R.id.btnTakePhoto5);
+        imgPreview5 = findViewById(R.id.imgPreview5);
+        btnTakePhoto6 = findViewById(R.id.btnTakePhoto6);
+        imgPreview6 = findViewById(R.id.imgPreview6);
 
-        btnTakePhoto1.setOnClickListener(v -> openCamera());
+        filesContainer = findViewById(R.id.files_container);
+
         imgPreview1.setVisibility(View.GONE);
         btnBrowseFiles = findViewById(R.id.btn_browse_files);
 
         recyclerFiles = findViewById(R.id.recycler_files);
-
 
         btnTakePhoto1.setOnClickListener(v -> {
             setCurrentImageIndex(0);
@@ -218,14 +233,23 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+        filesNameList = new ArrayList<>();
 
-        filesList = new ArrayList<>();
-
-        filesAdapter = new FilesAdapter(filesList, this);
+        filesAdapter = new FilesAdapter(filesNameList, this);
         recyclerFiles.setLayoutManager(new LinearLayoutManager(this));
         recyclerFiles.setAdapter(filesAdapter);
 
         btnBrowseFiles.setOnClickListener(v -> openFilePicker());
+
+        spnAsignarNumero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //loadDataTipoInscripcion(modalidadSeleccionada);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         progressDialog = new ProgressDialog(RegistroFotoInsertActivity.this);
         progressDialog.setIndeterminate(true);
@@ -233,9 +257,70 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
 
         showAlertMaxMB("ADVENTENCIA", "Solo se acepta fotograficas con maximo de 8MB, de otro modo configurar resolución.");
-
     }
 
+    private void setImageWhileIndex(int currentImageIndex, Bitmap imageBitmap){
+        switch (currentImageIndex) {
+            case 0:
+                imgPreview1.setImageBitmap(imageBitmap);
+                imgPreview1.setVisibility(View.VISIBLE);
+                btnTakePhoto1.setText("Actualizar Foto");
+                break;
+            case 1:
+                imgPreview2.setImageBitmap(imageBitmap);
+                imgPreview2.setVisibility(View.VISIBLE);
+                btnTakePhoto2.setText("Actualizar Foto");
+                break;
+            case 2:
+                imgPreview3.setImageBitmap(imageBitmap);
+                imgPreview3.setVisibility(View.VISIBLE);
+                btnTakePhoto3.setText("Actualizar Foto");
+                break;
+            case 3:
+                imgPreview4.setImageBitmap(imageBitmap);
+                imgPreview4.setVisibility(View.VISIBLE);
+                btnTakePhoto4.setText("Actualizar Foto");
+                break;
+            case 4:
+                imgPreview5.setImageBitmap(imageBitmap);
+                imgPreview5.setVisibility(View.VISIBLE);
+                btnTakePhoto5.setText("Actualizar Foto");
+                break;
+            case 5:
+                imgPreview6.setImageBitmap(imageBitmap);
+                imgPreview6.setVisibility(View.VISIBLE);
+                btnTakePhoto6.setText("Actualizar Foto");
+                break;
+            default:
+                Toast.makeText(this, "Por favor, selecciona una imagen para actualizar", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+    private Bitmap decodeBase64ToBitmap(String base64Str) {
+        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
+    private void removeFile(int index) {
+        filesNameList.remove(index);
+        fileBase64List.remove(index);
+
+        showFiles();
+    }
+
+    private void showFiles() {
+        filesContainer.removeAllViews();
+        for (int i = 0; i < filesNameList.size(); i++) {
+            final int index = i;
+            View fileItemView = LayoutInflater.from(this).inflate(R.layout.item_cliente, filesContainer, false);
+            TextView tvFileName = fileItemView.findViewById(R.id.tv_file_name);
+            tvFileName.setText(filesNameList.get(i));
+            ImageView imgDelete = fileItemView.findViewById(R.id.img_delete);
+            imgDelete.setOnClickListener(v -> {
+                removeFile(index);
+            });
+            filesContainer.addView(fileItemView);
+        }
+    }
     void showAlertMaxMB(String titulo, String mensaje) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_dialog_alert);
@@ -248,11 +333,9 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         builder.show();
     }
 
-
     private void setCurrentImageIndex(int index) {
         this.currentImageIndex = index;
     }
-
     private void openFilePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("image/*");
@@ -261,7 +344,6 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Seleccionar archivos"), PICK_FILES_REQUEST);
     }
-
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -272,7 +354,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        filesContainer.removeAllViews();
         if (requestCode == PICK_FILES_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 if (data.getClipData() != null) {
@@ -284,22 +366,28 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                         String filePath = saveFileToInternalStorage(fileBase64, fileName);
                         if (filePath != null) {
                             filePaths.add(filePath);
+
+                            File file = new File(filePath);
+                            if (file.exists()) fileBase64List.add(fileBase64);
                         }
-                        filesList.add(fileName);
+                        filesNameList.add(fileName);
                     }
                 } else if (data.getData() != null) {
                     Uri fileUri = data.getData();
                     String fileName = getFileName(fileUri);
                     String fileBase64 = convertFileToBase64(fileUri);
-
                     String filePath = saveFileToInternalStorage(fileBase64, fileName);
+
                     if (filePath != null) {
                         filePaths.add(filePath);
+
+                        File file = new File(filePath);
+                        if (file.exists()) fileBase64List.add(fileBase64);
                     }
-                    filesList.add(fileName);
+                    filesNameList.add(fileName);
                 }
 
-                if (!filesList.isEmpty()) {
+                if (!filesNameList.isEmpty()) {
                     recyclerFiles.setVisibility(View.VISIBLE);
                 }
                 filesAdapter.notifyDataSetChanged();
@@ -308,7 +396,6 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-
             if (imageBitmap != null) {
                 int width = imageBitmap.getWidth();
                 int height = imageBitmap.getHeight();
@@ -376,15 +463,17 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                                 Toast.makeText(this, "Por favor, selecciona una imagen para actualizar", Toast.LENGTH_SHORT).show();
                                 break;
                         }
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
                 }
             }
-
         }
     }
+
+
 
     private File createImageFileForIndex(int index) throws IOException {
         String imageFileName = "IMG_" + index + ".jpg";
@@ -433,25 +522,10 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         switch (id) {
             case R.id.menu_pedido_siguiente:
 
-                List<String> selectedFiles = filesList;
-                List<String> selected64Files = filePaths;
+                List<String> selectedFiles = filesNameList;
 
-                System.out.println("selectedFiles " + selectedFiles);
-                System.out.println("selected64Files " + selected64Files);
-
-                System.out.println("imagePaths " + imagePaths);
-
-                if (selected64Files != null) {
-                    for (String path : selected64Files) {
-                        File file = new File(path);
-                        if (file.exists()) {
-                            String fileBase64 = convertFileToBase64FromPath(file.getAbsolutePath());
-                            if (fileBase64 != null) {
-                                fileBase64List.add(fileBase64);
-                            }
-                        }
-                    }
-                }
+                System.out.println("fileBase64List.count " + fileBase64List.size());
+                System.out.println("selectedFiles.count " + selectedFiles.size());
 
                 List<String> combinedList = combineBase64AndFileNames(fileBase64List, selectedFiles);
 
@@ -467,7 +541,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                 }
 
                 Intent intent = new Intent(this, RegistroFotoInsert2Activity.class);
-                intent.putExtra("fotoRequest", fotoRequest);
+                intent.putExtra("numAsignacion", fotoRequest.getNumInspeccion());
                 startActivity(intent);
 
                 break;
@@ -634,11 +708,11 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
     @Override
     public void onFileRemoved(int position) {
-        filesList.remove(position);
+        filesNameList.remove(position);
         filePaths.remove(position);
         filesAdapter.notifyItemRemoved(position);
 
-        if (filesList.isEmpty()) {
+        if (filesNameList.isEmpty()) {
             recyclerFiles.setVisibility(View.GONE);
         }
 
@@ -656,6 +730,51 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.my_spinner_item, array);
         spnAsignarNumero.setAdapter(adapter);
 
+        if (lista.size() != 0) {
+            FotoRequest fotoRequest = daoExtras.getListFotoByNumero(lista.get(0).getNumber());
+            if (fotoRequest.getFotosArrayAdjunto1() != null && !fotoRequest.getFotosArrayAdjunto1().isEmpty()) {
+                fileBase64List.clear();
+                filesNameList.clear();
+                filePaths.clear();
+                for (String file : fotoRequest.getFotosArrayAdjunto1()) {
+                    int base64Start = file.indexOf(";base64,") + 8;
+                    int nameStart = file.indexOf("name=") + 5;
+                    int nameEnd = file.indexOf(";index=");
+
+                    String fileName = file.substring(nameStart, nameEnd);
+                    String base64Data = file.substring(base64Start);
+
+                    filesNameList.add(fileName);
+                    fileBase64List.add(base64Data);
+
+                    filePaths.add("Rutas");
+                }
+            }
+            if (fotoRequest.getFotoArray1() != null && !fotoRequest.getFotoArray1().isEmpty()) {
+                for (String file : fotoRequest.getFotoArray1()) {
+                    System.out.println("file -> " + file);
+                    if (file == null || file.isEmpty()) {
+                        continue;
+                    }
+
+                    int base64Start = file.indexOf(";base64,") + 8;
+                    int nameStart = file.indexOf("name=") + 5;
+                    int nameEnd = file.indexOf(";index=");
+                    int indexStart = file.indexOf("index=") + 6;
+                    int indexEnd = file.indexOf(";base64,");
+
+                    String fileName = file.substring(nameStart, nameEnd);
+                    int fileIndex = Integer.parseInt(file.substring(indexStart, indexEnd));
+                    String base64Data = file.substring(base64Start);
+                    Bitmap imageBitmap = decodeBase64ToBitmap(base64Data);
+
+                    setImageWhileIndex(fileIndex, imageBitmap);
+
+                    System.out.println("fileName -> " + fileName);
+                }
+            }
+            showFiles();
+        }
     }
 
     public void showLoader() {

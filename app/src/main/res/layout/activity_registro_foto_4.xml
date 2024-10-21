@@ -183,39 +183,44 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:paddingTop="16dp"
                     android:background="@drawable/dashed_border"
-                    android:paddingTop="16dp">
-
+                    android:layout_marginBottom="16dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
+                        android:orientation="vertical"
+                        android:gravity="center">
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
+                            android:src="@drawable/ic_arrow_up"
                             android:contentDescription="Subir archivo"
-                            android:src="@drawable/ic_arrow_up" />
-
+                            android:layout_marginBottom="8dp" />
                         <Button
                             android:id="@+id/btn_browse_files"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:background="@android:color/transparent"
                             android:text="Buscar archivo"
                             android:textColor="#00796B"
-                            android:textStyle="bold" />
-
+                            android:background="@android:color/transparent"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_files"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="16dp"
                             android:visibility="gone" /> <!-- Inicialmente invisible hasta que se suban archivos -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:id="@+id/files_container">
+
+                        </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>

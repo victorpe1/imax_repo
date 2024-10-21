@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +44,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
+import com.imax.app.data.api.request.FotoRequest;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
@@ -53,12 +57,14 @@ import com.imax.app.utils.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -71,9 +77,6 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
     public static final int ACCION_NUEVO_REGISTRO = 1;
 
     public static final String EXTRA_DIRECCION = "direccion";
-
-
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
 
     public String idTipoDocumentoOriginal = "";
 
@@ -90,6 +93,7 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
     private ImageView imgPreview1;
     private ImageView imgPreview2;
     private Uri imageUri;
+    private static final int PICK_FILES_REQUEST = 2;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int MAX_PIXELS = 8 * 1000000; // 8 MB
     private int currentImageIndex = -1; // -1 indica que no hay imagen seleccionada
@@ -106,15 +110,17 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
     private DataBaseHelper dataBaseHelper;
     private ArrayList<AsignacionModel> lista = new ArrayList<>();
 
-    private static final int PICK_FILES_REQUEST = 1;
     private Button btnBrowseFiles;
     private RecyclerView recyclerFiles;
     private FilesAdapter filesAdapter;
-    private List<String> filesList;
-    List<String> filePaths = new ArrayList<>();
 
     private String[] imagePaths = new String[6];
+    private List<String> fileBase64List = new ArrayList<>();
+    private List<String> filesNameList = new ArrayList<>();
+    private List<String> filePaths = new ArrayList<>();
 
+    private String numAsignacion = "";
+    private LinearLayout filesContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,13 +139,59 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
 
         btnTakePhoto1 = findViewById(R.id.btnTakePhoto1);
         imgPreview1 = findViewById(R.id.imgPreview1);
+        btnTakePhoto2 = findViewById(R.id.btnTakePhoto2);
+        imgPreview2 = findViewById(R.id.imgPreview2);
 
-        btnTakePhoto1.setOnClickListener(v -> openCamera());
-        imgPreview1.setVisibility(View.GONE);
         btnBrowseFiles = findViewById(R.id.btn_browse_files);
-
         recyclerFiles = findViewById(R.id.recycler_files);
+        filesContainer = findViewById(R.id.files_container);
 
+        numAsignacion = (String) getIntent().getSerializableExtra("numAsignacion");
+        if(!numAsignacion.trim().isEmpty()){
+            FotoRequest fotoRequest =  daoExtras.getListFotoByNumero(numAsignacion);
+            if (fotoRequest.getFotosArrayAdjunto3() != null && !fotoRequest.getFotosArrayAdjunto3().isEmpty()) {
+                fileBase64List.clear();
+                filesNameList.clear();
+                filePaths.clear();
+                for (String file : fotoRequest.getFotosArrayAdjunto3()) {
+                    int base64Start = file.indexOf(";base64,") + 8;
+                    int nameStart = file.indexOf("name=") + 5;
+                    int nameEnd = file.indexOf(";index=");
+
+                    String fileName = file.substring(nameStart, nameEnd);
+                    String base64Data = file.substring(base64Start);
+
+                    filesNameList.add(fileName);
+                    fileBase64List.add(base64Data);
+
+                    filePaths.add("Rutas");
+                }
+            }
+            if (fotoRequest.getFotoArray3() != null && !fotoRequest.getFotoArray3().isEmpty()) {
+                for (String file : fotoRequest.getFotoArray3()) {
+                    System.out.println("file 2 -> " + file);
+                    if (file == null || file.isEmpty()) {
+                        continue;
+                    }
+
+                    int base64Start = file.indexOf(";base64,") + 8;
+                    int nameStart = file.indexOf("name=") + 5;
+                    int nameEnd = file.indexOf(";index=");
+                    int indexStart = file.indexOf("index=") + 6;
+                    int indexEnd = file.indexOf(";base64,");
+
+                    String fileName = file.substring(nameStart, nameEnd);
+                    int fileIndex = Integer.parseInt(file.substring(indexStart, indexEnd));
+                    String base64Data = file.substring(base64Start);
+                    Bitmap imageBitmap = decodeBase64ToBitmap(base64Data);
+
+                    setImageWhileIndex(fileIndex, imageBitmap);
+
+                    System.out.println("fileName -> " + fileName);
+                }
+            }
+            showFiles();
+        }
 
         btnTakePhoto1.setOnClickListener(v -> {
             setCurrentImageIndex(0);
@@ -153,9 +205,9 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
         imgPreview1.setVisibility(View.GONE);
         imgPreview2.setVisibility(View.GONE);
 
-        filesList = new ArrayList<>();
+        filesNameList = new ArrayList<>();
 
-        filesAdapter = new FilesAdapter(filesList, this);
+        filesAdapter = new FilesAdapter(filesNameList, this);
         recyclerFiles.setLayoutManager(new LinearLayoutManager(this));
         recyclerFiles.setAdapter(filesAdapter);
 
@@ -166,9 +218,29 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
         progressDialog.setCancelable(false);
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
 
+    }
 
-        showAlertMaxMB("ADVENTENCIA", "Solo se acepta fotograficas con maximo de 8MB, de otro modo configurar resolución.");
+    private Bitmap decodeBase64ToBitmap(String base64Str) {
+        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
 
+    private void setImageWhileIndex(int currentImageIndex, Bitmap imageBitmap){
+        switch (currentImageIndex) {
+            case 0:
+                imgPreview1.setImageBitmap(imageBitmap);
+                imgPreview1.setVisibility(View.VISIBLE);
+                btnTakePhoto1.setText("Actualizar Foto");
+                break;
+            case 1:
+                imgPreview2.setImageBitmap(imageBitmap);
+                imgPreview2.setVisibility(View.VISIBLE);
+                btnTakePhoto2.setText("Actualizar Foto");
+                break;
+            default:
+                Toast.makeText(this, "Por favor, selecciona una imagen para actualizar", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     void showAlertMaxMB(String titulo, String mensaje) {
@@ -183,6 +255,30 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
         builder.show();
     }
 
+    private void removeFile(int index) {
+        filesNameList.remove(index);
+        fileBase64List.remove(index);
+
+        showFiles();
+    }
+
+    private void showFiles() {
+        filesContainer.removeAllViews();
+        for (int i = 0; i < filesNameList.size(); i++) {
+            final int index = i;
+
+            View fileItemView = LayoutInflater.from(this).inflate(R.layout.item_cliente, filesContainer, false);
+            TextView tvFileName = fileItemView.findViewById(R.id.tv_file_name);
+            tvFileName.setText(filesNameList.get(i));
+
+            ImageView imgDelete = fileItemView.findViewById(R.id.img_delete);
+            imgDelete.setOnClickListener(v -> {
+                removeFile(index);
+            });
+
+            filesContainer.addView(fileItemView);
+        }
+    }
 
     private void setCurrentImageIndex(int index) {
         this.currentImageIndex = index;
@@ -205,7 +301,7 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        filesContainer.removeAllViews();
         if (requestCode == PICK_FILES_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 if (data.getClipData() != null) {
@@ -217,23 +313,28 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
                         String filePath = saveFileToInternalStorage(fileBase64, fileName);
                         if (filePath != null) {
                             filePaths.add(filePath);
+
+                            File file = new File(filePath);
+                            if (file.exists()) fileBase64List.add(fileBase64);
                         }
-                        filesList.add(fileName);
+                        filesNameList.add(fileName);
                     }
                 } else if (data.getData() != null) {
                     Uri fileUri = data.getData();
                     String fileName = getFileName(fileUri);
                     String fileBase64 = convertFileToBase64(fileUri);
-
                     String filePath = saveFileToInternalStorage(fileBase64, fileName);
+
                     if (filePath != null) {
                         filePaths.add(filePath);
-                    }
 
-                    filesList.add(fileName);
+                        File file = new File(filePath);
+                        if (file.exists()) fileBase64List.add(fileBase64);
+                    }
+                    filesNameList.add(fileName);
                 }
 
-                if (!filesList.isEmpty()) {
+                if (!filesNameList.isEmpty()) {
                     recyclerFiles.setVisibility(View.VISIBLE);
                 }
                 filesAdapter.notifyDataSetChanged();
@@ -346,19 +447,19 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
 
         switch (id) {
             case R.id.menu_pedido_siguiente:
+                List<String> selectedFiles = filesNameList;
+                List<String> combinedList = combineBase64AndFileNames(fileBase64List, selectedFiles);
 
-                List<String> selectedFiles = filesList;
-                List<String> selected64Files = filePaths;
+                FotoRequest fotoRequest = new FotoRequest();
+                fotoRequest.setNumInspeccion(numAsignacion);
+                fotoRequest.setFotoArray3(Arrays.asList(imagePaths));
+                fotoRequest.setFotosArrayAdjunto3(combinedList);
 
-                System.out.println("selectedFiles " + selectedFiles);
-                System.out.println("selected64Files " + selected64Files);
-
-                System.out.println("imagePaths " + imagePaths);
+                daoExtras.actualizarRegistroInpeccionFoto3(fotoRequest);
 
                 Intent intent = new Intent(this, RegistroFotoInsert4Activity.class);
-                //intent.putExtra("fotoRequest", fotoRequest);
+                intent.putExtra("numAsignacion", fotoRequest.getNumInspeccion());
                 startActivity(intent);
-
 
                 break;
             case R.id.menu_pedido_guardar:
@@ -370,23 +471,27 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
         return super.onOptionsItemSelected(item);
     }
 
+    private String convertFileToBase64FromPath(String filePath) {
+        try {
+            File file = new File(filePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] bytes = new byte[(int) file.length()];
+            fileInputStream.read(bytes);
+            fileInputStream.close();
+            return Base64.encodeToString(bytes, Base64.DEFAULT);  // Convertir a Base64
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
-    private void DialogoConfirmacion() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroFotoInsert3Activity.this);
-        builder.setTitle(getString(R.string.descartar_cambios));
-        builder.setMessage(getString(R.string.se_perdera_cambios));
-        builder.setNegativeButton(getString(R.string.cancelar), null);
-        builder.show();
-
-    }
-
     public void noPermitirCerrar() {
         Util.actualizarToolBar("", false, this);
-        cabeceraGuardada = true;
     }
 
     void showAlertError(String titulo, String mensaje) {
@@ -446,11 +551,11 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
 
     @Override
     public void onFileRemoved(int position) {
-        filesList.remove(position);
+        filesNameList.remove(position);
         filePaths.remove(position);
         filesAdapter.notifyItemRemoved(position);
 
-        if (filesList.isEmpty()) {
+        if (filesNameList.isEmpty()) {
             recyclerFiles.setVisibility(View.GONE);
         }
 
@@ -483,5 +588,4 @@ public class RegistroFotoInsert3Activity extends AppCompatActivity implements Fi
         });
         builder.show();
     }
-
 }

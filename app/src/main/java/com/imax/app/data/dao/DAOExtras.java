@@ -559,11 +559,47 @@ public class DAOExtras {
     }
 
 
-    public boolean existeRegistro(String idAsignacion){
+    public FotoRequest getListFotoByNumero(String numero) {
+        FotoRequest inspeccionRequest = new FotoRequest();
+        try {
+            SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+            String rawQuery =
+                    "SELECT * FROM " +
+                            TablesHelper.xml_inspeccion_fotografia.table + " WHERE numInspeccion = ?";
+            Cursor cursor = db.rawQuery(rawQuery, new String[]{numero});
 
+            if (cursor.moveToFirst()) {
+                inspeccionRequest.setNumInspeccion(cursor.getString(1));
+
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<String>>() {}.getType();
+
+                inspeccionRequest.setFotoArray1(gson.fromJson(cursor.getString(2), listType));
+                inspeccionRequest.setFotosArrayAdjunto1(gson.fromJson(cursor.getString(3), listType));
+
+                inspeccionRequest.setFotoArray2(gson.fromJson(cursor.getString(4), listType));
+                inspeccionRequest.setFotosArrayAdjunto2(gson.fromJson(cursor.getString(5), listType));
+
+                inspeccionRequest.setFotoArray3(gson.fromJson(cursor.getString(6), listType));
+                inspeccionRequest.setFotosArrayAdjunto3(gson.fromJson(cursor.getString(7), listType));
+
+                inspeccionRequest.setFotoArray4(gson.fromJson(cursor.getString(8), listType));
+                inspeccionRequest.setFotosArrayAdjunto4(gson.fromJson(cursor.getString(9), listType));
+
+                inspeccionRequest.setFotosArrayAdjunto5(gson.fromJson(cursor.getString(10), listType));
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inspeccionRequest;
+    }
+
+    public boolean existeRegistro(String idAsignacion){
         boolean existe = false;
 
-        String rawQuery = "SELECT * FROM xml_inspeccion WHERE numInspeccion = ?";
+        String rawQuery = "SELECT numInspeccion FROM xml_inspeccion WHERE numInspeccion = ?";
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
         Cursor cur = db.rawQuery(rawQuery, new String[]{idAsignacion});
 
@@ -578,10 +614,9 @@ public class DAOExtras {
     }
 
     public boolean existeRegistroFoto(String idAsignacion){
-
         boolean existe = false;
 
-        String rawQuery = "SELECT * FROM xml_inspeccion_fotografia WHERE numInspeccion = ?";
+        String rawQuery = "SELECT numInspeccion FROM xml_inspeccion_fotografia WHERE numInspeccion = ?";
         SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
         Cursor cur = db.rawQuery(rawQuery, new String[]{idAsignacion});
 
@@ -625,18 +660,16 @@ public class DAOExtras {
         }
     }
 
-
     public void actualizarRegistroInpeccionFoto(FotoRequest fotoRequest){
         String where = TablesHelper.xml_inspeccion_fotografia.numInspeccion + " = ?";
         String[] args = { fotoRequest.getNumInspeccion() };
 
         try {
             SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
-
             ContentValues Nreg = new ContentValues();
 
             Gson gson = new Gson();
-            String jsonListaBase64 = gson.toJson( fotoRequest.getFotoArray1());
+            String jsonListaBase64 = gson.toJson(fotoRequest.getFotoArray1());
             Gson gson2 = new Gson();
             String jsonListaBase642 = gson2.toJson(fotoRequest.getFotosArrayAdjunto1());
 
@@ -645,9 +678,9 @@ public class DAOExtras {
 
             db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
 
-            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado - " + fotoRequest.getNumInspeccion());
         } catch (Exception e) {
-            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro - " + fotoRequest.getNumInspeccion());
             e.printStackTrace();
         }
     }
@@ -671,9 +704,9 @@ public class DAOExtras {
 
             db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
 
-            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado - " + fotoRequest.getNumInspeccion());
         } catch (Exception e) {
-            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro - " + fotoRequest.getNumInspeccion());
             e.printStackTrace();
         }
     }
@@ -697,9 +730,9 @@ public class DAOExtras {
 
             db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
 
-            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado - " + fotoRequest.getNumInspeccion());
         } catch (Exception e) {
-            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro - " + fotoRequest.getNumInspeccion());
             e.printStackTrace();
         }
     }
@@ -723,9 +756,9 @@ public class DAOExtras {
 
             db.update(TablesHelper.xml_inspeccion_fotografia.table, Nreg, where, args);
 
-            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado");
+            Log.i(TAG, "xml_inspeccion_fotografia: Registro actualizado - " + fotoRequest.getNumInspeccion());
         } catch (Exception e) {
-            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro");
+            Log.e(TAG, "xml_inspeccion_fotografia: Error al actualizar registro - " + fotoRequest.getNumInspeccion());
             e.printStackTrace();
         }
     }
