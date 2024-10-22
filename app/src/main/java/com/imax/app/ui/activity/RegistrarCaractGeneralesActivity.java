@@ -114,6 +114,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("Prueba1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caracteristicas_general);
         Toolbar toolbar = findViewById(R.id.toolbar);
