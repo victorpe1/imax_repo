@@ -116,9 +116,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caracteristicas_general);
-
-
-        System.out.println("Hello Word");
+        
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Util.actualizarToolBar(getString(R.string.caracteristicas), true, this, R.drawable.ic_action_back);
