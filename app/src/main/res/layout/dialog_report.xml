@@ -6,6 +6,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <ImageButton
+        android:id="@+id/btn_cerrar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:contentDescription="Cerrar"
+        android:src="@drawable/ic_dialog_error" />
+
     <TextView
         android:id="@+id/tv_titulo"
         android:layout_width="match_parent"
@@ -18,1241 +27,231 @@
         android:textColor="#000000"
         android:layout_marginBottom="16dp"/>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- ASIGNACIÓN NUMERO -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ASIGNACIÓN NÚMERO:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_asignacion_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="123" />
-        </LinearLayout>
-        <!-- TIPO DE INSPECCIÓN -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TIPO DE INSPECCIÓN:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_tipo_inspeccion_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="INTERIORES" />
-        </LinearLayout>
-        <!-- FECHA DE INSPECCIÓN -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="FECHA DE INSPECCIÓN:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_fecha_inspeccion_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Thursday, September 26, 2024 16:41" />
-        </LinearLayout>
-        <!-- CONTACTO IN SITU -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CONTACTO IN SITU:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_contacto_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="123" />
-        </LinearLayout>
-        <!-- DATA INSPECCIÓN TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DATA INSPECCIÓN"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-
-            android:paddingTop="16dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="INFORMACIÓN RECOPILADA DURANTE LA INSPECCIÓN."
-            android:textSize="@dimen/text_size_tiny"/>
-        <!-- TIPO DE INMUEBLE -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TIPO DE INMUEBLE:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_tipo_inmueble_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="DEPARTAMENTO" />
-        </LinearLayout>
-        <!-- USO DEL INMUEBLE -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="USO DEL INMUEBLE:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_uso_inmueble_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="VIVIENDA" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO."
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_tiny"
-            android:color="#000000"/>
-        <TextView
-            android:id="@+id/tv_mencionar_cada_uno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_tiny"
-            android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
-
-        <!-- QUIEN RECIBE INMUEBLE -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="¿ QUIEN RECIBE INMUEBLE ?"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_quien_inmueble"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="DIRECCIÓN EN SITU" />
-        </LinearLayout>
-
-        <!-- DIRECCIÓN IN SITU -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DIRECCIÓN IN SITU:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_direccion_valor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="DIRECCIÓN EN SITU" />
-        </LinearLayout>
-
-        <!-- COORDENADAS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:text="COORDENADAS (Se toma automaticamente, por lo cual se debe diligenciar in situ)"
-                />
-
-            <TextView
-                android:id="@+id/tv_coordenadas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DESCRIPCIÓN."
-            android:textSize="@dimen/text_size_tiny"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:color="#000000"/>
-        <TextView
-            android:id="@+id/tv_descripcion"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/text_size_tiny"
-            android:layout_height="wrap_content"
-            android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DISTRIBUCIÓN."
-            android:textSize="@dimen/text_size_tiny"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textStyle="bold"
-            android:color="#000000"/>
-        <TextView
-            android:id="@+id/tv_distribucion"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/text_size_tiny"
-            android:layout_height="wrap_content"
-            android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
-
-        <!-- DEPARTAMENTO -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DEPARTAMENTO:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_departamento"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- ESTACIONAMIENTO -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="ESTACIONAMIENTO:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_estacionamiento"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- DEPÓSITO -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DEPÓSITO:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_deposito"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- DATA INSPECCIÓN TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ESTRUCTURA"
-            android:textStyle="bold"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- Estructura -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Estructura:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_estructura"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny"
-                 />
-
-            <TextView
-                android:id="@+id/tv_otros_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- ALBAÑERIA Y REVOQUES TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ALBAÑERIA Y REVOQUES"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- MUROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MUROS:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_muros"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_otros_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- PISOS TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PISOS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- Pisos -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PISOS:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_pisos"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-
-            <TextView
-                android:id="@+id/tv_otros_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- PUERTAS TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PUERTAS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- TIPO Puertas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TIPO Puertas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_tipo_puertas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- MATERIAL Puertas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MATERIAL Puertas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_material_puerta"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SISTEMA Puertas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SISTEMA Puertas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_sistema_puerta"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-
-            <TextView
-                android:id="@+id/tv_otros_4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- VENTANAS TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="VENTANAS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- MARCO Ventanas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="MARCO Ventanas:" />
-            <TextView
-                android:id="@+id/tv_marco_ventana"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- VIDRIO Ventanas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="VIDRIO Ventanas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_vidrio_ventana"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SISTEMA Ventanas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SISTEMA Ventanas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_sistema_ventana"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-
-            <TextView
-                android:id="@+id/tv_otros_5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- MAMPARA TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MAMPARAS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- MARCO Mamparas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MARCO Mamparas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_marco_mamparas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- VIDRIO Mamparas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="VIDRIO Mamparas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_vidrio_mamparas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SISTEMA Mamparas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SISTEMA Mamparas:"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textSize="@dimen/text_size_tiny" />
-            <TextView
-                android:id="@+id/tv_sistema_mamparas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_otros_6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- COCINA Y LAVANDERIA TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="COCINA Y LAVANDERIA"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- PISOS Cocina -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PISOS Cocina:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_piso_cocina"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- PAREDES Cocina -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PAREDES Cocina:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_pared_cocina"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- MUEBLES DE COCINA Tipo -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MUEBLES DE COCINA Tipo:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                 />
-            <TextView
-                android:id="@+id/tv_tipo_mueble_cocina"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- MUEBLES DE COCINA Material -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MUEBLES DE COCINA Material:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_material_mueble_cocina"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- TABLEROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TABLEROS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_tableros"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- LAVADERO -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="LAVADERO:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_lavadero"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_otros_7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- BAÑOS TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BAÑOS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- PISOS Baños -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PISOS Baños:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_piso_baño"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- PAREDES Baños -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PAREDES Baños:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_pared_baño"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SANITARIOS Tipo -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SANITARIOS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_sanitarios_tipo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SANITARIOS Color -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SANITARIOS Color:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_sanitarios_color"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SANITARIOS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SANITARIOS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_sanitarios"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_otros_8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- INSTALACIONES SANITARIAS TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="INSTALACIONES SANITARIAS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- IISS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="IISS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tv_iiss"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_otros_9"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- SISTEMAS CONTRA INCENDIOS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SISTEMAS CONTRA INCENDIOS"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-            <TextView
-                android:id="@+id/tv_sistemas_incendios"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <!-- INSTALACIONES ELECTRICAS TÍTULO -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="INSTALACIONES ELECTRICAS"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:textSize="@dimen/text_size_small"
-            android:paddingTop="16dp" />
-        <!-- IIEE -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="IIEE:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                 />
-            <TextView
-                android:id="@+id/tv_iiee"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-        <!-- OTROS -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OTROS:"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                />
-
-            <TextView
-                android:id="@+id/tv_otros_10"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Longitude: -77.0426" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="INFRAESTRUCTURA."
-            android:textSize="@dimen/text_size_tiny"
-            android:fontFamily="@font/font_family_quicksand_bold"
-            android:color="#000000"/>
-        <TextView
-            android:id="@+id/tv_infraestructura"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_tiny"
-            android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- DESPUÉS DE LA INSPECCIÓN -->
+            <!-- ASIGNACIÓN NUMERO -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ASIGNACIÓN NÚMERO:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_asignacion_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="123" />
+            </LinearLayout>
+            <!-- TIPO DE INSPECCIÓN -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TIPO DE INSPECCIÓN:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_tipo_inspeccion_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="INTERIORES" />
+            </LinearLayout>
+            <!-- FECHA DE INSPECCIÓN -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FECHA DE INSPECCIÓN:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_fecha_inspeccion_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Thursday, September 26, 2024 16:41" />
+            </LinearLayout>
+            <!-- CONTACTO IN SITU -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="CONTACTO IN SITU:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_contacto_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="123" />
+            </LinearLayout>
+            <!-- DATA INSPECCIÓN TÍTULO -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DESPUÉS DE LA INSPECCIÓN"
+                android:text="DATA INSPECCIÓN"
                 android:fontFamily="@font/font_family_quicksand_bold"
                 android:textSize="@dimen/text_size_small"
-                android:paddingTop="16dp" />
 
-            <!-- ¿LA INFORMACIÓN EN DOCUMENTOS COINCIDE CON LO INSPECCIONADO? -->
+                android:paddingTop="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INFORMACIÓN RECOPILADA DURANTE LA INSPECCIÓN."
+                android:textSize="@dimen/text_size_tiny"/>
+            <!-- TIPO DE INMUEBLE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TIPO DE INMUEBLE:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_tipo_inmueble_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="DEPARTAMENTO" />
+            </LinearLayout>
+            <!-- USO DEL INMUEBLE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="USO DEL INMUEBLE:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_uso_inmueble_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="VIVIENDA" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO."
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_tiny"
+                android:color="#000000"/>
+            <TextView
+                android:id="@+id/tv_mencionar_cada_uno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_tiny"
+                android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
+
+            <!-- QUIEN RECIBE INMUEBLE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="¿ QUIEN RECIBE INMUEBLE ?"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_quien_inmueble"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="DIRECCIÓN EN SITU" />
+            </LinearLayout>
+
+            <!-- DIRECCIÓN IN SITU -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DIRECCIÓN IN SITU:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_direccion_valor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="DIRECCIÓN EN SITU" />
+            </LinearLayout>
+
+            <!-- COORDENADAS -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1264,138 +263,1148 @@
                     android:layout_weight="1"
                     android:textSize="@dimen/text_size_tiny"
                     android:fontFamily="@font/font_family_quicksand_bold"
-                    android:text="¿LA INFORMACIÓN EN DOCUMENTOS COINCIDE CON LO INSPECCIONADO?"
+                    android:text="COORDENADAS (Se toma automaticamente, por lo cual se debe diligenciar in situ)"
                     />
 
                 <TextView
-                    android:id="@+id/tv_coincide_valor"
+                    android:id="@+id/tv_coordenadas"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="@dimen/text_size_tiny"
-                    android:text="SI" />
+                    android:text="Longitude: -77.0426" />
             </LinearLayout>
 
-            <!-- Especificar -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ESPECIFICAR"
+                android:text="DESCRIPCIÓN."
                 android:textSize="@dimen/text_size_tiny"
                 android:fontFamily="@font/font_family_quicksand_bold"
-                android:paddingTop="8dp" />
+                android:color="#000000"/>
+            <TextView
+                android:id="@+id/tv_descripcion"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_tiny"
+                android:layout_height="wrap_content"
+                android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
 
             <TextView
-                android:id="@+id/et_especificar_coincide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="DISTRIBUCIÓN."
                 android:textSize="@dimen/text_size_tiny"
-                android:text="Detalles adicionales" />
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textStyle="bold"
+                android:color="#000000"/>
+            <TextView
+                android:id="@+id/tv_distribucion"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_size_tiny"
+                android:layout_height="wrap_content"
+                android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
 
-            <!-- ¿SE SOLICITÓ O PRESENTÓ DOCUMENTACIÓN ADICIONAL EN SITU? -->
+            <!-- DEPARTAMENTO -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:text="DEPARTAMENTO:"
                     android:textSize="@dimen/text_size_tiny"
                     android:fontFamily="@font/font_family_quicksand_bold"
-                    android:text="¿SE SOLICITÓ O PRESENTÓ DOCUMENTACIÓN ADICIONAL EN SITU?"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_documentacion_valor"
+                    android:id="@+id/tv_departamento"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="@dimen/text_size_tiny"
-                    android:text="SI" />
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- ESTACIONAMIENTO -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ESTACIONAMIENTO:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_estacionamiento"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- DEPÓSITO -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DEPÓSITO:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_deposito"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
             </LinearLayout>
 
-            <!-- Especificar -->
+            <!-- DATA INSPECCIÓN TÍTULO -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ESPECIFICAR"
-                android:textSize="@dimen/text_size_tiny"
+                android:text="ESTRUCTURA"
+                android:textStyle="bold"
                 android:fontFamily="@font/font_family_quicksand_bold"
-                android:paddingTop="8dp" />
-
-            <TextView
-                android:id="@+id/et_especificar_documentacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Detalles adicionales" />
-
-            <!-- Subir Archivos de documentos adicionales -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Subir Archivos de documentos adicionales"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:paddingTop="8dp" />
-
-            <!-- Listar Archivos Adjuntos -->
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- Estructura -->
             <LinearLayout
-                android:id="@+id/layout_adjuntos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Estructura:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_estructura"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_otros_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- ALBAÑERIA Y REVOQUES TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ALBAÑERIA Y REVOQUES"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- MUROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MUROS:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_muros"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_otros_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- PISOS TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PISOS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- Pisos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PISOS:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_pisos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+
+                <TextView
+                    android:id="@+id/tv_otros_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- PUERTAS TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PUERTAS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- TIPO Puertas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TIPO Puertas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_tipo_puertas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- MATERIAL Puertas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MATERIAL Puertas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_material_puerta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SISTEMA Puertas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SISTEMA Puertas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_sistema_puerta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+
+                <TextView
+                    android:id="@+id/tv_otros_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- VENTANAS TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VENTANAS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- MARCO Ventanas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="MARCO Ventanas:" />
+                <TextView
+                    android:id="@+id/tv_marco_ventana"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- VIDRIO Ventanas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="VIDRIO Ventanas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_vidrio_ventana"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SISTEMA Ventanas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SISTEMA Ventanas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_sistema_ventana"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+
+                <TextView
+                    android:id="@+id/tv_otros_5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- MAMPARA TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MAMPARAS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- MARCO Mamparas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MARCO Mamparas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_marco_mamparas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- VIDRIO Mamparas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="VIDRIO Mamparas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_vidrio_mamparas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SISTEMA Mamparas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SISTEMA Mamparas:"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_tiny" />
+                <TextView
+                    android:id="@+id/tv_sistema_mamparas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_otros_6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- COCINA Y LAVANDERIA TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="COCINA Y LAVANDERIA"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- PISOS Cocina -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PISOS Cocina:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_piso_cocina"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- PAREDES Cocina -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PAREDES Cocina:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_pared_cocina"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- MUEBLES DE COCINA Tipo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MUEBLES DE COCINA Tipo:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_tipo_mueble_cocina"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- MUEBLES DE COCINA Material -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MUEBLES DE COCINA Material:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_material_mueble_cocina"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- TABLEROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TABLEROS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_tableros"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- LAVADERO -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="LAVADERO:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_lavadero"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_otros_7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- BAÑOS TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BAÑOS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- PISOS Baños -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PISOS Baños:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_piso_baño"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- PAREDES Baños -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="PAREDES Baños:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_pared_baño"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SANITARIOS Tipo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SANITARIOS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_sanitarios_tipo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SANITARIOS Color -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SANITARIOS Color:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_sanitarios_color"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SANITARIOS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SANITARIOS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_sanitarios"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_otros_8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- INSTALACIONES SANITARIAS TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INSTALACIONES SANITARIAS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- IISS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="IISS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_iiss"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_otros_9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- SISTEMAS CONTRA INCENDIOS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SISTEMAS CONTRA INCENDIOS"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_sistemas_incendios"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <!-- INSTALACIONES ELECTRICAS TÍTULO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INSTALACIONES ELECTRICAS"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:textSize="@dimen/text_size_small"
+                android:paddingTop="16dp" />
+            <!-- IIEE -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="IIEE:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_iiee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+            <!-- OTROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OTROS:"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_otros_10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Longitude: -77.0426" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INFRAESTRUCTURA."
+                android:textSize="@dimen/text_size_tiny"
+                android:fontFamily="@font/font_family_quicksand_bold"
+                android:color="#000000"/>
+            <TextView
+                android:id="@+id/tv_infraestructura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_tiny"
+                android:text="SI EL INMUEBLE TIENE MÚLTIPLES USOS FAVOR MENCIONAR CADA UNO DE LOS ESPACIOS POR TIPO DE USO" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- DESPUÉS DE LA INSPECCIÓN -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DESPUÉS DE LA INSPECCIÓN"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:textSize="@dimen/text_size_small"
+                    android:paddingTop="16dp" />
 
-                <!-- Añadir más archivos aquí de manera dinámica -->
+                <!-- ¿LA INFORMACIÓN EN DOCUMENTOS COINCIDE CON LO INSPECCIONADO? -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:fontFamily="@font/font_family_quicksand_bold"
+                        android:text="¿LA INFORMACIÓN EN DOCUMENTOS COINCIDE CON LO INSPECCIONADO?"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_coincide_valor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:text="SI" />
+                </LinearLayout>
+
+                <!-- Especificar -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ESPECIFICAR"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:paddingTop="8dp" />
+
+                <TextView
+                    android:id="@+id/et_especificar_coincide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Detalles adicionales" />
+
+                <!-- ¿SE SOLICITÓ O PRESENTÓ DOCUMENTACIÓN ADICIONAL EN SITU? -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:fontFamily="@font/font_family_quicksand_bold"
+                        android:text="¿SE SOLICITÓ O PRESENTÓ DOCUMENTACIÓN ADICIONAL EN SITU?"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_documentacion_valor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_tiny"
+                        android:text="SI" />
+                </LinearLayout>
+
+                <!-- Especificar -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ESPECIFICAR"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:paddingTop="8dp" />
+
+                <TextView
+                    android:id="@+id/et_especificar_documentacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Detalles adicionales" />
+
+                <!-- Subir Archivos de documentos adicionales -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subir Archivos de documentos adicionales"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:paddingTop="8dp" />
+
+                <!-- Listar Archivos Adjuntos -->
+                <LinearLayout
+                    android:id="@+id/layout_adjuntos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <!-- Añadir más archivos aquí de manera dinámica -->
+                </LinearLayout>
+
+                <!-- Observaciones -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Observaciones"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:paddingTop="8dp" />
+
+                <TextView
+                    android:id="@+id/et_observaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:text="Agregar observaciones relevantes" />
+
+                <!-- Firma -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Firma de confirmación de la información"
+                    android:textSize="@dimen/text_size_tiny"
+                    android:fontFamily="@font/font_family_quicksand_bold"
+                    android:paddingTop="8dp" />
+
+                <ImageView
+                    android:id="@+id/iv_firma"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:contentDescription="Firma"
+                    android:src="@drawable/dashed_border" /> <!-- Aquí irá tu imagen de firma -->
+
             </LinearLayout>
 
-            <!-- Observaciones -->
-            <TextView
+            <Button
+                android:id="@+id/btn_enviar_reporte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Observaciones"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:paddingTop="8dp" />
-
-            <TextView
-                android:id="@+id/et_observaciones"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_tiny"
-                android:text="Agregar observaciones relevantes" />
-
-            <!-- Firma -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Firma de confirmación de la información"
-                android:textSize="@dimen/text_size_tiny"
-                android:fontFamily="@font/font_family_quicksand_bold"
-                android:paddingTop="8dp" />
-
-            <ImageView
-                android:id="@+id/iv_firma"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:contentDescription="Firma"
-                android:src="@drawable/dashed_border" /> <!-- Aquí irá tu imagen de firma -->
-
+                android:text="Firmar documento"
+                android:layout_marginTop="16dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_enviar_reporte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Firmar documento"
-            android:layout_marginTop="16dp" />
-    </LinearLayout>
 
-
-</ScrollView>
+    </ScrollView>
     <!-- FIRMAR Y ENVIAR BOTÓN -->
 
 

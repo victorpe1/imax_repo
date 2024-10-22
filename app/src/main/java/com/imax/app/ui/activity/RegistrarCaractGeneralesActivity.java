@@ -286,7 +286,8 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         boolean isValid = true;
         Drawable errorBackground = ContextCompat.getDrawable(this, R.drawable.error_border);
 
-        if (!cbVivienda.isChecked() && !cbComercio.isChecked() && !cbIndustria.isChecked() && !cbEducativo.isChecked() && !cbOther.isChecked()) {
+        if (!cbVivienda.isChecked() && !cbComercio.isChecked() && !cbIndustria.isChecked()
+                && !cbEducativo.isChecked() && !cbOther.isChecked()) {
             tvGridInmueble.setBackground(errorBackground);
             isValid = false;
         } else {

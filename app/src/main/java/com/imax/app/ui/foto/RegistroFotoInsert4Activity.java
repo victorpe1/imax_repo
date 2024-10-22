@@ -125,7 +125,7 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
     private FilesAdapter filesAdapter;
 
     private String[] imagePaths = new String[6];
-    private List<String> fileBase64List = new ArrayList<>();
+    private List<String> fileMIMEList = new ArrayList<>();
     private List<String> filesNameList = new ArrayList<>();
     private List<String> filePaths = new ArrayList<>();
 
@@ -160,48 +160,52 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
         recyclerFiles = findViewById(R.id.recycler_files);
         filesContainer = findViewById(R.id.files_container);
 
+        imgPreview1.setVisibility(View.GONE);
+        imgPreview2.setVisibility(View.GONE);
+        imgPreview3.setVisibility(View.GONE);
+        imgPreview4.setVisibility(View.GONE);
+
         numAsignacion = (String) getIntent().getSerializableExtra("numAsignacion");
         if(!numAsignacion.trim().isEmpty()){
             FotoRequest fotoRequest =  daoExtras.getListFotoByNumero(numAsignacion);
             if (fotoRequest.getFotosArrayAdjunto4() != null && !fotoRequest.getFotosArrayAdjunto4().isEmpty()) {
-                fileBase64List.clear();
+                fileMIMEList.clear();
                 filesNameList.clear();
                 filePaths.clear();
                 for (String file : fotoRequest.getFotosArrayAdjunto4()) {
-                    int base64Start = file.indexOf(";base64,") + 8;
                     int nameStart = file.indexOf("name=") + 5;
                     int nameEnd = file.indexOf(";index=");
 
                     String fileName = file.substring(nameStart, nameEnd);
-                    String base64Data = file.substring(base64Start);
 
                     filesNameList.add(fileName);
-                    fileBase64List.add(base64Data);
-
+                    fileMIMEList.add(file);
                     filePaths.add("Rutas");
                 }
             }
             if (fotoRequest.getFotoArray4() != null && !fotoRequest.getFotoArray4().isEmpty()) {
                 for (String file : fotoRequest.getFotoArray4()) {
-                    System.out.println("file 2 -> " + file);
+                    System.out.println("file -> " + file);
                     if (file == null || file.isEmpty()) {
                         continue;
                     }
 
-                    int base64Start = file.indexOf(";base64,") + 8;
+                    int filePathStart = file.indexOf(";file,") + 6;
                     int nameStart = file.indexOf("name=") + 5;
                     int nameEnd = file.indexOf(";index=");
                     int indexStart = file.indexOf("index=") + 6;
-                    int indexEnd = file.indexOf(";base64,");
+                    int indexEnd = file.indexOf(";file,");
 
                     String fileName = file.substring(nameStart, nameEnd);
                     int fileIndex = Integer.parseInt(file.substring(indexStart, indexEnd));
-                    String base64Data = file.substring(base64Start);
-                    Bitmap imageBitmap = decodeBase64ToBitmap(base64Data);
+                    String filePath = file.substring(filePathStart);
+                    Uri imageUri = Uri.fromFile(new File(filePath));
 
-                    setImageWhileIndex(fileIndex, imageBitmap);
+                    imagePaths[fileIndex] = file;
+                    setImageWhileIndex(fileIndex, imageUri);
 
-                    System.out.println("fileName -> " + fileName);
+                    System.out.println("Nombre del archivo: " + fileName);
+                    System.out.println("Ruta del archivo: " + filePath);
                 }
             }
             showFiles();
@@ -224,10 +228,6 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
             openCamera();
         });
 
-        imgPreview1.setVisibility(View.GONE);
-        imgPreview2.setVisibility(View.GONE);
-        imgPreview3.setVisibility(View.GONE);
-        imgPreview4.setVisibility(View.GONE);
 
         filesNameList = new ArrayList<>();
 
@@ -251,27 +251,27 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
-    private void setImageWhileIndex(int currentImageIndex, Bitmap imageBitmap){
+    private void setImageWhileIndex(int currentImageIndex, Uri imageBitmap){
         switch (currentImageIndex) {
             case 0:
-                imgPreview1.setImageBitmap(imageBitmap);
+                imgPreview1.setImageURI(imageBitmap);
                 imgPreview1.setVisibility(View.VISIBLE);
-                btnTakePhoto1.setText("Actualizar Foto");
+                btnTakePhoto1.setText("Actualizar");
                 break;
             case 1:
-                imgPreview2.setImageBitmap(imageBitmap);
+                imgPreview2.setImageURI(imageBitmap);
                 imgPreview2.setVisibility(View.VISIBLE);
-                btnTakePhoto2.setText("Actualizar Foto");
+                btnTakePhoto2.setText("Actualizar");
                 break;
             case 2:
-                imgPreview3.setImageBitmap(imageBitmap);
+                imgPreview3.setImageURI(imageBitmap);
                 imgPreview3.setVisibility(View.VISIBLE);
-                btnTakePhoto3.setText("Actualizar Foto");
+                btnTakePhoto3.setText("Actualizar");
                 break;
             case 3:
-                imgPreview4.setImageBitmap(imageBitmap);
+                imgPreview4.setImageURI(imageBitmap);
                 imgPreview4.setVisibility(View.VISIBLE);
-                btnTakePhoto4.setText("Actualizar Foto");
+                btnTakePhoto4.setText("Actualizar");
                 break;
             default:
                 Toast.makeText(this, "Por favor, selecciona una imagen para actualizar", Toast.LENGTH_SHORT).show();
@@ -293,7 +293,7 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
 
     private void removeFile(int index) {
         filesNameList.remove(index);
-        fileBase64List.remove(index);
+        fileMIMEList.remove(index);
 
         showFiles();
     }
@@ -337,35 +337,34 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        filesContainer.removeAllViews();
         if (requestCode == PICK_FILES_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
+                filesContainer.removeAllViews();
                 if (data.getClipData() != null) {
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
                         Uri fileUri = data.getClipData().getItemAt(i).getUri();
                         String fileName = getFileName(fileUri);
-                        String fileBase64 = convertFileToBase64(fileUri);
-                        String filePath = saveFileToInternalStorage(fileBase64, fileName);
+                        String mimeType = getMimeType(fileUri.toString());
+
+                        String filePath = saveFileToInternalStorage(fileUri, fileName);
                         if (filePath != null) {
                             filePaths.add(filePath);
-
-                            File file = new File(filePath);
-                            if (file.exists()) fileBase64List.add(fileBase64);
+                            String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=" + i + ";file," + filePath;
+                            fileMIMEList.add(combinedItem);
                         }
                         filesNameList.add(fileName);
                     }
                 } else if (data.getData() != null) {
                     Uri fileUri = data.getData();
                     String fileName = getFileName(fileUri);
-                    String fileBase64 = convertFileToBase64(fileUri);
-                    String filePath = saveFileToInternalStorage(fileBase64, fileName);
+                    String mimeType = getMimeType(fileUri.toString());
 
+                    String filePath = saveFileToInternalStorage(fileUri, fileName);
                     if (filePath != null) {
                         filePaths.add(filePath);
-
-                        File file = new File(filePath);
-                        if (file.exists()) fileBase64List.add(fileBase64);
+                        String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=0;file," + filePath;
+                        fileMIMEList.add(combinedItem);
                     }
                     filesNameList.add(fileName);
                 }
@@ -375,11 +374,11 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
                 }
                 filesAdapter.notifyDataSetChanged();
             }
+
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-
             if (imageBitmap != null) {
                 int width = imageBitmap.getWidth();
                 int height = imageBitmap.getHeight();
@@ -391,49 +390,31 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
                 }
 
                 try {
-                    File photoFile = createImageFile();  // Crear archivo para la foto
+                    File photoFile = createImageFile();
                     if (photoFile != null) {
                         FileOutputStream fos = new FileOutputStream(photoFile);
-                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);  // Guardar la imagen
+                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                         fos.flush();
                         fos.close();
 
-                        //String imagePath = photoFile.getAbsolutePath();
-                        byte[] imageBytes = Files.readAllBytes(photoFile.toPath());
-                        String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                        String mimeType = getMimeType(photoFile.getAbsolutePath());
-                        if (mimeType == null) {
-                            mimeType = "application/octet-stream";
-                        }
-                        String fileName = photoFile.getName();
-                        String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=" +
-                                currentImageIndex + ";base64," + base64Image;
+                        String filePath = photoFile.getAbsolutePath();
+                        String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
+                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+
+                        String combinedItem = "data:" + mimeType + ";name=" + photoFile.getName() + ";index=" +
+                                currentImageIndex + ";file," + filePath;
 
                         imagePaths[currentImageIndex] = combinedItem;
 
                         imageUri = Uri.fromFile(photoFile);
-                        switch (currentImageIndex) {
-                            case 0:
-                                imgPreview1.setImageURI(imageUri);
-                                imgPreview1.setVisibility(View.VISIBLE);
-                                btnTakePhoto1.setText("Actualizar Foto");
-                                break;
-                            case 1:
-                                imgPreview2.setImageURI(imageUri);
-                                imgPreview2.setVisibility(View.VISIBLE);
-                                btnTakePhoto2.setText("Actualizar Foto");
-                                break;
-                            default:
-                                Toast.makeText(this, "Por favor, selecciona una imagen para actualizar", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
+                        setImageWhileIndex(currentImageIndex, imageUri);
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
                 }
             }
-
         }
     }
 
@@ -495,13 +476,12 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
 
         switch (id) {
             case R.id.menu_pedido_siguiente:
-                List<String> selectedFiles = filesNameList;
-                List<String> combinedList = combineBase64AndFileNames(fileBase64List, selectedFiles);
-
                 FotoRequest fotoRequest = new FotoRequest();
                 fotoRequest.setNumInspeccion(numAsignacion);
                 fotoRequest.setFotoArray4(Arrays.asList(imagePaths));
-                fotoRequest.setFotosArrayAdjunto4(combinedList);
+                fotoRequest.setFotosArrayAdjunto4(fileMIMEList);
+
+                System.out.println("imagePaths: " + imagePaths);
 
                 daoExtras.actualizarRegistroInpeccionFoto4(fotoRequest);
 
@@ -517,20 +497,6 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private String convertFileToBase64FromPath(String filePath) {
-        try {
-            File file = new File(filePath);
-            FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] bytes = new byte[(int) file.length()];
-            fileInputStream.read(bytes);
-            fileInputStream.close();
-            return Base64.encodeToString(bytes, Base64.DEFAULT);  // Convertir a Base64
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
@@ -552,18 +518,33 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
         builder.show();
     }
 
-    private String saveFileToInternalStorage(String base64Data, String fileName) {
+    private String saveFileToInternalStorage(Uri fileUri, String fileName) {
         try {
-            File file = new File(getFilesDir(), fileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            byte[] decodedBytes = Base64.decode(base64Data, Base64.DEFAULT);
-            fos.write(decodedBytes);
-            fos.close();
-            return file.getAbsolutePath();  // Retorna la ruta completa del archivo guardado
+            File directory = new File(getFilesDir(), "images");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+
+            File file = new File(directory, fileName);
+
+            InputStream inputStream = getContentResolver().openInputStream(fileUri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+
+            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     @SuppressLint("Range")
@@ -575,26 +556,6 @@ public class RegistroFotoInsert4Activity extends AppCompatActivity implements Fi
             cursor.close();
         }
         return fileName;
-    }
-
-    private String convertFileToBase64(Uri uri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-            }
-            inputStream.close();
-
-            byte[] fileBytes = byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(fileBytes, Base64.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override

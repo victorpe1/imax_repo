@@ -109,7 +109,7 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
     private RecyclerView recyclerFiles;
     private FilesAdapter filesAdapter;
 
-    private List<String> fileBase64List = new ArrayList<>();
+    private List<String> fileMIMEList = new ArrayList<>();
     private List<String> filesNameList = new ArrayList<>();
     private List<String> filePaths = new ArrayList<>();
 
@@ -140,20 +140,17 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
         if(!numAsignacion.trim().isEmpty()){
             FotoRequest fotoRequest =  daoExtras.getListFotoByNumero(numAsignacion);
             if (fotoRequest.getFotosArrayAdjunto5() != null && !fotoRequest.getFotosArrayAdjunto5().isEmpty()) {
-                fileBase64List.clear();
+                fileMIMEList.clear();
                 filesNameList.clear();
                 filePaths.clear();
                 for (String file : fotoRequest.getFotosArrayAdjunto5()) {
-                    int base64Start = file.indexOf(";base64,") + 8;
                     int nameStart = file.indexOf("name=") + 5;
                     int nameEnd = file.indexOf(";index=");
 
                     String fileName = file.substring(nameStart, nameEnd);
-                    String base64Data = file.substring(base64Start);
 
                     filesNameList.add(fileName);
-                    fileBase64List.add(base64Data);
-
+                    fileMIMEList.add(file);
                     filePaths.add("Rutas");
                 }
             }
@@ -201,7 +198,7 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
 
     private void removeFile(int index) {
         filesNameList.remove(index);
-        fileBase64List.remove(index);
+        fileMIMEList.remove(index);
 
         showFiles();
     }
@@ -235,27 +232,26 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
                     for (int i = 0; i < count; i++) {
                         Uri fileUri = data.getClipData().getItemAt(i).getUri();
                         String fileName = getFileName(fileUri);
-                        String fileBase64 = convertFileToBase64(fileUri);
-                        String filePath = saveFileToInternalStorage(fileBase64, fileName);
+                        String mimeType = getMimeType(fileUri.toString());
+
+                        String filePath = saveFileToInternalStorage(fileUri, fileName);
                         if (filePath != null) {
                             filePaths.add(filePath);
-
-                            File file = new File(filePath);
-                            if (file.exists()) fileBase64List.add(fileBase64);
+                            String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=" + i + ";file," + filePath;
+                            fileMIMEList.add(combinedItem);
                         }
                         filesNameList.add(fileName);
                     }
                 } else if (data.getData() != null) {
                     Uri fileUri = data.getData();
                     String fileName = getFileName(fileUri);
-                    String fileBase64 = convertFileToBase64(fileUri);
-                    String filePath = saveFileToInternalStorage(fileBase64, fileName);
+                    String mimeType = getMimeType(fileUri.toString());
 
+                    String filePath = saveFileToInternalStorage(fileUri, fileName);
                     if (filePath != null) {
                         filePaths.add(filePath);
-
-                        File file = new File(filePath);
-                        if (file.exists()) fileBase64List.add(fileBase64);
+                        String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=0;file," + filePath;
+                        fileMIMEList.add(combinedItem);
                     }
                     filesNameList.add(fileName);
                 }
@@ -265,6 +261,7 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
                 }
                 filesAdapter.notifyDataSetChanged();
             }
+
         }
     }
 
@@ -309,13 +306,9 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
             case R.id.menu_pedido_siguiente:
                 break;
             case R.id.menu_pedido_guardar:
-
-                List<String> selectedFiles = filesNameList;
-                List<String> combinedList = combineBase64AndFileNames(fileBase64List, selectedFiles);
-
                 FotoRequest fotoRequest = new FotoRequest();
                 fotoRequest.setNumInspeccion(numAsignacion);
-                fotoRequest.setFotosArrayAdjunto5(combinedList);
+                fotoRequest.setFotosArrayAdjunto5(fileMIMEList);
 
                 daoExtras.actualizarRegistroInpeccionFoto5(fotoRequest);
 
@@ -363,18 +356,33 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
         builder.show();
     }
 
-    private String saveFileToInternalStorage(String base64Data, String fileName) {
+    private String saveFileToInternalStorage(Uri fileUri, String fileName) {
         try {
-            File file = new File(getFilesDir(), fileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            byte[] decodedBytes = Base64.decode(base64Data, Base64.DEFAULT);
-            fos.write(decodedBytes);
-            fos.close();
-            return file.getAbsolutePath();  // Retorna la ruta completa del archivo guardado
+            File directory = new File(getFilesDir(), "images");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+
+            File file = new File(directory, fileName);
+
+            InputStream inputStream = getContentResolver().openInputStream(fileUri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+
+            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     @SuppressLint("Range")
@@ -386,26 +394,6 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
             cursor.close();
         }
         return fileName;
-    }
-
-    private String convertFileToBase64(Uri uri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-            }
-            inputStream.close();
-
-            byte[] fileBytes = byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(fileBytes, Base64.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
@@ -428,25 +416,5 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
     public void hideLoader() {
         progressDialog.dismiss();
     }
-
-    public void showDialogoPostEnvio(@StringRes int tituloRes, @StringRes int mensajeRes, @DrawableRes int icon) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroFotoInsert5Activity.this);
-        builder.setTitle(tituloRes);
-        builder.setMessage(mensajeRes);
-        builder.setIcon(icon);
-        builder.setCancelable(false);
-
-        builder.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
-            /*Intent intent = new Intent(getApplicationContext(), DetallePedidoActivity.class);
-            intent.putExtra("numeroPedido",numeroPedido);
-            intent.putExtra("idCliente",idCliente);
-            intent.putExtra("nombreCliente",autocomplete_busqueda.getText().toString());
-            startActivity(intent); */
-            setResult(RESULT_OK);
-            finish();
-        });
-        builder.show();
-    }
-
 
 }

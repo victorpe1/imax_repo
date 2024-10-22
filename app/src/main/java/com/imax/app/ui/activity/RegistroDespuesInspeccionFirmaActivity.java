@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -375,6 +376,9 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
             //finish();
             new EnviarDocumentoTask(this, inspeccionRequest).execute();
         });
+
+        ImageButton btnCerrar = dialogView.findViewById(R.id.btn_cerrar);
+        btnCerrar.setOnClickListener(v -> dialog.dismiss());
     }
     private void agregarArchivoAdjunto(LinearLayout layoutAdjuntos, String nombreArchivo) {
         LinearLayout contenedorArchivo = new LinearLayout(this);
