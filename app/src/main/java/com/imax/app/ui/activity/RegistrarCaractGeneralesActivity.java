@@ -114,7 +114,6 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Prueba1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caracteristicas_general);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -190,6 +189,11 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         } else {
             spnRecibeInmueble.setSelection(0);
         }
+
+        //Agrega un OnItemSelectedListener
+
+        spnRecibeInmueble.setOnItemClickListener();
+
     }
 
     private int getIndex(List<CatalogModel> modalidades, String valorBD) {
@@ -288,10 +292,10 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
 
         if (!cbVivienda.isChecked() && !cbComercio.isChecked() && !cbIndustria.isChecked()
                 && !cbEducativo.isChecked() && !cbOther.isChecked()) {
-            tvGridInmueble.setBackground(errorBackground);
+            gridCheckbox.setBackground(errorBackground);
             isValid = false;
         } else {
-            tvGridInmueble.setBackground(defaultBackground);
+            gridCheckbox.setBackground(defaultBackground);
         }
 
         isValid &= validarSpinner(spnTipoInmueble, errorBackground);

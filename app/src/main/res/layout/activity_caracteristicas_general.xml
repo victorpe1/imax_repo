@@ -155,13 +155,13 @@
                     android:text="¿QUIEN RECIBE EN EL INMUEBLE? * "
                     android:textColor="#00796B"
                     android:textSize="@dimen/text_size_small" />
+
                 <Spinner
                     android:id="@+id/spn_recibe_inmueble"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_small" />
             </LinearLayout>
-
 
 
             <LinearLayout
