@@ -189,11 +189,18 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         } else {
             spnRecibeInmueble.setSelection(0);
         }
-
-        //Agrega un OnItemSelectedListener
-
-        spnRecibeInmueble.setOnItemClickListener();
-
+        spnRecibeInmueble.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (!modalidades.get(position).getDescripcion().equals("Seleccione una opción")) {
+                    spnRecibeInmueble.setBackground(defaultBackground); // Restaurar el fondo predeterminado
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // No se hace nada
+            }
+        });
     }
 
     private int getIndex(List<CatalogModel> modalidades, String valorBD) {
