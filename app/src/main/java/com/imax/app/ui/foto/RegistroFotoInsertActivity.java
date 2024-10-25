@@ -228,8 +228,51 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("Item selected");
-            }
+                //loadDataTipoInscripcion(modalidadSeleccionada);
+                fileMIMEList.clear();
+                filesNameList.clear();
+                filePaths.clear();
+                FotoRequest fotoRequest = daoExtras.getListFotoByNumero(lista.get(position).getNumber());
+                if (fotoRequest.getFotosArrayAdjunto1() != null && !fotoRequest.getFotosArrayAdjunto1().isEmpty()) {
+                    for (String file : fotoRequest.getFotosArrayAdjunto1()) {
+                        int nameStart = file.indexOf("name=") + 5;
+                        int nameEnd = file.indexOf(";index=");
 
+                        String fileName = file.substring(nameStart, nameEnd);
+
+                        filesNameList.add(fileName);
+                        fileMIMEList.add(file);
+                        filePaths.add("Rutas");
+                    }
+                }
+                if (fotoRequest.getFotoArray1() != null && !fotoRequest.getFotoArray1().isEmpty()) {
+                    for (String file : fotoRequest.getFotoArray1()) {
+                        System.out.println("file -> " + file);
+                        if (file == null || file.isEmpty()) {
+                            continue;
+                        }
+
+                        int filePathStart = file.indexOf(";file,") + 6;
+                        int nameStart = file.indexOf("name=") + 5;
+                        int nameEnd = file.indexOf(";index=");
+                        int indexStart = file.indexOf("index=") + 6;
+                        int indexEnd = file.indexOf(";file,");
+
+                        String fileName = file.substring(nameStart, nameEnd);
+                        int fileIndex = Integer.parseInt(file.substring(indexStart, indexEnd));
+                        String filePath = file.substring(filePathStart);
+                        Uri imageUri = Uri.fromFile(new File(filePath));
+
+                        imagePaths[fileIndex] = file;
+                        setImageWhileIndex(fileIndex, imageUri);
+
+                        System.out.println("Nombre del archivo: " + fileName);
+                        System.out.println("Ruta del archivo: " + filePath);
+                    }
+                }
+                showFiles();
+
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -240,16 +283,6 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         recyclerFiles.setAdapter(filesAdapter);
 
         btnBrowseFiles.setOnClickListener(v -> openFilePicker());
-
-        spnAsignarNumero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //loadDataTipoInscripcion(modalidadSeleccionada);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
 
         progressDialog = new ProgressDialog(RegistroFotoInsertActivity.this);
         progressDialog.setIndeterminate(true);
@@ -701,6 +734,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
             showFiles();
         }
     }
+
 
     public void showLoader() {
         progressDialog.show();

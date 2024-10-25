@@ -4,6 +4,7 @@ import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.api.request.OrderRequest;
 import com.imax.app.data.api.request.VentaRequest;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -78,5 +79,21 @@ public interface EasyfactApiInterface {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("api/order/save")
     Call<ResponseBody> enviarRegistro(@Body InspeccionRequest request);
+
+
+    @Headers({"Content-Type: application/json"})
+    @GET("api/auth/get_tokens")
+    Call<ResponseBody> obtenerTokens(
+            @Query("username") String username,
+            @Query("password") String password,
+            @Query("db") String db
+    );
+
+    @Headers({"Content-Type: application/json"})
+    @POST("api/consultar_user")
+    Call<ResponseBody> consultarUsuario(
+            @Header("Access-Token") String token,
+            @Body RequestBody params
+    );
 
 }

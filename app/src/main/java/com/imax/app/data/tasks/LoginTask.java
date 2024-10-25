@@ -12,12 +12,15 @@ import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
 import com.imax.app.ui.login.LoginActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
@@ -43,12 +46,62 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         if (Util.isConnectingToRed(weakReference.get().getApplicationContext())) {
-            String credentials = usuario + ":" + password;
-        }
+            try {
+                Response<ResponseBody> response =
+                        XMSApi.getApiEasyfactBase2(weakReference.get().getApplicationContext()).
+                                obtenerTokens(usuario,password,"IMAX_INSPECCIONES").execute();
 
-        if(usuarioModel == null){
-            if (daoExtras.login(usuario, password)){
-                usuarioModel = new UsuarioModel();
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String access_token = jsonObject.getString("access_token");
+
+                    JSONArray dataArray = new JSONArray();
+                    JSONObject userData = new JSONObject();
+                    userData.put("usuario", usuario);
+                    userData.put("password", password);
+                    dataArray.put(userData);
+
+                    JSONObject paramsObject = new JSONObject();
+                    paramsObject.put("data", dataArray);
+
+                    JSONObject fullBody = new JSONObject();
+                    fullBody.put("params", paramsObject);
+
+                    RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), fullBody.toString());
+
+                    Response<ResponseBody> responseLogin =
+                            XMSApi.getApiEasyfactBase2(weakReference.get().getApplicationContext()).
+                                    consultarUsuario(access_token, body).execute();
+
+                    if (responseLogin.isSuccessful()) {
+                        usuarioModel = new UsuarioModel();
+                    }else{
+                        switch (response.code()) {
+                            case 401:
+                                throw new UnauthorizedException("401 Unauthorized");
+                            case 404:
+                                throw new Resources.NotFoundException();
+                            default:
+                                throw new Exception();
+                        }
+                    }
+
+                }else{
+                    switch (response.code()) {
+                        case 401:
+                            throw new UnauthorizedException("401 Unauthorized");
+                        case 404:
+                            throw new Resources.NotFoundException();
+                        default:
+                            throw new Exception();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }catch (UnauthorizedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
