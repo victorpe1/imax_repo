@@ -51,7 +51,7 @@
 
                     <RadioGroup
                         android:id="@+id/radioGroup_1"
-                        android:layout_width="136dp"
+                        android:layout_width="114dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
@@ -98,10 +98,10 @@
                         android:textColor="#00796B"/>
                     <RadioGroup
                         android:id="@+id/radioGroup_2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="114dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/radio_tiene_1"
