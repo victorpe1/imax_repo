@@ -233,15 +233,15 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
 
         if (radioGroup1.getCheckedRadioButtonId() == -1) {
             isValid = false;
-            tv_radioGroup.setBackground(errorBackground);
+            radioGroup1.setBackground(errorBackground);
         } else {
-            tv_radioGroup.setBackground(defaultBackground);
+            radioGroup1.setBackground(defaultBackground);
         }
         if (radioGroup2.getCheckedRadioButtonId() == -1) {
             isValid = false;
-            tv_radioGroup2.setBackground(errorBackground);
+            radioGroup2.setBackground(errorBackground);
         } else {
-            tv_radioGroup2.setBackground(defaultBackground);
+            radioGroup2.setBackground(defaultBackground);
         }
 
         return isValid;

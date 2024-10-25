@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -174,7 +176,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //edtContacto.setText(lista.get(position).getInspectorName());
-
                 edtDireccion.setText(lista.get(position).getAddress());
                 edtDistrito.setText(lista.get(position).getCustomField1());
                 edtProvincia.setText(lista.get(position).getCustomField2());
@@ -188,9 +189,12 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
                                 lista.get(position).getTypeName());
                 loadDataTipoInscripcion(modalidadSeleccionada);
 
+                // Cargar fecha y hora en los campos correspondientes
                 setDateTimeInEditText(lista.get(position).getInspectionDate(), edtFecha, edtHora);
 
+                // Cargar información del contacto y restablecer fondo si es válido
                 loadDataIfExists(lista.get(position).getNumber());
+
             }
 
             @Override
@@ -202,16 +206,37 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
+        setupTextWatchers();
     }
 
-    private void loadDataIfExists(String numero){
-        InspeccionRequest inspeccionRequest =  daoExtras.getListAsignacionByNumero(numero);
 
-        if(inspeccionRequest.getNumInspeccion().trim().length() != 0){
+
+
+    private void setupTextWatchers(){
+        Drawable originalBackground = edtContacto.getBackground();
+        edtContacto.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                if(!s.toString().trim().isEmpty()) {
+                    edtContacto.setBackground(originalBackground);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+    private void loadDataIfExists(String numero){
+        InspeccionRequest inspeccionRequest = daoExtras.getListAsignacionByNumero(numero);
+        Drawable originalBackground = edtContacto.getBackground(); // Guarda el fondo original
+
+        if (inspeccionRequest.getNumInspeccion().trim().length() != 0) {
             edtContacto.setText(inspeccionRequest.getContacto());
-        }else{
+        } else {
             edtContacto.setText("");
         }
+
     }
 
     public void setDateTimeInEditText(String fecha, EditText edtFecha, EditText edtHora) {

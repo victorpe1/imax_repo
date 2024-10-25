@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.MultiAutoCompleteTextView;
@@ -112,6 +113,8 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
     private ProgressBar progress;
     private AntesInspeccion inspeccion;
 
+    Drawable defaultBackgroundDistribucion;
+    Drawable defaultBackgroundNPisos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,8 +159,79 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
+
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
+        defaultBackground = gridCheckbox.getBackground(); // Guardar el fondo original
+
+        // Guarda los fondos originales de los EditText
+        defaultBackgroundDistribucion = edtDistribucion.getBackground();
+        defaultBackgroundNPisos = edtNPisos.getBackground();
+        setupCheckboxListeners();
+        setupEditTextListeners();
     }
+    private void setupCheckboxListeners(){
+        // Listener común para todos los CheckBox
+        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Si se marca cualquier checkbox, restaurar el fondo original del GridLayout
+                if (cbVivienda.isChecked() || cbComercio.isChecked() || cbIndustria.isChecked()
+                        || cbEducativo.isChecked() || cbOther.isChecked()) {
+                    gridCheckbox.setBackground(defaultBackground); // Restaura el fondo original
+                }
+            }
+        };
+        // Asignar el listener a cada CheckBox
+        cbVivienda.setOnCheckedChangeListener(listener);
+        cbComercio.setOnCheckedChangeListener(listener);
+        cbIndustria.setOnCheckedChangeListener(listener);
+        cbEducativo.setOnCheckedChangeListener(listener);
+        cbOther.setOnCheckedChangeListener(listener);
+    }
+    private void setupEditTextListeners() {
+        // Listener para restaurar el fondo original cuando el usuario comience a escribir en edtDistribucion
+        edtDistribucion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No es necesario hacer nada aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Restaura el fondo original de edtDistribucion cuando el usuario comience a escribir
+                if (s.length() > 0) {
+                    edtDistribucion.setBackground(defaultBackgroundDistribucion);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario hacer nada aquí
+            }
+        });
+
+        // Listener para restaurar el fondo original cuando el usuario comience a escribir en edtNPisos
+        edtNPisos.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No es necesario hacer nada aquí
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Restaura el fondo original de edtNPisos cuando el usuario comience a escribir
+                if (s.length() > 0) {
+                    edtNPisos.setBackground(defaultBackgroundNPisos);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario hacer nada aquí
+            }
+        });
+    }
+
     private void loadDataTipoInmueble(){
         List<CatalogModel> modalidades = new ArrayList<>();
         for (AsignacionModel model : daoExtras.getListAsignacion()) {
@@ -297,9 +371,10 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         boolean isValid = true;
         Drawable errorBackground = ContextCompat.getDrawable(this, R.drawable.error_border);
 
+        // Validar los CheckBox
         if (!cbVivienda.isChecked() && !cbComercio.isChecked() && !cbIndustria.isChecked()
                 && !cbEducativo.isChecked() && !cbOther.isChecked()) {
-            gridCheckbox.setBackground(errorBackground);
+            gridCheckbox.setBackground(errorBackground); // Mostrar borde rojo si no hay ninguno seleccionado
             isValid = false;
         } else {
             gridCheckbox.setBackground(defaultBackground);
@@ -309,6 +384,17 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         isValid &= validarSpinner(spnRecibeInmueble, errorBackground);
         isValid &= validarEditText(edtDistribucion, errorBackground);
         isValid &= validarEditText(edtNPisos, errorBackground);
+
+        // Validar los EditText con el borde de error
+        if (edtDistribucion.getText().toString().trim().isEmpty()) {
+            edtDistribucion.setBackground(errorBackground);
+            isValid = false;
+        }
+
+        if (edtNPisos.getText().toString().trim().isEmpty()) {
+            edtNPisos.setBackground(errorBackground);
+            isValid = false;
+        }
 
         if (!isValid) {
             Toast.makeText(this, "Por favor, complete todos los campos obligatorios", Toast.LENGTH_SHORT).show();
