@@ -85,15 +85,15 @@
                         android:layout_height="wrap_content"
                         android:text="Firma de confirmación de la información *"
                         android:textSize="@dimen/text_size_small"
-                        android:textColor="#00796B"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="8dp"/>
 
                     <com.github.gcacace.signaturepad.views.SignaturePad
                         android:id="@+id/signature_pad"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:background="@android:color/white"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_height="196dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@android:drawable/edit_text" />
 
                     <Button
                         android:id="@+id/btn_clear_signature"

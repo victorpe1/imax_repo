@@ -842,7 +842,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
             return true;
         }
     }
-
+    //Modificar Chatgtv
     private boolean validarCampos() {
         String defaultValue = "Seleccione una opción";
         boolean isValid = true;
@@ -878,9 +878,9 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
 
         if (radioGroupSistemaIncendio.getCheckedRadioButtonId() == -1) {
             isValid = false;
-            tv_radioGroup.setBackground(errorBackground);
+            radioGroupSistemaIncendio.setBackground(errorBackground);
         } else {
-            tv_radioGroup.setBackground(defaultBackground);
+            radioGroupSistemaIncendio.setBackground(defaultBackground);
         }
 
         return isValid;

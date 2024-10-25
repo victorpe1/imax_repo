@@ -128,7 +128,6 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
                 // La firma está completa
                 Toast.makeText(RegistroDespuesInspeccionFirmaActivity.this, "Firma completa", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onClear() {
                 // La firma ha sido limpiada
