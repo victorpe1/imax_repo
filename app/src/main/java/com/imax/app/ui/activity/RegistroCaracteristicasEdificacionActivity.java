@@ -850,6 +850,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         Drawable errorBackground = ContextCompat.getDrawable(this, R.drawable.error_border);
         Drawable defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
 
+        // Validar Spinners
         List<Spinner> spinners = Arrays.asList(
                 spnTipoPuerta, spnMaterialPuerta, spnSistemaPuerta,
                 spnMarcoVentana, spnVidrioVentana, spnSistemaVentana,
@@ -863,24 +864,25 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
             }
         }
 
+        // Validar MultiAutoCompleteTextViews
         List<MultiAutoCompleteTextView> multiAutoCompletes = Arrays.asList(
                 multiAutoCompleteTextView, multiCompleteMuros, multiCompleteRevestimiento,
                 multiCompletePisos, multiCompletePisosCocina, multiCompleteParedesCocina,
                 multiCompletePisosBaños, multiCompleteParedesBaño
         );
 
-        // Validar MultiAutoCompleteTextViews
         for (MultiAutoCompleteTextView multiAutoComplete : multiAutoCompletes) {
             if (!validateMultiAutoComplete(multiAutoComplete, errorBackground, defaultBackground)) {
                 isValid = false;
             }
         }
 
+        // Validar RadioGroup para sistema de incendio
         if (radioGroupSistemaIncendio.getCheckedRadioButtonId() == -1) {
+            radioGroupSistemaIncendio.setBackground(errorBackground); // Mostrar borde de error
             isValid = false;
-            radioGroupSistemaIncendio.setBackground(errorBackground);
         } else {
-            radioGroupSistemaIncendio.setBackground(defaultBackground);
+            radioGroupSistemaIncendio.setBackground(defaultBackground); // Restaurar borde normal
         }
 
         return isValid;
