@@ -96,4 +96,11 @@ public interface EasyfactApiInterface {
             @Body RequestBody params
     );
 
+    @Headers({"Content-Type: application/json"})
+    @POST("api/lista_configurations")
+    Call<ResponseBody> consultarCatalogo(
+            @Header("Access-Token") String token,
+            @Body RequestBody params
+    );
+
 }

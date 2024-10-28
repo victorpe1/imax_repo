@@ -214,155 +214,42 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
 
     }
     private void loadDataEstructura(String valoresBD) {
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Laminares Curvadas"));
-        opciones.add(new CatalogModel("002", "Pórticos de Concreto Armado"));
-        opciones.add(new CatalogModel("003", "Albañilería Confinada"));
-        opciones.add(new CatalogModel("004", "Albañilería sin Confinar"));
-        opciones.add(new CatalogModel("005", "Sistema Mixto, Placas y Pórticos de C°A°"));
-        opciones.add(new CatalogModel("006", "Adobe"));
-        opciones.add(new CatalogModel("007", "De Madera"));
-        opciones.add(new CatalogModel("008", "Vigas y columnas de concreto armado"));
-        opciones.add(new CatalogModel("009", "Otro"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("estructura");
 
         setupMultiAutoCompleteTextView(multiAutoCompleteTextView, opciones, valoresBD);
     }
     private void loadDataMuro(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Adobe"));
-        opciones.add(new CatalogModel("002", "Pircado con mezcla de barro"));
-        opciones.add(new CatalogModel("003", "Drywall / Material liviano"));
-        opciones.add(new CatalogModel("004", "Albañilería (Ladrillo)"));
-        opciones.add(new CatalogModel("005", "Albañilería (Concreto)"));
-        opciones.add(new CatalogModel("006", "Albañilería (Calcáreo)"));
-        opciones.add(new CatalogModel("007", "Placas de Concreto"));
-        opciones.add(new CatalogModel("008", "De Piedra"));
-        opciones.add(new CatalogModel("009", "Otro"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("muros");
 
         setupMultiAutoCompleteTextView(multiCompleteMuros, opciones, valoresBD);
     }
     private void loadDataRevestimiento(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Tarrajeo"));
-        opciones.add(new CatalogModel("002", "Pintura"));
-        opciones.add(new CatalogModel("003", "Tarrajeo y Pintura"));
-        opciones.add(new CatalogModel("004", "Cerámico"));
-        opciones.add(new CatalogModel("005", "Mayólica"));
-        opciones.add(new CatalogModel("006", "Porcelanato"));
-        opciones.add(new CatalogModel("007", "Concreto Visto"));
-        opciones.add(new CatalogModel("008", "Sin tarrajeo con Pintura"));
-        opciones.add(new CatalogModel("009", "Papel mural"));
-        opciones.add(new CatalogModel("010", "Otro"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("revestimientos");
 
         setupMultiAutoCompleteTextView(multiCompleteRevestimiento, opciones, valoresBD);
     }
     private void loadDataPisos(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Alfombra"));
-        opciones.add(new CatalogModel("002", "Bambú"));
-        opciones.add(new CatalogModel("003", "Cemento Bruñado"));
-        opciones.add(new CatalogModel("004", "Cemento Pulido"));
-        opciones.add(new CatalogModel("005", "Cerámica"));
-        opciones.add(new CatalogModel("006", "Cerámica Importada"));
-        opciones.add(new CatalogModel("007", "Ladrillo Pastelero"));
-        opciones.add(new CatalogModel("008", "Lajas"));
-        opciones.add(new CatalogModel("009", "Laminado"));
-        opciones.add(new CatalogModel("010", "Loseta Veneciana"));
-        opciones.add(new CatalogModel("011", "Loseta Vinílica"));
-        opciones.add(new CatalogModel("012", "Madera Machihembrada"));
-        opciones.add(new CatalogModel("013", "Mármol"));
-        opciones.add(new CatalogModel("014", "Parquet"));
-        opciones.add(new CatalogModel("015", "Parquet de Primera"));
-        opciones.add(new CatalogModel("016", "Parquet Fino"));
-        opciones.add(new CatalogModel("017", "Porcelanato"));
-        opciones.add(new CatalogModel("018", "Porcelanato Importado"));
-        opciones.add(new CatalogModel("019", "Terrazo"));
-        opciones.add(new CatalogModel("020", "Tierra Compactada"));
-        opciones.add(new CatalogModel("021", "Otros"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("pisos");
 
         setupMultiAutoCompleteTextView(multiCompletePisos, opciones, valoresBD);
     }
     private void loadDataPisosCocina(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Alfombra"));
-        opciones.add(new CatalogModel("002", "Bambú"));
-        opciones.add(new CatalogModel("003", "Cemento Bruñado"));
-        opciones.add(new CatalogModel("004", "Cemento Pulido"));
-        opciones.add(new CatalogModel("005", "Cerámica"));
-        opciones.add(new CatalogModel("006", "Cerámica Importada"));
-        opciones.add(new CatalogModel("007", "Ladrillo Pastelero"));
-        opciones.add(new CatalogModel("008", "Lajas"));
-        opciones.add(new CatalogModel("009", "Laminado"));
-        opciones.add(new CatalogModel("010", "Loseta Veneciana"));
-        opciones.add(new CatalogModel("011", "Loseta Vinílica"));
-        opciones.add(new CatalogModel("012", "Madera Machihembrada"));
-        opciones.add(new CatalogModel("013", "Mármol"));
-        opciones.add(new CatalogModel("014", "Mármol Importado"));
-        opciones.add(new CatalogModel("015", "Parquet"));
-        opciones.add(new CatalogModel("016", "Parquet de Primera"));
-        opciones.add(new CatalogModel("017", "Parquet Fino"));
-        opciones.add(new CatalogModel("018", "Porcelanato"));
-        opciones.add(new CatalogModel("019", "Terrazo"));
-        opciones.add(new CatalogModel("020", "Tierra Compactada"));
-        opciones.add(new CatalogModel("021", "Otros"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("pisos_cocina");
 
         setupMultiAutoCompleteTextView(multiCompletePisosCocina, opciones, valoresBD);
     }
     private void loadDataParedesCocina(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Tarrajeo"));
-        opciones.add(new CatalogModel("002", "Pintura"));
-        opciones.add(new CatalogModel("003", "Tarrajeo y Pintura"));
-        opciones.add(new CatalogModel("004", "Cerámico"));
-        opciones.add(new CatalogModel("005", "Mayólica"));
-        opciones.add(new CatalogModel("006", "Porcelanato"));
-        opciones.add(new CatalogModel("007", "Concreto Visto"));
-        opciones.add(new CatalogModel("008", "Ladrillo Caravista "));
-        opciones.add(new CatalogModel("009", "Sin tarrajeo con Pintura"));
-        opciones.add(new CatalogModel("010", "Papel mural "));
-        opciones.add(new CatalogModel("011", "Otros"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("paredes_cocina");
 
         setupMultiAutoCompleteTextView(multiCompleteParedesCocina, opciones, valoresBD);
     }
     private void loadDataPisosBaños(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Alfombra"));
-        opciones.add(new CatalogModel("002", "Bambú"));
-        opciones.add(new CatalogModel("003", "Cemento Bruñado"));
-        opciones.add(new CatalogModel("004", "Cemento Pulido"));
-        opciones.add(new CatalogModel("005", "Cerámica"));
-        opciones.add(new CatalogModel("006", "Cerámica Importada"));
-        opciones.add(new CatalogModel("007", "Ladrillo Pastelero"));
-        opciones.add(new CatalogModel("008", "Lajas"));
-        opciones.add(new CatalogModel("009", "Laminado"));
-        opciones.add(new CatalogModel("010", "Loseta Veneciana"));
-        opciones.add(new CatalogModel("011", "Loseta Vinílica"));
-        opciones.add(new CatalogModel("012", "Madera Machihembrada"));
-        opciones.add(new CatalogModel("013", "Mármol"));
-        opciones.add(new CatalogModel("014", "Mármol Importado"));
-        opciones.add(new CatalogModel("015", "Parquet"));
-        opciones.add(new CatalogModel("016", "Parquet de Primera"));
-        opciones.add(new CatalogModel("017", "Parquet Fino"));
-        opciones.add(new CatalogModel("018", "Porcelanato"));
-        opciones.add(new CatalogModel("019", "Terrazo"));
-        opciones.add(new CatalogModel("020", "Tierra Compactada"));
-        opciones.add(new CatalogModel("021", "Otros"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("piso_banio");
 
         setupMultiAutoCompleteTextView(multiCompletePisosBaños, opciones, valoresBD);
     }
     private void loadDataParedesBaños(String valoresBD){
-        List<CatalogModel> opciones = new ArrayList<>();
-        opciones.add(new CatalogModel("001", "Tarrajeo"));
-        opciones.add(new CatalogModel("002", "Pintura"));
-        opciones.add(new CatalogModel("003", "Tarrajeo y Pintura"));
-        opciones.add(new CatalogModel("004", "Cerámico"));
-        opciones.add(new CatalogModel("005", "Mayólica"));
-        opciones.add(new CatalogModel("006", "Porcelanato"));
-        opciones.add(new CatalogModel("007", "Concreto Visto"));
-        opciones.add(new CatalogModel("008", "Ladrillo Caravista "));
-        opciones.add(new CatalogModel("009", "Sin tarrajeo con Pintura"));
-        opciones.add(new CatalogModel("010", "Papel mural "));
-        opciones.add(new CatalogModel("011", "Otros"));
+        List<CatalogModel> opciones = daoExtras.obtenerCatalogDesdeDB("paredes_banio");
 
         setupMultiAutoCompleteTextView(multiCompleteParedesBaño, opciones, valoresBD);
     }
@@ -370,7 +257,6 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
     private void setupMultiAutoCompleteTextView(MultiAutoCompleteTextView multiAuto,
                                                 List<CatalogModel> opciones, String valoresBD) {
         Set<String> seleccionados = new LinkedHashSet<>();
-
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_dropdown_item_1line,
@@ -387,15 +273,13 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
             }
         });
 
+        // Cargar valores iniciales
         if (valoresBD != null && !valoresBD.trim().isEmpty()) {
             String[] valoresSeleccionados = valoresBD.split(", ");
             for (String valor : valoresSeleccionados) {
                 seleccionados.add(valor.trim());
             }
             String textoInicial = TextUtils.join(", ", seleccionados);
-            if (!textoInicial.endsWith(", ")) {
-                textoInicial += ", ";
-            }
             multiAuto.setText(textoInicial);
             multiAuto.setSelection(multiAuto.getText().length());
         }
@@ -403,14 +287,15 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         multiAuto.setOnItemClickListener((parent, view, position, id) -> {
             CatalogModel seleccion = adapter.getItem(position);
             if (seleccion != null) {
-                String selectedValue = seleccion.toString();
+                String selectedValue = seleccion.getCodigo(); // Obtén el código
                 if (!seleccionados.contains(selectedValue)) {
-                    seleccionados.add(selectedValue);  // Agregar el nuevo valor
-                    multiAuto.setText(TextUtils.join(", ", seleccionados) + ", ");  // Actualizar el texto con coma
-                    multiAuto.setSelection(multiAuto.getText().length());  // Colocar el cursor al final
+                    seleccionados.add(selectedValue);
+                    multiAuto.setText(TextUtils.join(", ", seleccionados) + ", ");
+                    multiAuto.setSelection(multiAuto.getText().length());
                 }
             }
         });
+
         multiAuto.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -431,397 +316,205 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
             }
         });
     }
+
+
     private boolean isInCatalog(String value, List<CatalogModel> catalog) {
         for (CatalogModel item : catalog) {
-            if (item.toString().equals(value)) {
+            if (item.getCodigo().equals(value)) {
                 return true;
             }
         }
         return false;
     }
-    private int getIndex(List<CatalogModel> modalidades, String valorBD) {
+
+    private int getIndexByCodigo(List<CatalogModel> modalidades, String codigo) {
         for (int i = 0; i < modalidades.size(); i++) {
-            if (modalidades.get(i).getDescripcion().equals(valorBD)) {
+            if (modalidades.get(i).getCodigo().equals(codigo)) {
                 return i;
             }
         }
         return -1;
     }
 
-    private void loadDataTipoPuerta(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Apanelada"));
-        modalidades.add(new CatalogModel("02", "Maciza"));
-        modalidades.add(new CatalogModel("03", "Contraplacada"));
-        modalidades.add(new CatalogModel("04", "Fierro-Vidrio"));
-        modalidades.add(new CatalogModel("05", "Vidrio "));
-        modalidades.add(new CatalogModel("06", "Antiruido"));
-        modalidades.add(new CatalogModel("07", "Otros"));
+    private void loadDataTipoPuerta(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("tipo_puertas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoPuerta.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnTipoPuerta.setSelection(Math.max(position, 0));
-        } else {
-            spnTipoPuerta.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnTipoPuerta.setSelection(Math.max(position, 0));
     }
-    private void loadDataMaterialPuerta(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Fierro"));
-        modalidades.add(new CatalogModel("02", "Madera"));
-        modalidades.add(new CatalogModel("03", "Vidrio templado"));
-        modalidades.add(new CatalogModel("04", "Madera - fierro"));
-        modalidades.add(new CatalogModel("05", "Vidrio Laminado "));
-        modalidades.add(new CatalogModel("06", "MDF Acabado al duco"));
-        modalidades.add(new CatalogModel("07", "MDF laminado "));
-        modalidades.add(new CatalogModel("08", "Fierro- Vidrio"));
-        modalidades.add(new CatalogModel("09", "Otros"));
+    private void loadDataMaterialPuerta(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("material_puertas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMaterialPuerta.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnMaterialPuerta.setSelection(Math.max(position, 0));
-        } else {
-            spnMaterialPuerta.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnMaterialPuerta.setSelection(Math.max(position, 0));
     }
-    private void loadDataSistemaPuerta(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Corrediza"));
-        modalidades.add(new CatalogModel("02", "Batiente"));
-        modalidades.add(new CatalogModel("03", "Levadiza"));
-        modalidades.add(new CatalogModel("04", "Enrollable"));
-        modalidades.add(new CatalogModel("05", "Otros"));
+    private void loadDataSistemaPuerta(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("sistema_puertas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSistemaPuerta.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnSistemaPuerta.setSelection(Math.max(position, 0));
-        } else {
-            spnSistemaPuerta.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnSistemaPuerta.setSelection(Math.max(position, 0));
     }
-    private void loadDataMarcoVentana(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Madera"));
-        modalidades.add(new CatalogModel("02", "Aluminio"));
-        modalidades.add(new CatalogModel("03", "Fierro"));
-        modalidades.add(new CatalogModel("04", "Aluminio / Madera"));
-        modalidades.add(new CatalogModel("05", "Otros"));
+    private void loadDataMarcoVentana(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("marco_ventanas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMarcoVentana.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnMarcoVentana.setSelection(Math.max(position, 0));
-        } else {
-            spnMarcoVentana.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnMarcoVentana.setSelection(Math.max(position, 0));
     }
-    private void loadDataVidrioVentana(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Crudo"));
-        modalidades.add(new CatalogModel("02", "Templado"));
-        modalidades.add(new CatalogModel("03", "Semitemplado"));
-        modalidades.add(new CatalogModel("04", "Laminado"));
-        modalidades.add(new CatalogModel("05", "Crudo Oscuro"));
-        modalidades.add(new CatalogModel("06", "Otros"));
-
+    private void loadDataVidrioVentana(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("vidrio_ventanas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnVidrioVentana.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnVidrioVentana.setSelection(Math.max(position, 0));
-        } else {
-            spnVidrioVentana.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnVidrioVentana.setSelection(Math.max(position, 0));
     }
-    private void loadDataSistemaVentana(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Corrediza"));
-        modalidades.add(new CatalogModel("02", "Batiente"));
-        modalidades.add(new CatalogModel("03", "Otros"));
+    private void loadDataSistemaVentana(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("sistema_ventanas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSistemaVentana.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnSistemaVentana.setSelection(Math.max(position, 0));
-        } else {
-            spnSistemaVentana.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnSistemaVentana.setSelection(Math.max(position, 0));
     }
-    private void loadDataMarcoMampara(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Madera"));
-        modalidades.add(new CatalogModel("02", "Aluminio"));
-        modalidades.add(new CatalogModel("03", "Fierro"));
-        modalidades.add(new CatalogModel("04", "Aluminio / Madera"));
-        modalidades.add(new CatalogModel("05", "Otros"));
+    private void loadDataMarcoMampara(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("marco_mamparas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMarcoMampara.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnMarcoMampara.setSelection(Math.max(position, 0));
-        } else {
-            spnMarcoMampara.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnMarcoMampara.setSelection(Math.max(position, 0));
     }
-    private void loadDataVidrioMampara(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Crudo"));
-        modalidades.add(new CatalogModel("02", "Templado"));
-        modalidades.add(new CatalogModel("03", "Semitemplado"));
-        modalidades.add(new CatalogModel("04", "Laminado"));
-        modalidades.add(new CatalogModel("05", "Crudo Oscuro"));
-        modalidades.add(new CatalogModel("06", "Otros"));
+    private void loadDataVidrioMampara(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("vidrio_mamparas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnVidrioMampara.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnVidrioMampara.setSelection(Math.max(position, 0));
-        } else {
-            spnVidrioMampara.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnVidrioMampara.setSelection(Math.max(position, 0));
     }
-    private void loadDataSistemasMampara(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Corrediza"));
-        modalidades.add(new CatalogModel("02", "Batiente"));
-        modalidades.add(new CatalogModel("03", "Otros"));
+    private void loadDataSistemasMampara(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("sistema_mamparas");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSistemaMampara.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnSistemaMampara.setSelection(Math.max(position, 0));
-        } else {
-            spnSistemaMampara.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnSistemaMampara.setSelection(Math.max(position, 0));
     }
-    private void loadDataMueblesCocina(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Bajos"));
-        modalidades.add(new CatalogModel("02", "Altos"));
-        modalidades.add(new CatalogModel("03", "Altos y Bajos"));
-        modalidades.add(new CatalogModel("04", "No Posee"));
-        modalidades.add(new CatalogModel("05", "Otros"));
+    private void loadDataMueblesCocina(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("muebles_cocina");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMuebleCocina.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnMuebleCocina.setSelection(Math.max(position, 0));
-        } else {
-            spnMuebleCocina.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnMuebleCocina.setSelection(Math.max(position, 0));
     }
-    private void loadDataMueblesCocina2(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Concreto"));
-        modalidades.add(new CatalogModel("02", "Melamine"));
-        modalidades.add(new CatalogModel("03", "MDF"));
-        modalidades.add(new CatalogModel("04", "Madera"));
-        modalidades.add(new CatalogModel("05", "Otros"));
+    private void loadDataMueblesCocina2(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("mueble_cocina_material");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMuebleCocina2.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnMuebleCocina2.setSelection(Math.max(position, 0));
-        } else {
-            spnMuebleCocina2.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnMuebleCocina2.setSelection(Math.max(position, 0));
     }
-    private void loadDataTablero(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Madera"));
-        modalidades.add(new CatalogModel("02", "Granito"));
-        modalidades.add(new CatalogModel("03", "Mármol"));
-        modalidades.add(new CatalogModel("04", "Albañilería"));
-        modalidades.add(new CatalogModel("05", "Postformado"));
-        modalidades.add(new CatalogModel("06", "Cerámica/Mayólica"));
-        modalidades.add(new CatalogModel("07", "Silestone"));
-        modalidades.add(new CatalogModel("08", "Laminados"));
-        modalidades.add(new CatalogModel("09", "Otros"));
+    private void loadDataTablero(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("tipo_taleros");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTablero.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnTablero.setSelection(Math.max(position, 0));
-        } else {
-            spnTablero.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnTablero.setSelection(Math.max(position, 0));
     }
-    private void loadDataLavadero(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Acero"));
-        modalidades.add(new CatalogModel("02", "Fierro Enlozado"));
-        modalidades.add(new CatalogModel("03", "Otros"));
+    private void loadDataLavadero(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("material_lavadero");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnLavaderos.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnLavaderos.setSelection(Math.max(position, 0));
-        } else {
-            spnLavaderos.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnLavaderos.setSelection(Math.max(position, 0));
     }
-    private void loadDataTipoSanitarios(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Sifón Top Piece y/o Rapid Jet"));
-        modalidades.add(new CatalogModel("02", "Inodoros c / fluxometro"));
-        modalidades.add(new CatalogModel("03", "One Piece, lavatorio "));
-        modalidades.add(new CatalogModel("04", "Con tableros de mármol"));
-        modalidades.add(new CatalogModel("05", "Con aparatos de vidrio( ovalin )"));
-        modalidades.add(new CatalogModel("06", "Inodoro Suspendido "));
-        modalidades.add(new CatalogModel("07", "One Piece, ovalin, tina."));
-        modalidades.add(new CatalogModel("08", "One Piece, ovalin, ducha "));
-        modalidades.add(new CatalogModel("09", "Otros"));
+    private void loadDataTipoSanitarios(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("tipo_sanitario");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSanitarioTipo.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnSanitarioTipo.setSelection(Math.max(position, 0));
-        } else {
-            spnSanitarioTipo.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnSanitarioTipo.setSelection(Math.max(position, 0));
     }
-    private void loadDataColorSanitarios(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Blanco"));
-        modalidades.add(new CatalogModel("02", "Color"));
-        modalidades.add(new CatalogModel("03", "Incoloro"));
-        modalidades.add(new CatalogModel("04", "Otros"));
+    private void loadDataColorSanitarios(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("color_sanitario");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSanitarioColor.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnSanitarioColor.setSelection(Math.max(position, 0));
-        } else {
-            spnSanitarioColor.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnSanitarioColor.setSelection(Math.max(position, 0));
     }
-    private void loadDataSanitarios(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Importada"));
-        modalidades.add(new CatalogModel("02", "Nacional"));
-        modalidades.add(new CatalogModel("03", "Estándar"));
-        modalidades.add(new CatalogModel("04", "Presurizada"));
-        modalidades.add(new CatalogModel("05", "Automática"));
-        modalidades.add(new CatalogModel("06", "Otra"));
+    private void loadDataSanitarios(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("sanitario");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSanitario.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnSanitario.setSelection(Math.max(position, 0));
-        } else {
-            spnSanitario.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnSanitario.setSelection(Math.max(position, 0));
     }
-    private void loadDataISS(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Sin Instalación"));
-        modalidades.add(new CatalogModel("02", "Tuberías de agua fría y desagüe"));
-        modalidades.add(new CatalogModel("03", "Tuberías de agua fría, caliente y desagüe"));
-        modalidades.add(new CatalogModel("04", "Sist. de Bombeo de agua potable y desagüe"));
-        modalidades.add(new CatalogModel("05", "Sist. de Bombeo de agua potable y desagüe por bombeo"));
-        modalidades.add(new CatalogModel("06", "Otra"));
+    private void loadDataISS(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("iiss");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnIss.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnIss.setSelection(Math.max(position, 0));
-        } else {
-            spnIss.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnIss.setSelection(Math.max(position, 0));
     }
-    private void loadDataIIEE(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "Sin Instalación"));
-        modalidades.add(new CatalogModel("02", "Corriente Monofásica sin empotrar"));
-        modalidades.add(new CatalogModel("03", "Corriente Monofásica empotrada"));
-        modalidades.add(new CatalogModel("04", "Corriente Trifásica"));
-        modalidades.add(new CatalogModel("05", "Corriente Trifásica empotrada"));
-        modalidades.add(new CatalogModel("07", "Corriente Trifásica sin empotrada"));
-        modalidades.add(new CatalogModel("08", "Con sub estación eléctrica"));
-        modalidades.add(new CatalogModel("09", "Otros"));
+    private void loadDataIIEE(String codigo){
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("iiee");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnIiee.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnIiee.setSelection(Math.max(position, 0));
-        } else {
-            spnIiee.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnIiee.setSelection(Math.max(position, 0));
     }
 
     private boolean validateSpinner(Spinner spinner, String defaultValue, Drawable errorBackground, Drawable defaultBackground) {
@@ -906,6 +599,24 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 if (validarCampos()) {
+                    CatalogModel selectedSpnTipoPuerta = (CatalogModel) spnTipoPuerta.getSelectedItem();
+                    CatalogModel selectedSpnMaterialPuerta = (CatalogModel) spnMaterialPuerta.getSelectedItem();
+                    CatalogModel selectedSpnSistemaPuerta = (CatalogModel) spnSistemaPuerta.getSelectedItem();
+                    CatalogModel selectedSspnMarcoVentana = (CatalogModel) spnMarcoVentana.getSelectedItem();
+                    CatalogModel selectedSpnVidrioVentana = (CatalogModel) spnVidrioVentana.getSelectedItem();
+                    CatalogModel selectedSpnSistemaVentana = (CatalogModel) spnSistemaVentana.getSelectedItem();
+                    CatalogModel selectedSpnMarcoMampara = (CatalogModel) spnMarcoMampara.getSelectedItem();
+                    CatalogModel selectedSpnVidrioMampara = (CatalogModel) spnVidrioMampara.getSelectedItem();
+                    CatalogModel selectedSpnSistemaMampara = (CatalogModel) spnSistemaMampara.getSelectedItem();
+                    CatalogModel selectedSpnMuebleCocina = (CatalogModel) spnMuebleCocina.getSelectedItem();
+                    CatalogModel selectedSpnMuebleCocina2 = (CatalogModel) spnMuebleCocina2.getSelectedItem();
+                    CatalogModel selectedSpnTablero = (CatalogModel) spnTablero.getSelectedItem();
+                    CatalogModel selectedSpnLavaderos = (CatalogModel) spnLavaderos.getSelectedItem();
+                    CatalogModel selectedSpnSanitarioTipo = (CatalogModel) spnSanitarioTipo.getSelectedItem();
+                    CatalogModel selectedSpnSanitarioColor = (CatalogModel) spnSanitarioColor.getSelectedItem();
+                    CatalogModel selectedSpnSanitario = (CatalogModel) spnSanitario.getSelectedItem();
+                    CatalogModel selectedSpnIss = (CatalogModel) spnIss.getSelectedItem();
+                    CatalogModel selectedSpIiee = (CatalogModel) spnIiee.getSelectedItem();
 
                     CaracteristicasEdificacion datos = new CaracteristicasEdificacion();
 
@@ -920,24 +631,24 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
                     datos.setOtroSanitarias(edtOtroSanitarias.getText().toString());
                     datos.setOtroElectricas(edtOtroElectricas.getText().toString());
 
-                    datos.setTipoPuerta(spnTipoPuerta.getSelectedItem().toString());
-                    datos.setMaterialPuerta(spnMaterialPuerta.getSelectedItem().toString());
-                    datos.setSistemaPuerta(spnSistemaPuerta.getSelectedItem().toString());
-                    datos.setMarcoVentana(spnMarcoVentana.getSelectedItem().toString());
-                    datos.setVidrioVentana(spnVidrioVentana.getSelectedItem().toString());
-                    datos.setSistemaVentana(spnSistemaVentana.getSelectedItem().toString());
-                    datos.setMarcoMampara(spnMarcoMampara.getSelectedItem().toString());
-                    datos.setVidrioMampara(spnVidrioMampara.getSelectedItem().toString());
-                    datos.setSistemaMampara(spnSistemaMampara.getSelectedItem().toString());
-                    datos.setMuebleCocina(spnMuebleCocina.getSelectedItem().toString());
-                    datos.setMuebleCocina2(spnMuebleCocina2.getSelectedItem().toString());
-                    datos.setTablero(spnTablero.getSelectedItem().toString());
-                    datos.setLavaderos(spnLavaderos.getSelectedItem().toString());
-                    datos.setSanitarioTipo(spnSanitarioTipo.getSelectedItem().toString());
-                    datos.setSanitarioColor(spnSanitarioColor.getSelectedItem().toString());
-                    datos.setSanitario(spnSanitario.getSelectedItem().toString());
-                    datos.setIss(spnIss.getSelectedItem().toString());
-                    datos.setIiee(spnIiee.getSelectedItem().toString());
+                    datos.setTipoPuerta(selectedSpnTipoPuerta.getCodigo());
+                    datos.setMaterialPuerta(selectedSpnMaterialPuerta.getCodigo());
+                    datos.setSistemaPuerta(selectedSpnSistemaPuerta.getCodigo());
+                    datos.setMarcoVentana(selectedSspnMarcoVentana.getCodigo());
+                    datos.setVidrioVentana(selectedSpnVidrioVentana.getCodigo());
+                    datos.setSistemaVentana(selectedSpnSistemaVentana.getCodigo());
+                    datos.setMarcoMampara(selectedSpnMarcoMampara.getCodigo());
+                    datos.setVidrioMampara(selectedSpnVidrioMampara.getCodigo());
+                    datos.setSistemaMampara(selectedSpnSistemaMampara.getCodigo());
+                    datos.setMuebleCocina(selectedSpnMuebleCocina.getCodigo());
+                    datos.setMuebleCocina2(selectedSpnMuebleCocina2.getCodigo());
+                    datos.setTablero(selectedSpnTablero.getCodigo());
+                    datos.setLavaderos(selectedSpnLavaderos.getCodigo());
+                    datos.setSanitarioTipo(selectedSpnSanitarioTipo.getCodigo());
+                    datos.setSanitarioColor(selectedSpnSanitarioColor.getCodigo());
+                    datos.setSanitario(selectedSpnSanitario.getCodigo());
+                    datos.setIss(selectedSpnIss.getCodigo());
+                    datos.setIiee(selectedSpIiee.getCodigo());
 
                     if (radioTiene.isChecked()) {
                         datos.setSistemaIncendio("Tiene");

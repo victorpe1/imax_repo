@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.SocketTimeoutException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -217,7 +219,6 @@ public class DataBaseHelper extends SQLiteAssetHelper {
             }
         }
     }
-
 
     public void sincroObject(Response<ResponseBody> response, String table) throws Exception {
         try {
@@ -944,6 +945,154 @@ public class DataBaseHelper extends SQLiteAssetHelper {
             throw new RuntimeException(e);
         } finally {
             db.endTransaction();
+        }
+    }
+
+
+
+    public void sincronizarCatalogo(Response<ResponseBody> response) throws Exception {
+        String table = "xms_catalog";
+
+        try {
+            if (response.isSuccessful()) {
+                String message = "";
+                JSONObject jsonObject2 = new JSONObject(response.body().string());
+                if (jsonObject2.has("result")){
+                    JSONObject tipoInmuebleArray = jsonObject2.getJSONObject("result")
+                            .getJSONArray("result")
+                            .getJSONObject(0)
+                            .getJSONObject("value");
+
+                    actualizar_byh_catalog(tipoInmuebleArray);
+                    Log.i(TAG, table + " SINCRONIZADO ");
+                }else{
+                    throw new Exception(message);
+                }
+            } else {
+                JSONObject jsonError;
+                String message = "";
+                switch (response.code()) {
+                    case 401:
+                        jsonError = new JSONObject(response.errorBody().string());
+                        if(jsonError.has("message")){
+                            message = jsonError.getString("message");
+                        }
+                        throw new UnauthorizedException((message != null) ? message : context.getString(R.string.error_sesion_no_autorizada));
+                    case 408:
+                        jsonError = new JSONObject(response.errorBody().string());
+                        if(jsonError.has("message")){
+                            message = jsonError.getString("message");
+                        }
+                        throw new UnauthorizedException((message != null) ? message : context.getString(R.string.error_sesion_expirada));
+                    case 404:
+                        throw new Resources.NotFoundException();
+                    default:
+                        throw new Exception();
+                }
+            }
+        } catch (Resources.NotFoundException e){
+            Log.e(TAG, "NO SINCRONIZADO : Recurso no encontrado "+e.getMessage());
+            e.printStackTrace();
+            throw new Resources.NotFoundException();//atrapa la excepcion pero la vuelve a lanzar (para que la la actividad la vuelva a detectar)
+        } catch (NoSuchMethodException e) {
+            Log.e(TAG, "NO SINCRONIZADO : No existe el metodo actualizar "+ table +" en DataBaseHelper");
+            e.printStackTrace();
+            throw new NoSuchMethodException(e.getMessage());//atrapa la excepcion pero la vuelve a lanzar (para que la la actividad la vuelva a detectar)
+        } catch (SocketTimeoutException e) {
+            //Error relacionado a la webservice
+            Log.e(TAG, table + " SOCKETTIMEOUT EXCEPTION :" + e.getMessage());
+            e.printStackTrace();
+            throw new SocketTimeoutException();
+        } catch (IOException e) {
+            //Error relacionado a la webservice
+            Log.e(TAG, table + " IO EXCEPTION:" + e.getMessage());
+            //ex.printStackTrace();
+            throw new IOException(e);
+        } catch (JSONException e) {
+            //Error relacionado a la webservice
+            Log.e(TAG, table + " JSON EXCEPTION:" + e.getMessage());
+            //ex.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (UnauthorizedException e){
+            Log.e(TAG, table + " UNAUTHORIZED EXCEPTION: "+e.getMessage());
+            throw new UnauthorizedException(e.getMessage());
+        } catch (Exception e) {
+            //Error relacionado a la webservice
+            if (e.getCause() != null) {
+                Log.e(TAG, table + " GENERAL EXCEPTION CAUSE:" + e.getCause().getMessage());
+                throw new Exception(e.getCause());
+            }else {
+                Log.e(TAG, table + " GENERAL EXCEPTION:" + e.getMessage());
+                throw new Exception(e);
+            }
+        }
+    }
+
+    public void actualizar_byh_catalog(JSONObject valueObject) {
+
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            Map<String, String> tablesMap = new HashMap<>();
+            tablesMap.put("tipo_inspection", "tipo_inspection");
+            tablesMap.put("tipo_inmueble", "tipo_inmueble");
+            tablesMap.put("uso_inmueble", "uso_inmueble");
+            tablesMap.put("recide_inmueble", "recide_inmueble");
+            tablesMap.put("estructura", "estructura");
+            tablesMap.put("muros", "muros");
+            tablesMap.put("revestimientos", "revestimientos");
+            tablesMap.put("pisos", "pisos");
+            tablesMap.put("tipo_puertas", "tipo_puertas");
+            tablesMap.put("material_puertas", "material_puertas");
+            tablesMap.put("sistema_puertas", "sistema_puertas");
+            tablesMap.put("marco_ventanas", "marco_ventanas");
+            tablesMap.put("vidrio_ventanas", "vidrio_ventanas");
+            tablesMap.put("sistema_ventanas", "sistema_ventanas");
+            tablesMap.put("marco_mamparas", "marco_mamparas");
+            tablesMap.put("vidrio_mamparas", "vidrio_mamparas");
+            tablesMap.put("sistema_mamparas", "sistema_mamparas");
+            tablesMap.put("pisos_cocina", "pisos_cocina");
+            tablesMap.put("paredes_cocina", "paredes_cocina");
+            tablesMap.put("muebles_cocina", "muebles_cocina");
+            tablesMap.put("mueble_cocina_material", "mueble_cocina_material");
+            tablesMap.put("tipo_taleros", "tipo_taleros");
+            tablesMap.put("material_lavadero", "material_lavadero");
+            tablesMap.put("piso_banio", "piso_banio");
+            tablesMap.put("paredes_banio", "paredes_banio");
+            tablesMap.put("tipo_sanitario", "tipo_sanitario");
+            tablesMap.put("color_sanitario", "color_sanitario");
+            tablesMap.put("sanitario", "sanitario");
+            tablesMap.put("iiss", "iiss");
+            tablesMap.put("sistema_incendio", "sistema_incendio");
+            tablesMap.put("iiee", "iiee");
+
+            for (Map.Entry<String, String> entry : tablesMap.entrySet()) {
+                String tableName = entry.getKey();
+                String jsonArrayName = entry.getValue();
+
+                JSONArray dataArray = valueObject.getJSONArray(jsonArrayName);
+                insertData(tableName, dataArray);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertData(String tableName, JSONArray dataArray) {
+
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            for (int i = 0; i < dataArray.length(); i++) {
+                db.delete(tableName, null, null);
+
+                JSONObject item = dataArray.getJSONObject(i);
+
+                ContentValues values = new ContentValues();
+                values.put("id", item.getInt("id"));
+                values.put("code", item.getString("code"));
+                values.put("name", item.getString("name"));
+
+                db.insert(tableName, null, values);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

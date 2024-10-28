@@ -171,30 +171,20 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoInmueble.setAdapter(adapter);
     }
-    private void loadDataRecibeInmueble(String valorBD){
-        List<CatalogModel> modalidades = new ArrayList<>();
-        modalidades.add(new CatalogModel("00", "Seleccione una opción"));
-        modalidades.add(new CatalogModel("01", "DESOCUPADO"));
-        modalidades.add(new CatalogModel("02", "PROPIETARIO"));
-        modalidades.add(new CatalogModel("03", "INQUILINO"));
-        modalidades.add(new CatalogModel("04", "TERCERO"));
-        modalidades.add(new CatalogModel("05", "SE DESCONOCE"));
+    private void loadDataRecibeInmueble(String codigo) {
+        List<CatalogModel> modalidades = daoExtras.obtenerCatalogDesdeDB("recide_inmueble");
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modalidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnRecibeInmueble.setAdapter(adapter);
 
-        if (valorBD != null && !valorBD.trim().isEmpty()) {
-            int position = getIndex(modalidades, valorBD);
-            spnRecibeInmueble.setSelection(Math.max(position, 0));
-        } else {
-            spnRecibeInmueble.setSelection(0);
-        }
+        int position = getIndexByCodigo(modalidades, codigo);
+        spnRecibeInmueble.setSelection(Math.max(position, 0));
     }
 
-    private int getIndex(List<CatalogModel> modalidades, String valorBD) {
+    private int getIndexByCodigo(List<CatalogModel> modalidades, String codigo) {
         for (int i = 0; i < modalidades.size(); i++) {
-            if (modalidades.get(i).getDescripcion().equals(valorBD)) {
+            if (modalidades.get(i).getCodigo().equals(codigo)) {
                 return i;
             }
         }
@@ -207,11 +197,11 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         edtOtros.setText(inspeccionRequest.getOtros());
         if (inspeccionRequest.getUsosInmueble() != null && !inspeccionRequest.getUsosInmueble().trim().isEmpty()) {
             List<String> usosSeleccionados = Arrays.asList(inspeccionRequest.getUsosInmueble().split(", "));
-            cbVivienda.setChecked(usosSeleccionados.contains("Vivienda"));
-            cbComercio.setChecked(usosSeleccionados.contains("Comercio"));
-            cbIndustria.setChecked(usosSeleccionados.contains("Industria"));
-            cbEducativo.setChecked(usosSeleccionados.contains("Educativo"));
-            cbOther.setChecked(usosSeleccionados.contains("Otro"));
+            cbVivienda.setChecked(usosSeleccionados.contains("001"));
+            cbComercio.setChecked(usosSeleccionados.contains("002"));
+            cbIndustria.setChecked(usosSeleccionados.contains("003"));
+            cbEducativo.setChecked(usosSeleccionados.contains("004"));
+            cbOther.setChecked(usosSeleccionados.contains("005"));
         }
         edtComentarios.setText(inspeccionRequest.getComentarios());
         edtNPisos.setText(inspeccionRequest.getnPisos());
@@ -220,6 +210,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         edtDeposito.setText(inspeccionRequest.getDeposito());
         edtEstacionamiento.setText(inspeccionRequest.getEstacionamiento());
         edtDepto.setText(inspeccionRequest.getDepto());
+
         loadDataRecibeInmueble(inspeccionRequest.getRecibeInmueble());
     }
 
@@ -243,6 +234,8 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 if (validarCampos()) {
+                    CatalogModel selectedItem = (CatalogModel) spnRecibeInmueble.getSelectedItem();
+
                     CaracteristicasGenerales caracteristicasGenerales = new CaracteristicasGenerales(
                             spnTipoInmueble.getSelectedItem().toString(),
                             edtOtros.getText().toString(),
@@ -252,7 +245,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
                             cbEducativo.isChecked(),
                             cbOther.isChecked(),
                             edtComentarios.getText().toString(),
-                            spnRecibeInmueble.getSelectedItem().toString(),
+                            selectedItem.getCodigo(),
                             edtNPisos.getText().toString(),
                             edtDistribucion.getText().toString(),
                             edtReferencia.getText().toString(),

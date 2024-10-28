@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Base64;
 
+import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.dao.DAOExtras;
@@ -30,12 +31,15 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
     private String password;
     private UsuarioModel usuarioModel;
     private DAOExtras daoExtras;
+    private App app;
 
     public LoginTask(LoginActivity loginActivity, String usuario, String password){
         this.weakReference = new WeakReference<>(loginActivity);
         this.usuario = usuario;
         this.password = password;
         this.daoExtras = new DAOExtras(loginActivity.getApplicationContext());
+
+        app = (App) loginActivity.getApplicationContext();
     }
 
     @Override
@@ -75,6 +79,9 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 
                     if (responseLogin.isSuccessful()) {
                         usuarioModel = new UsuarioModel();
+
+                        app.setPref_serieUsuario(usuario);
+                        app.setPref_token(password);
                     }else{
                         switch (response.code()) {
                             case 401:

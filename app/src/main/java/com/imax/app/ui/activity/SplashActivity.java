@@ -19,17 +19,23 @@ import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOProducto;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
+import com.imax.app.models.UsuarioModel;
 import com.imax.app.ui.login.LoginActivity;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.MyDetailDialog;
 import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
@@ -104,53 +110,66 @@ public class SplashActivity extends AppCompatActivity {
         protected String doInBackground(Void... voids) {
             try {
                 if (Util.isConnectingToRed(getApplicationContext())) {
-                    //Util.backupdDatabase(getApplicationContext());
                     Log.d(TAG,"sincronizando datos...");
-                    Response<ResponseBody> response;
+                    String usuario = app.getPref_serieUsuario();
+                    String password = app.getPref_token();
+                    try {
+                        Response<ResponseBody> response =
+                                XMSApi.getApiEasyfactBase2(getApplicationContext()).
+                                        obtenerTokens(usuario, password,"IMAX_INSPECCIONES").execute();
 
-                   /*  response = XMSApi.getApiEasyfact(getApplicationContext()).getClientes().execute();
-                    dataBaseHelper.sincro(response, TablesHelper.xms_client.table);
+                        if (response.isSuccessful()) {
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            String access_token = jsonObject.getString("access_token");
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getProductos().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_product.table);
+                            JSONObject jsonParams = new JSONObject();
+                            jsonParams.put("params", new JSONObject());
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getAlmacenes().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_almacenes.table);
+                            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
+                                    jsonParams.toString());
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getCondiciones().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_condiciones.table);
+                           /*  Response<ResponseBody> responseCata =
+                                    XMSApi.getApiEasyfactBase2(getApplicationContext()).
+                                            consultarCatalogo(access_token, body).execute();
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getDistritos().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_distritos.table);
+                            if (responseCata.isSuccessful()) {
+                                dataBaseHelper.sincronizarCatalogo(responseCata);
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getPersonal().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_personal.table);
+                                app.setPref_lastSyncro(System.currentTimeMillis());
+                                app.setPref_serieUsuario("001");
+                                app.setPref_idPuntoVenta(1);
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getTCambio().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_tcambio.table);
+                                return Constants.CORRECT;
 
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getMarcas().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_marcas.table);
-
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getUnidadMedida().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_unidad_medida.table);
-
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getMedidas().execute();
-                    dataBaseHelper.sincro(response,TablesHelper.xms_medidas.table);
-
-                    LocalDate today = LocalDate.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    String fechaToday = today.format(formatter);
-                    //fechaToday = "2024-08-19";
-
-                    response = XMSApi.getApiEasyfact(getApplicationContext()).getPedidos(fechaToday).execute();
-                    dataBaseHelper.sincronizarPedido(response); */
-
-                    app.setPref_lastSyncro(System.currentTimeMillis());
-                    app.setPref_serieUsuario("001");
-                    app.setPref_idPuntoVenta(1);
-
-                    return Constants.CORRECT;
+                            }else{
+                                switch (response.code()) {
+                                    case 401:
+                                        throw new UnauthorizedException("401 Unauthorized");
+                                    case 404:
+                                        throw new Resources.NotFoundException();
+                                    default:
+                                        throw new Exception();
+                                }
+                            }
+                            */
+                            return Constants.CORRECT;
+                        }else{
+                            switch (response.code()) {
+                                case 401:
+                                    throw new UnauthorizedException("401 Unauthorized");
+                                case 404:
+                                    throw new Resources.NotFoundException();
+                                default:
+                                    throw new Exception();
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }catch (UnauthorizedException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     return Constants.FAIL_CONNECTION;
                 }
@@ -161,6 +180,7 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return e.getMessage();
             }
+            return Constants.CORRECT;
         }
 
         protected void onPostExecute(String result) {

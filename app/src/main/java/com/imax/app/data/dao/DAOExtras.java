@@ -18,6 +18,7 @@ import com.imax.app.intents.DespuesInspeccion;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
+import com.imax.app.models.CatalogModel;
 import com.imax.app.models.CondicionPago;
 import com.imax.app.models.GenericModel;
 import com.imax.app.models.Personal;
@@ -798,11 +799,11 @@ public class DAOExtras {
 
 
             List<String> usosSeleccionados = new ArrayList<>();
-            if (caracteristicasGenerales.isCbVivienda()) usosSeleccionados.add("Vivienda");
-            if (caracteristicasGenerales.isCbComercio()) usosSeleccionados.add("Comercio");
-            if (caracteristicasGenerales.isCbIndustria()) usosSeleccionados.add("Industria");
-            if (caracteristicasGenerales.isCbEducativo()) usosSeleccionados.add("Educativo");
-            if (caracteristicasGenerales.isCbOther()) usosSeleccionados.add("Otro");
+            if (caracteristicasGenerales.isCbVivienda()) usosSeleccionados.add("001");
+            if (caracteristicasGenerales.isCbComercio()) usosSeleccionados.add("002");
+            if (caracteristicasGenerales.isCbIndustria()) usosSeleccionados.add("003");
+            if (caracteristicasGenerales.isCbEducativo()) usosSeleccionados.add("004");
+            if (caracteristicasGenerales.isCbOther()) usosSeleccionados.add("005");
             String textoResultado = TextUtils.join(", ", usosSeleccionados);
             usosInmueble = textoResultado;
 
@@ -1004,4 +1005,29 @@ public class DAOExtras {
             e.printStackTrace();
         }
     }
+
+    public List<CatalogModel> obtenerCatalogDesdeDB(String table) {
+        List<CatalogModel> inscripciones = new ArrayList<>();
+        SQLiteDatabase db =  dataBaseHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.rawQuery("SELECT code, name FROM " + table, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String codigo = cursor.getString(0);
+                    String descripcion = cursor.getString(1);
+                    inscripciones.add(new CatalogModel(codigo, descripcion));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return inscripciones;
+    }
+
 }

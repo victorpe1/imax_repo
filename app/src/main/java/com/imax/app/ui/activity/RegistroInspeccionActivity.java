@@ -186,6 +186,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
                 CatalogModel modalidadSeleccionada =
                         new CatalogModel(lista.get(position).getTypeId(),
                                 lista.get(position).getTypeName());
+
                 loadDataTipoInscripcion(modalidadSeleccionada);
 
                 setDateTimeInEditText(lista.get(position).getInspectionDate(), edtFecha, edtHora);
@@ -263,15 +264,16 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         modalidades.add(new CatalogModel("01", "PRESENCIAL"));
         modalidades.add(new CatalogModel("02", "VIRTUAL"));
     }
-    private void loadDataTipoInscripcion(CatalogModel modalidadSeleccionada) {
-        List<CatalogModel> inscripciones = new ArrayList<>();
 
-        if(modalidadSeleccionada.getDescripcion().trim().length() != 0){
-            inscripciones.add(modalidadSeleccionada);
-        }else{
+    private void loadDataTipoInscripcion(CatalogModel modalidadSeleccionada) {
+        List<CatalogModel> inscripciones = daoExtras.obtenerCatalogDesdeDB("tipo_inspection");
+
+        if (inscripciones.isEmpty()) {
             inscripciones.add(new CatalogModel("00", "Seleccione una opción"));
-            inscripciones.add(new CatalogModel("01", "INTERIOR INSCRIPCIÓN"));
-            inscripciones.add(new CatalogModel("02", "EXTERIOR INSCRIPCIÓN"));
+        }
+
+        if (modalidadSeleccionada != null && modalidadSeleccionada.getDescripcion().trim().length() != 0) {
+            inscripciones.add(modalidadSeleccionada);
         }
 
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, inscripciones);
@@ -279,11 +281,11 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         spinnerInspeccion.setAdapter(adapter);
 
         if (modalidadSeleccionada == null || modalidadSeleccionada.getCodigo().isEmpty()) {
-            spinnerInspeccion.setSelection(0); // Selecciona la opción "Seleccione una opción"
+            spinnerInspeccion.setSelection(0);
         } else {
             for (int i = 0; i < inscripciones.size(); i++) {
                 if (inscripciones.get(i).getCodigo().equals(modalidadSeleccionada.getCodigo())) {
-                    spinnerInspeccion.setSelection(i); // Preselecciona el valor correspondiente
+                    spinnerInspeccion.setSelection(i);
                     break;
                 }
             }
@@ -348,10 +350,11 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 if (validarCampos()) {
+                    CatalogModel selectedItem = (CatalogModel) spinnerInspeccion.getSelectedItem();
                     AntesInspeccion inspeccion = new AntesInspeccion(
                             spnAsignarNumero.getSelectedItem().toString(),
                             "",
-                            spinnerInspeccion.getSelectedItem().toString(),
+                            selectedItem.getCodigo(),
                             edtFecha.getText().toString(),
                             edtHora.getText().toString(),
                             edtContacto.getText().toString(),
