@@ -701,8 +701,8 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
                     List<String> selectedMultiCompletePisos = getSelectedCodes(multiCompletePisos);
                     List<String> selectedMultiCompletePisosCocina = getSelectedCodes(multiCompletePisosCocina);
                     List<String> selectedMultiCompleteParedesCocina = getSelectedCodes(multiCompleteParedesCocina);
-                    List<String> selectedMultiCompletePisosBaños = getSelectedCodes(multiCompletePisosBaños);
-                    List<String> selectedMultiCompleteParedesBaño = getSelectedCodes(multiCompleteParedesBaño);
+                    List<String> selectedMultiCompletePisosBanos = getSelectedCodes(multiCompletePisosBaños);
+                    List<String> selectedMultiCompleteParedesBano = getSelectedCodes(multiCompleteParedesBaño);
 
                     datos.setEstructura(TextUtils.join(",", selectedMultiAutoCompleteTextView));
                     datos.setMuros(TextUtils.join(",", selectedMultiCompleteMuros));
@@ -710,10 +710,44 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
                     datos.setPisos(TextUtils.join(",", selectedMultiCompletePisos));
                     datos.setPisosCocina(TextUtils.join(",", selectedMultiCompletePisosCocina));
                     datos.setParedesCocina(TextUtils.join(",", selectedMultiCompleteParedesCocina));
-                    datos.setPisosBaños(TextUtils.join(",", selectedMultiCompletePisosBaños));
-                    datos.setParedesBaño(TextUtils.join(",", selectedMultiCompleteParedesBaño));
+                    datos.setPisosBaños(TextUtils.join(",", selectedMultiCompletePisosBanos));
+                    datos.setParedesBaño(TextUtils.join(",", selectedMultiCompleteParedesBano));
 
                     daoExtras.actualizarRegistroCaracEdificacion(datos, inspeccion.getNumInspeccion());
+
+                    datos.setTipoPuerta(spnTipoPuerta.getSelectedItem().toString());
+                    datos.setMaterialPuerta(spnMaterialPuerta.getSelectedItem().toString());
+                    datos.setSistemaPuerta(spnSistemaPuerta.getSelectedItem().toString());
+                    datos.setMarcoVentana(spnMarcoVentana.getSelectedItem().toString());
+                    datos.setVidrioVentana(spnVidrioVentana.getSelectedItem().toString());
+                    datos.setSistemaVentana(spnSistemaVentana.getSelectedItem().toString());
+                    datos.setMarcoMampara(spnMarcoMampara.getSelectedItem().toString());
+                    datos.setVidrioMampara(spnVidrioMampara.getSelectedItem().toString());
+                    datos.setSistemaMampara(spnSistemaMampara.getSelectedItem().toString());
+                    datos.setMuebleCocina(spnMuebleCocina.getSelectedItem().toString());
+                    datos.setMuebleCocina2(spnMuebleCocina2.getSelectedItem().toString());
+                    datos.setTablero(spnTablero.getSelectedItem().toString());
+                    datos.setLavaderos(spnLavaderos.getSelectedItem().toString());
+                    datos.setSanitarioTipo(spnSanitarioTipo.getSelectedItem().toString());
+                    datos.setSanitarioColor(spnSanitarioColor.getSelectedItem().toString());
+                    datos.setSanitario(spnSanitario.getSelectedItem().toString());
+                    datos.setIss(spnIss.getSelectedItem().toString());
+                    datos.setIiee(spnIiee.getSelectedItem().toString());
+
+                    datos.setEstructura(multiAutoCompleteTextView.getText().toString());
+                    datos.setMuros(multiCompleteMuros.getText().toString());
+                    datos.setRevestimiento(multiCompleteRevestimiento.getText().toString());
+                    datos.setPisos(multiCompletePisos.getText().toString());
+                    datos.setPisosCocina(multiCompletePisosCocina.getText().toString());
+                    datos.setParedesCocina(multiCompleteParedesCocina.getText().toString());
+                    datos.setPisosBaños(multiCompletePisosBaños.getText().toString());
+                    datos.setParedesBaño(multiCompleteParedesBaño.getText().toString());
+
+                    if (radioTiene.isChecked()) {
+                        datos.setSistemaIncendio("Tiene");
+                    } else if (radioNoTiene.isChecked()) {
+                        datos.setSistemaIncendio("No tiene");
+                    }
 
                     Intent intent = new Intent(RegistroCaracteristicasEdificacionActivity.this, RegistroCaractInfraestruturaActivity.class);
                     intent.putExtra("inspeccion", inspeccion);

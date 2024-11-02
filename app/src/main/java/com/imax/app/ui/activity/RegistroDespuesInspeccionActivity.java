@@ -273,9 +273,10 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                     String especificar = edt_especificar.getText().toString();
                     String especificar2 = edt_especificar_2.getText().toString();
 
-                    List<String> selectedFiles = filesNameList; //nombreList
+                    List<String> selectedFiles = filesNameList;
 
-                    DespuesInspeccion despuesInspeccion = new DespuesInspeccion(tiene, tiene2, especificar, especificar2, selectedFiles);
+                    DespuesInspeccion despuesInspeccion = new DespuesInspeccion(tiene, tiene2,
+                            especificar, especificar2, selectedFiles);
 
                     List<String> combinedList = combineBase64AndFileNames(fileBase64List, filesNameList);
                     daoExtras.actualizarRegistroDespuesInspeccion(despuesInspeccion, inspeccion.getNumInspeccion(), combinedList);

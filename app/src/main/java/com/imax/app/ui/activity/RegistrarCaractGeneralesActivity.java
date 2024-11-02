@@ -257,11 +257,12 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
 
                     daoExtras.actualizarRegistroCaracGeneral(caracteristicasGenerales, inspeccion.getNumInspeccion());
 
-                    Intent intent = new Intent(RegistrarCaractGeneralesActivity.this, RegistroCaracteristicasEdificacionActivity.class);
+                    caracteristicasGenerales.setRecibeInmueble(spnRecibeInmueble.getSelectedItem().toString());
+                    caracteristicasGenerales.setTipoInmueble(spnTipoInmueble.getSelectedItem().toString());
 
+                    Intent intent = new Intent(RegistrarCaractGeneralesActivity.this, RegistroCaracteristicasEdificacionActivity.class);
                     intent.putExtra("inspeccion", inspeccion);
                     intent.putExtra("caracteristicasGenerales", caracteristicasGenerales);
-
                     startActivity(intent);
                 }
                 break;

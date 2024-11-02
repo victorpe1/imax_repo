@@ -806,7 +806,7 @@ public class DAOExtras {
             if (caracteristicasGenerales.isCbIndustria()) usosSeleccionados.add("003");
             if (caracteristicasGenerales.isCbEducativo()) usosSeleccionados.add("004");
             if (caracteristicasGenerales.isCbOther()) usosSeleccionados.add("005");
-            String textoResultado = TextUtils.join(", ", usosSeleccionados);
+            String textoResultado = TextUtils.join(",", usosSeleccionados);
             usosInmueble = textoResultado;
 
 

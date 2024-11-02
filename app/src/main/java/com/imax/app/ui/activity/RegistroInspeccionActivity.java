@@ -372,6 +372,8 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
                         daoExtras.crearRegistro(inspeccion);
                     }
 
+                    inspeccion.setInscripcion(spinnerInspeccion.getSelectedItem().toString());
+
                     Intent intent = new Intent(RegistroInspeccionActivity.this, RegistrarCaractGeneralesActivity.class);
                     intent.putExtra("inspeccion", inspeccion);
                     startActivity(intent);
