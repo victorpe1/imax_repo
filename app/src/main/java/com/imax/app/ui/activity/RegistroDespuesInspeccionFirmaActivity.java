@@ -119,13 +119,11 @@ public class RegistroDespuesInspeccionFirmaActivity extends AppCompatActivity{
         signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
             public void onStartSigning() {
-                // El usuario ha comenzado a firmar
                 Toast.makeText(RegistroDespuesInspeccionFirmaActivity.this, "Comenzó a firmar", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSigned() {
-                // La firma está completa
                 Toast.makeText(RegistroDespuesInspeccionFirmaActivity.this, "Firma completa", Toast.LENGTH_SHORT).show();
             }
 

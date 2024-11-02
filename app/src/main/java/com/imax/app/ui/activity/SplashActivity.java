@@ -128,17 +128,12 @@ public class SplashActivity extends AppCompatActivity {
                             RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
                                     jsonParams.toString());
 
-                           /*  Response<ResponseBody> responseCata =
+                           Response<ResponseBody> responseCata =
                                     XMSApi.getApiEasyfactBase2(getApplicationContext()).
                                             consultarCatalogo(access_token, body).execute();
 
                             if (responseCata.isSuccessful()) {
                                 dataBaseHelper.sincronizarCatalogo(responseCata);
-
-                                app.setPref_lastSyncro(System.currentTimeMillis());
-                                app.setPref_serieUsuario("001");
-                                app.setPref_idPuntoVenta(1);
-
                                 return Constants.CORRECT;
 
                             }else{
@@ -151,8 +146,6 @@ public class SplashActivity extends AppCompatActivity {
                                         throw new Exception();
                                 }
                             }
-                            */
-                            return Constants.CORRECT;
                         }else{
                             switch (response.code()) {
                                 case 401:

@@ -921,10 +921,18 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                 }
 
                 if (jsonData.has("motive_id") && !jsonData.isNull("motive_id")) {
-                    JSONArray motiveArray = jsonData.getJSONArray("motive_id");
-                    if (motiveArray.length() > 1) {
-                        cv.put("motive_id", motiveArray.getInt(0)); // ID
-                        cv.put("motive_name", motiveArray.getString(1)); // Descripción
+                    if (jsonData.get("motive_id") instanceof JSONArray) {
+                        JSONArray motiveArray = jsonData.getJSONArray("motive_id");
+                        if (motiveArray.length() > 1) {
+                            cv.put("motive_id", motiveArray.getInt(0));
+                            cv.put("motive_name", motiveArray.getString(1));
+                        }
+                    } else if (jsonData.get("motive_id") instanceof Boolean) {
+                        boolean motiveBool = jsonData.getBoolean("motive_id");
+                        if (!motiveBool) {
+                            cv.put("motive_id", 0);
+                            cv.put("motive_name", "Sin motivo");
+                        }
                     }
                 }
 
@@ -1029,8 +1037,10 @@ public class DataBaseHelper extends SQLiteAssetHelper {
     }
 
     public void actualizar_byh_catalog(JSONObject valueObject) {
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
 
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
             Map<String, String> tablesMap = new HashMap<>();
             tablesMap.put("tipo_inspection", "tipo_inspection");
             tablesMap.put("tipo_inmueble", "tipo_inmueble");
@@ -1068,26 +1078,29 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                 String tableName = entry.getKey();
                 String jsonArrayName = entry.getValue();
 
-                JSONArray dataArray = valueObject.getJSONArray(jsonArrayName);
-                insertData(tableName, dataArray);
+                JSONArray dataArray = valueObject.optJSONArray(jsonArrayName);
+                if (dataArray != null) {
+                    db.delete(tableName, null, null);
+                    System.out.println("TABLE ELIMINAR -> " + tableName);
+                    insertData(db, tableName, dataArray);
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
         }
     }
 
-    public void insertData(String tableName, JSONArray dataArray) {
-
-        try (SQLiteDatabase db = this.getWritableDatabase()) {
+    public void insertData(SQLiteDatabase db, String tableName, JSONArray dataArray) {
+        try {
             for (int i = 0; i < dataArray.length(); i++) {
-                db.delete(tableName, null, null);
-
                 JSONObject item = dataArray.getJSONObject(i);
 
                 ContentValues values = new ContentValues();
-                values.put("id", item.getInt("id"));
-                values.put("code", item.getString("code"));
-                values.put("name", item.getString("name"));
+                values.put("id", item.optInt("id", -1));
+                values.put("code", item.optString("code", ""));
+                values.put("name", item.optString("name", ""));
 
                 db.insert(tableName, null, values);
             }

@@ -1,6 +1,7 @@
 package com.imax.app.data.tasks;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,6 +10,7 @@ import com.imax.app.R;
 import com.imax.app.data.api.EasyfactApiInterface;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.InspeccionRequest;
+import com.imax.app.data.api.request.InspeccionRequestWrapper;
 import com.imax.app.data.api.request.OrderRequest;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOPedido;
@@ -19,13 +21,19 @@ import com.imax.app.ui.activity.RegistroDespuesInspeccionFirmaActivity;
 import com.imax.app.ui.listapedidos.PedidosFragment;
 import com.imax.app.ui.pedido.PedidoActivity;
 import com.imax.app.utils.Constants;
+import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
-import java.lang.ref.WeakReference;
+import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
@@ -33,7 +41,6 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
     private WeakReference<RegistroDespuesInspeccionFirmaActivity> weakReference;
     private WeakReference<MenuPrincipalActivity> weakReferencePrincipal;
 
-    private DAOPedido daoPedido;
     private DAOExtras daoExtras;
     private DAOProducto daoProducto;
     private EasyfactApiInterface apiInterface;
@@ -46,7 +53,7 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
         weakReference = new WeakReference<>(reference);
 
         daoExtras = new DAOExtras(reference.getApplicationContext());
-        apiInterface = XMSApi.getApiEasyfact(reference);
+        apiInterface = XMSApi.getApiEasyfactBase2(reference);
         app = (App) reference.getApplicationContext();
 
         this.inspeccionRequest = inspeccionRequest;
@@ -66,23 +73,47 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
         context = weakReference.get().getApplicationContext();
 
         if (Util.isConnectingToRed(context)) {
+            String usuario = app.getPref_serieUsuario();
+            String password = app.getPref_token();
             try {
 
-                InspeccionRequest inspeccionRequestSend = inspeccionRequest;
+                Response<ResponseBody> responseToken = apiInterface.
+                        obtenerTokens(usuario, password,"IMAX_INSPECCIONES").execute();
 
-                String json = new Gson().toJson(inspeccionRequest);
-                Log.i("VENTA REQUEST", json);
+                if (responseToken.isSuccessful()) {
+                    JSONObject jsonObject = new JSONObject(responseToken.body().string());
+                    String access_token = jsonObject.getString("access_token");
 
-                Response<ResponseBody> response = apiInterface.enviarRegistro(inspeccionRequest).execute();
+                    ArrayList<InspeccionRequest> inspeccionRequestWrappers = new ArrayList<>();
+                    inspeccionRequestWrappers.add(inspeccionRequest);
+                    InspeccionRequestWrapper inspeccionRequestWrapper =
+                            new InspeccionRequestWrapper(inspeccionRequestWrappers);
 
-                if (response.code() == 400) {
-                    return Constants.FAIL_TIME_MAX;
-                }
+                    String json = new Gson().toJson(inspeccionRequestWrapper);
+                    Log.i("VENTA REQUEST", json);
 
-                if (response.isSuccessful()) {
-                    return daoPedido.actualizarRepuestaRegistro(response, inspeccionRequestSend.getNumInspeccion(), inspeccionRequestSend);
-                } else {
-                    return Constants.FAIL_OTHER;
+                    Response<ResponseBody> response = apiInterface.
+                            enviarRegistro(access_token, inspeccionRequestWrapper).execute();
+
+                    if (response.code() == 400) {
+                        return Constants.FAIL_TIME_MAX;
+                    }
+
+                    if (response.isSuccessful()) {
+                        return daoExtras.actualizarRepuestaRegistro(response,
+                                inspeccionRequest.getNumInspeccion());
+                    } else {
+                        return Constants.FAIL_OTHER;
+                    }
+                }else{
+                    switch (responseToken.code()) {
+                        case 401:
+                            throw new UnauthorizedException("401 Unauthorized");
+                        case 404:
+                            throw new Resources.NotFoundException();
+                        default:
+                            throw new Exception();
+                    }
                 }
             } catch (JsonParseException ex) {
                 ex.printStackTrace();

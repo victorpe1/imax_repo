@@ -235,9 +235,10 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
             case R.id.menu_pedido_siguiente:
                 if (validarCampos()) {
                     CatalogModel selectedItem = (CatalogModel) spnRecibeInmueble.getSelectedItem();
+                    CatalogModel selectedTipoItem = (CatalogModel) spnTipoInmueble.getSelectedItem();
 
                     CaracteristicasGenerales caracteristicasGenerales = new CaracteristicasGenerales(
-                            spnTipoInmueble.getSelectedItem().toString(),
+                            selectedTipoItem.getCodigo(),
                             edtOtros.getText().toString(),
                             cbVivienda.isChecked(),
                             cbComercio.isChecked(),
@@ -308,7 +309,6 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
             return true;
         }
     }
-
     private boolean validarSpinner(Spinner spinner, Drawable errorBackground) {
         String defaultValue = "Seleccione una opción";
         if (spinner.getSelectedItem().toString().equals(defaultValue)) {
@@ -325,33 +325,9 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void DialogoConfirmacion() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarCaractGeneralesActivity.this);
-        if (ACCION_PEDIDO == ACCION_NUEVO_REGISTRO) {
-            builder.setTitle(getString(R.string.descartar_pedido));
-            builder.setMessage(getString(R.string.se_perdera_pedido));
-        } else {
-            builder.setTitle(getString(R.string.descartar_cambios));
-            builder.setMessage(getString(R.string.se_perdera_cambios));
-        }
-        builder.setNegativeButton(getString(R.string.cancelar), null);
-        builder.show();
-
-    }
-
     public void noPermitirCerrar() {
         Util.actualizarToolBar("", false, this);
         cabeceraGuardada = true; //Para que el onBack valide y no deje retroceder
-    }
-
-    void showAlertError(String titulo, String mensaje) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.ic_dialog_error);
-        builder.setTitle(titulo);
-        builder.setMessage(mensaje);
-        builder.setCancelable(false);
-        builder.setNegativeButton(getString(R.string.aceptar), (dialog, which) -> finish());
-        builder.show();
     }
 
     @Override
@@ -371,7 +347,6 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
     public void showLoader() {
         progressDialog.show();
     }
-
     public void hideLoader() {
         progressDialog.dismiss();
     }

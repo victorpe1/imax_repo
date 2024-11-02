@@ -154,20 +154,20 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         String cbCoincideInformacion = inspeccionRequest.getCbCoincideInformacion();
         String cbDocumentacionSITU = inspeccionRequest.getCbDocumentacionSITU();
 
-        if ("SI".equals(cbCoincideInformacion)) {
+        if ("001".equals(cbCoincideInformacion)) {
             radioTiene.setChecked(true);
             radioNoTiene.setChecked(false);
-        } else if ("NO".equals(cbCoincideInformacion)) {
+        } else if ("002".equals(cbCoincideInformacion)) {
             radioNoTiene.setChecked(true);
             radioTiene.setChecked(false);
         } else {
             radioTiene.setChecked(false);
             radioNoTiene.setChecked(false);
         }
-        if ("SI".equals(cbDocumentacionSITU)) {
+        if ("001".equals(cbDocumentacionSITU)) {
             radioTiene2.setChecked(true);
             radioNoTiene2.setChecked(false);
-        } else if ("NO".equals(cbDocumentacionSITU)) {
+        } else if ("002".equals(cbDocumentacionSITU)) {
             radioNoTiene2.setChecked(true);
             radioTiene2.setChecked(false);
         } else {

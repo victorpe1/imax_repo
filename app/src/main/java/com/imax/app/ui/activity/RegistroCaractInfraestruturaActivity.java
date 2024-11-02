@@ -112,7 +112,6 @@ public class RegistroCaractInfraestruturaActivity extends AppCompatActivity {
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 if (validarCampos()) {
-
                     daoExtras.actualizarRegistroInfraestructura(edt_comentarios.getText().toString(),
                                         inspeccion.getNumInspeccion());
 
@@ -125,7 +124,6 @@ public class RegistroCaractInfraestruturaActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.menu_pedido_guardar:
-
                 break;
             case android.R.id.home:
                 finish();

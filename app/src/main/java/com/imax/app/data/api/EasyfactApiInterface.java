@@ -1,6 +1,7 @@
 package com.imax.app.data.api;
 
 import com.imax.app.data.api.request.InspeccionRequest;
+import com.imax.app.data.api.request.InspeccionRequestWrapper;
 import com.imax.app.data.api.request.OrderRequest;
 import com.imax.app.data.api.request.VentaRequest;
 
@@ -76,9 +77,11 @@ public interface EasyfactApiInterface {
             @Query("limit") int limit
     );
 
-    @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("api/order/save")
-    Call<ResponseBody> enviarRegistro(@Body InspeccionRequest request);
+    @Headers({"Content-Type: application/json"})
+    @POST("api/save_inspeccion")
+    Call<ResponseBody> enviarRegistro(
+            @Header("Access-Token") String token,
+            @Body InspeccionRequestWrapper request);
 
 
     @Headers({"Content-Type: application/json"})

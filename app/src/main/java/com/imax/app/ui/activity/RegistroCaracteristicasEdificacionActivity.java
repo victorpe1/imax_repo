@@ -43,8 +43,11 @@ import com.imax.app.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivity {
@@ -89,6 +92,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
     private android.app.AlertDialog dialog;
     private AntesInspeccion inspeccion;
     private CaracteristicasGenerales caracteristicasGenerales;
+    private Map<MultiAutoCompleteTextView, Map<String, String>> codigoDescripcionMapByView = new HashMap<>();
 
 
     @Override
@@ -201,10 +205,10 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
 
         String sistemaIncendio = inspeccionRequest.getSistemaIncendio();
 
-        if ("Tiene".equals(sistemaIncendio)) {
+        if ("001".equals(sistemaIncendio)) {
             radioTiene.setChecked(true);
             radioNoTiene.setChecked(false);
-        } else if ("No tiene".equals(sistemaIncendio)) {
+        } else if ("002".equals(sistemaIncendio)) {
             radioNoTiene.setChecked(true);
             radioTiene.setChecked(false);
         } else {
@@ -257,10 +261,14 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
     private void setupMultiAutoCompleteTextView(MultiAutoCompleteTextView multiAuto,
                                                 List<CatalogModel> opciones, String valoresBD) {
         Set<String> seleccionados = new LinkedHashSet<>();
+        Map<String, String> codigoDescripcionMap = new LinkedHashMap<>();
+
+        codigoDescripcionMapByView.put(multiAuto, codigoDescripcionMap);
+
         ArrayAdapter<CatalogModel> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_dropdown_item_1line,
-                new ArrayList<>(opciones)
+                opciones
         );
 
         multiAuto.setAdapter(adapter);
@@ -273,23 +281,27 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
             }
         });
 
-        // Cargar valores iniciales
         if (valoresBD != null && !valoresBD.trim().isEmpty()) {
-            String[] valoresSeleccionados = valoresBD.split(", ");
-            for (String valor : valoresSeleccionados) {
-                seleccionados.add(valor.trim());
+            String[] valoresSeleccionados = valoresBD.split(",");
+            for (String codigo : valoresSeleccionados) {
+                CatalogModel item = findCatalogByCode(codigo, opciones);
+                if (item != null) {
+                    seleccionados.add(item.getDescripcion());
+                    codigoDescripcionMap.put(codigo, item.getDescripcion());
+                }
             }
-            String textoInicial = TextUtils.join(", ", seleccionados);
-            multiAuto.setText(textoInicial);
+            multiAuto.setText(TextUtils.join(", ", seleccionados) + ", ");
             multiAuto.setSelection(multiAuto.getText().length());
         }
 
         multiAuto.setOnItemClickListener((parent, view, position, id) -> {
             CatalogModel seleccion = adapter.getItem(position);
             if (seleccion != null) {
-                String selectedValue = seleccion.getCodigo(); // Obtén el código
-                if (!seleccionados.contains(selectedValue)) {
-                    seleccionados.add(selectedValue);
+                String codigoSeleccionado = seleccion.getCodigo();
+                String descripcionSeleccionada = seleccion.getDescripcion();
+                if (!codigoDescripcionMap.containsKey(codigoSeleccionado)) {
+                    codigoDescripcionMap.put(codigoSeleccionado, descripcionSeleccionada);
+                    seleccionados.add(descripcionSeleccionada);
                     multiAuto.setText(TextUtils.join(", ", seleccionados) + ", ");
                     multiAuto.setSelection(multiAuto.getText().length());
                 }
@@ -305,18 +317,38 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
 
             @Override
             public void afterTextChanged(Editable s) {
-                String[] valores = s.toString().split(", ");
+                String[] valores = s.toString().split(",");
                 seleccionados.clear();
+                codigoDescripcionMap.clear();
 
                 for (String valor : valores) {
-                    if (isInCatalog(valor.trim(), opciones)) {
-                        seleccionados.add(valor.trim());
+                    CatalogModel item = findCatalogByDescripcion(valor.trim(), opciones);
+                    if (item != null) {
+                        seleccionados.add(item.getDescripcion());
+                        codigoDescripcionMap.put(item.getCodigo(), item.getDescripcion());
                     }
                 }
             }
         });
     }
 
+    private CatalogModel findCatalogByCode(String codigo, List<CatalogModel> opciones) {
+        for (CatalogModel item : opciones) {
+            if (item.getCodigo().equals(codigo)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    private CatalogModel findCatalogByDescripcion(String descripcion, List<CatalogModel> opciones) {
+        for (CatalogModel item : opciones) {
+            if (item.getDescripcion().equals(descripcion)) {
+                return item;
+            }
+        }
+        return null;
+    }
 
     private boolean isInCatalog(String value, List<CatalogModel> catalog) {
         for (CatalogModel item : catalog) {
@@ -562,7 +594,6 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
                 multiCompletePisosBaños, multiCompleteParedesBaño
         );
 
-        // Validar MultiAutoCompleteTextViews
         for (MultiAutoCompleteTextView multiAutoComplete : multiAutoCompletes) {
             if (!validateMultiAutoComplete(multiAutoComplete, errorBackground, defaultBackground)) {
                 isValid = false;
@@ -590,6 +621,14 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return true;
+    }
+
+    public List<String> getSelectedCodes(MultiAutoCompleteTextView multiAuto) {
+        return new ArrayList<>(codigoDescripcionMapByView.get(multiAuto).keySet());
+    }
+
+    public List<String> getSelectedDescriptions(MultiAutoCompleteTextView multiAuto) {
+        return new ArrayList<>(codigoDescripcionMapByView.get(multiAuto).values());
     }
 
     @Override
@@ -651,19 +690,28 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
                     datos.setIiee(selectedSpIiee.getCodigo());
 
                     if (radioTiene.isChecked()) {
-                        datos.setSistemaIncendio("Tiene");
+                        datos.setSistemaIncendio("001");
                     } else if (radioNoTiene.isChecked()) {
-                        datos.setSistemaIncendio("No tiene");
+                        datos.setSistemaIncendio("002");
                     }
 
-                    datos.setEstructura(multiAutoCompleteTextView.getText().toString());
-                    datos.setMuros(multiCompleteMuros.getText().toString());
-                    datos.setRevestimiento(multiCompleteRevestimiento.getText().toString());
-                    datos.setPisos(multiCompletePisos.getText().toString());
-                    datos.setPisosCocina(multiCompletePisosCocina.getText().toString());
-                    datos.setParedesCocina(multiCompleteParedesCocina.getText().toString());
-                    datos.setPisosBaños(multiCompletePisosBaños.getText().toString());
-                    datos.setParedesBaño(multiCompleteParedesBaño.getText().toString());
+                    List<String> selectedMultiAutoCompleteTextView = getSelectedCodes(multiAutoCompleteTextView);
+                    List<String> selectedMultiCompleteMuros = getSelectedCodes(multiCompleteMuros);
+                    List<String> selectedMultiCompleteRevestimiento = getSelectedCodes(multiCompleteRevestimiento);
+                    List<String> selectedMultiCompletePisos = getSelectedCodes(multiCompletePisos);
+                    List<String> selectedMultiCompletePisosCocina = getSelectedCodes(multiCompletePisosCocina);
+                    List<String> selectedMultiCompleteParedesCocina = getSelectedCodes(multiCompleteParedesCocina);
+                    List<String> selectedMultiCompletePisosBaños = getSelectedCodes(multiCompletePisosBaños);
+                    List<String> selectedMultiCompleteParedesBaño = getSelectedCodes(multiCompleteParedesBaño);
+
+                    datos.setEstructura(TextUtils.join(",", selectedMultiAutoCompleteTextView));
+                    datos.setMuros(TextUtils.join(",", selectedMultiCompleteMuros));
+                    datos.setRevestimiento(TextUtils.join(",", selectedMultiCompleteRevestimiento));
+                    datos.setPisos(TextUtils.join(",", selectedMultiCompletePisos));
+                    datos.setPisosCocina(TextUtils.join(",", selectedMultiCompletePisosCocina));
+                    datos.setParedesCocina(TextUtils.join(",", selectedMultiCompleteParedesCocina));
+                    datos.setPisosBaños(TextUtils.join(",", selectedMultiCompletePisosBaños));
+                    datos.setParedesBaño(TextUtils.join(",", selectedMultiCompleteParedesBaño));
 
                     daoExtras.actualizarRegistroCaracEdificacion(datos, inspeccion.getNumInspeccion());
 

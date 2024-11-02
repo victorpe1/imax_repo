@@ -24,6 +24,8 @@ public class TablesHelper {
         public static final String partner_longitude = "partner_longitude";
         public static final String type_id = "type_id";
         public static final String type_name = "type_name";
+
+        public static final String estado = "estado";
     }
 
     public static final class xms_usuario {

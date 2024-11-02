@@ -21,6 +21,7 @@ import com.imax.app.models.AsignacionModel;
 import com.imax.app.models.CatalogModel;
 import com.imax.app.models.CondicionPago;
 import com.imax.app.models.GenericModel;
+import com.imax.app.models.Order;
 import com.imax.app.models.Personal;
 import com.imax.app.models.UsuarioModel;
 import com.imax.app.utils.Constants;
@@ -418,8 +419,9 @@ public class DAOExtras {
         List<AsignacionModel> listAsignacion = new ArrayList<>();
         try{
             SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
-            String rawQuery =
-                    "SELECT * FROM "+TablesHelper.xms_asignacion.table;
+
+            String rawQuery = "SELECT * FROM " + TablesHelper.xms_asignacion.table
+                    + " WHERE " + TablesHelper.xms_asignacion.estado + " != 'E'";
 
             Cursor cursor = db.rawQuery(rawQuery, null);
             cursor.moveToFirst();
@@ -818,6 +820,7 @@ public class DAOExtras {
             Nreg.put(TablesHelper.xml_inspeccion.referencia,           caracteristicasGenerales.getReferencia());
             Nreg.put(TablesHelper.xml_inspeccion.estacionamiento,   caracteristicasGenerales.getEstacionamiento());
             Nreg.put(TablesHelper.xml_inspeccion.depto,           caracteristicasGenerales.getDepto());
+            Nreg.put(TablesHelper.xml_inspeccion.deposito,           caracteristicasGenerales.getDeposito());
 
             db.update(TablesHelper.xml_inspeccion.table, Nreg, where, args);
 
@@ -915,8 +918,8 @@ public class DAOExtras {
             Gson gson = new Gson();
             String jsonListaBase64 = gson.toJson(selected64Files);
 
-            Nreg.put(TablesHelper.xml_inspeccion.cbCoincideInformacion,  despuesInspeccion.isTiene() ? "SI" : "NO");
-            Nreg.put(TablesHelper.xml_inspeccion.cbDocumentacionSITU,  despuesInspeccion.isTiene2() ? "SI" : "NO");
+            Nreg.put(TablesHelper.xml_inspeccion.cbCoincideInformacion,  despuesInspeccion.isTiene() ? "001" : "002");
+            Nreg.put(TablesHelper.xml_inspeccion.cbDocumentacionSITU,  despuesInspeccion.isTiene2() ? "001" : "002");
             Nreg.put(TablesHelper.xml_inspeccion.especificar,  despuesInspeccion.getEspecificar());
             Nreg.put(TablesHelper.xml_inspeccion.especificar2,  despuesInspeccion.getEspecificar2());
             Nreg.put(TablesHelper.xml_inspeccion.files,  jsonListaBase64);
@@ -1028,6 +1031,43 @@ public class DAOExtras {
         }
 
         return inscripciones;
+    }
+
+    public String actualizarRepuestaRegistro(Response<ResponseBody> response,
+                                             String numeroPedido) throws Exception{
+
+        JSONObject body = new JSONObject(response.body().string());
+
+        if (body.has("result")) {
+            JSONObject result = body.getJSONObject("result");
+
+            if (result.has("status")) {
+                int status = result.getInt("status");
+
+                if (status == 200) {
+                    SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                    String where = TablesHelper.xms_asignacion.number + " = ?";
+
+                    ContentValues updateValues = new ContentValues();
+                    updateValues.put(TablesHelper.xms_asignacion.estado, "E");
+
+                    String[] args = { numeroPedido };
+
+                    Log.i(TAG, "Actualizar "+TablesHelper.xms_asignacion.table + ": modificando..." + numeroPedido);
+                    db.update(TablesHelper.xms_asignacion.table, updateValues, where, args );
+
+                    return Order.FLAG_ENVIADO;
+                } else {
+                    System.out.println("Status no es 200");
+                }
+            } else {
+                System.out.println("No se encontró 'status' en 'result'");
+            }
+        } else {
+            System.out.println("No se encontró 'result' en el cuerpo");
+        }
+
+        return Order.FLAG_PENDIENTE;
     }
 
 }

@@ -879,27 +879,6 @@ public class DAOPedido {
     }
 
 
-    public String actualizarRepuestaRegistro(Response<ResponseBody> response, String numeroPedido,
-                                           InspeccionRequest venta) throws Exception{
 
-        JSONObject body = new JSONObject(response.body().string());
-
-        if (body.has("status")){
-            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
-            String where = TablesHelper.xms_order.id_numero + " = ?";
-
-            ContentValues updateValues = new ContentValues();
-            updateValues.put(TablesHelper.xms_order.total, "CAMBIO");
-
-            String[] args = { numeroPedido };
-
-            Log.i(TAG, "Actualizar "+TablesHelper.xms_order.table+": modificando..."+numeroPedido);
-            db.update(TablesHelper.xms_order.table, updateValues, where, args );
-
-            return Order.FLAG_ENVIADO;
-        }else {
-            return Constants.FAIL_CONNECTION;
-        }
-    }
 
 }
