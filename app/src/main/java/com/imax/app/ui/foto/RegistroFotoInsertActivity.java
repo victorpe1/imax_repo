@@ -650,7 +650,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
     public void refreshLista() {
         lista.clear();
-        lista.addAll(daoExtras.getListAsignacion());
+        lista.addAll(daoExtras.getListAsignacionFoto());
 
         ArrayList<String> array = new ArrayList<String>();
         for (AsignacionModel model : lista) {

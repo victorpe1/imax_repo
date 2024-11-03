@@ -660,12 +660,12 @@
 
                 <TextView
                     android:id="@+id/radioGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
                     android:text="Sistema contra incendio"
-                    android:layout_marginTop="11dp"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="#00796B"/>
+                    android:textColor="#00796B"
+                    android:textSize="@dimen/text_size_small"/>
+
                 <RadioGroup
                     android:id="@+id/radioGroupSistemaIncendio"
                     android:layout_width="wrap_content"

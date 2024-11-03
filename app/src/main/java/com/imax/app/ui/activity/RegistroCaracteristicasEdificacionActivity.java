@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -159,7 +160,59 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
+        setupFocusListener(multiAutoCompleteTextView);
+        setupFocusListener(multiCompleteMuros);
+        setupFocusListener(multiCompleteRevestimiento);
+        setupFocusListener(multiCompletePisos);
+        setupFocusListener(multiCompletePisosCocina);
+        setupFocusListener(multiCompleteParedesCocina);
+        setupFocusListener(multiCompletePisosBaños);
+        setupFocusListener(multiCompleteParedesBaño);
+
+        setupSpinnerListener(spnTipoPuerta);
+        setupSpinnerListener(spnMaterialPuerta);
+        setupSpinnerListener(spnSistemaPuerta);
+        setupSpinnerListener(spnMarcoVentana);
+        setupSpinnerListener(spnVidrioVentana);
+        setupSpinnerListener(spnSistemaVentana);
+        setupSpinnerListener(spnMuebleCocina);
+        setupSpinnerListener(spnMuebleCocina2);
+        setupSpinnerListener(spnTablero);
+        setupSpinnerListener(spnLavaderos);
+        setupSpinnerListener(spnSanitarioTipo);
+        setupSpinnerListener(spnSanitarioColor);
+        setupSpinnerListener(spnSanitario);
+        setupSpinnerListener(spnIss);
+        setupSpinnerListener(spnIiee);
+
+        radioGroupSistemaIncendio.setOnCheckedChangeListener((group, checkedId) -> {
+            tv_radioGroup.setBackground(ContextCompat.getDrawable(group.getContext(),
+                    R.drawable.default_border));
+        });
     }
+
+    private void setupSpinnerListener(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinner.setBackground(ContextCompat.getDrawable(parent.getContext(), android.R.drawable.edit_text));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setupFocusListener(MultiAutoCompleteTextView multiAutoCompleteTextView) {
+        multiAutoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                multiAutoCompleteTextView.setBackground(ContextCompat.getDrawable(v.getContext(),
+                        android.R.drawable.edit_text));
+            }
+            multiAutoCompleteTextView.showDropDown();
+        });
+    }
+
 
     private void loadDataIfExists(String numero){
         InspeccionRequest inspeccionRequest =  daoExtras.getListAsignacionByNumero(numero);
@@ -826,7 +879,7 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         builder.setIcon(icon);
         builder.setCancelable(false);
 
-       builder.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
+        builder.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
             /*Intent intent = new Intent(getApplicationContext(), DetallePedidoActivity.class);
             intent.putExtra("numeroPedido",numeroPedido);
             intent.putExtra("idCliente",idCliente);

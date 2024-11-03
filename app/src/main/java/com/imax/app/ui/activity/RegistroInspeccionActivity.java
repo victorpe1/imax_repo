@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -202,7 +204,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
+        configurarValidacionCampoError(edtContacto);
     }
 
     private void loadDataIfExists(String numero){
@@ -213,6 +215,28 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         }else{
             edtContacto.setText("");
         }
+    }
+
+    private void configurarValidacionCampoError(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().trim().isEmpty()) {
+                    editText.setBackgroundResource(android.R.drawable.edit_text);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().isEmpty()) {
+                    editText.setBackground(
+                            ContextCompat.getDrawable(RegistroInspeccionActivity.this,
+                                    R.drawable.error_border)); // Aplica el borde de error
+                }
+            }
+        });
     }
 
     public void setDateTimeInEditText(String fecha, EditText edtFecha, EditText edtHora) {
@@ -311,7 +335,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         return isValid;
     }
     private boolean validarEditText(EditText editText, Drawable errorBackground) {
-        if (editText.getText().toString().isEmpty()) {
+        if (editText.getText().toString().trim().isEmpty()) {
             editText.setBackground(errorBackground);
             return false;
         } else {

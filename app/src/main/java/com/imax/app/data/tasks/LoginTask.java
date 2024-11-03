@@ -8,6 +8,7 @@ import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.dao.DAOExtras;
+import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.models.UsuarioModel;
 import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
@@ -38,7 +39,6 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
         this.usuario = usuario;
         this.password = password;
         this.daoExtras = new DAOExtras(loginActivity.getApplicationContext());
-
         app = (App) loginActivity.getApplicationContext();
     }
 
@@ -82,6 +82,8 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 
                         app.setPref_serieUsuario(usuario);
                         app.setPref_token(password);
+
+                        daoExtras.refrescarCache();
                     }else{
                         switch (response.code()) {
                             case 401:

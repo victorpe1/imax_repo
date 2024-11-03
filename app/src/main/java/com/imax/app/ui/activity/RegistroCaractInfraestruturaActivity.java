@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,6 +86,30 @@ public class RegistroCaractInfraestruturaActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
+        configurarValidacionCampoError(edt_comentarios);
+    }
+
+
+    private void configurarValidacionCampoError(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().trim().isEmpty()) {
+                    editText.setBackgroundResource(android.R.drawable.edit_text);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().isEmpty()) {
+                    editText.setBackground(
+                            ContextCompat.getDrawable(RegistroCaractInfraestruturaActivity.this,
+                                    R.drawable.error_border));
+                }
+            }
+        });
     }
 
     private void loadDataIfExists(String numero){

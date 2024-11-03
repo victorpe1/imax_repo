@@ -2,6 +2,14 @@ package com.imax.app.managers;
 
 public class TablesHelper {
 
+    public static final class xms_asignacion_history {
+        public static final String table = "xms_asignacion_history";
+
+        public static final String id = "id";
+        public static final String name = "name";
+        public static final String estado = "estado";
+    }
+
     public static final class xms_asignacion {
         public static final String table = "xms_asignacion";
 

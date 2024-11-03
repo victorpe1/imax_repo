@@ -415,13 +415,56 @@ public class DAOExtras {
         return listMedioPago;
     }
 
+    public List<AsignacionModel> getListAsignacionFoto(){
+        List<AsignacionModel> listAsignacion = new ArrayList<>();
+        try{
+            SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+            String rawQuery = "SELECT * FROM " + TablesHelper.xms_asignacion.table
+                    + " WHERE " + TablesHelper.xms_asignacion.estado + " != 'E'";
+
+            Cursor cursor = db.rawQuery(rawQuery, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                AsignacionModel asignacionModel = new AsignacionModel();
+
+                asignacionModel.setId(cursor.getString(0));
+                asignacionModel.setAddress(cursor.getString(1));
+                asignacionModel.setCoordinatorId(cursor.getString(2));
+                asignacionModel.setCoordinatorName(cursor.getString(3));
+                asignacionModel.setCustomField1(cursor.getString(4));
+                asignacionModel.setCustomField19(cursor.getString(5));
+                asignacionModel.setCustomField2(cursor.getString(6));
+                asignacionModel.setCustomField3(cursor.getString(7));
+                asignacionModel.setInspectionDate(cursor.getString(8));
+                asignacionModel.setInspectorId(cursor.getString(9));
+                asignacionModel.setInspectorName(cursor.getString(10));
+                asignacionModel.setMotiveId(cursor.getString(11));
+                asignacionModel.setMotiveName(cursor.getString(12));
+                asignacionModel.setName(cursor.getString(13));
+                asignacionModel.setNumber(cursor.getString(14));
+                asignacionModel.setPartnerLatitude(cursor.getString(15));
+                asignacionModel.setPartnerLongitude(cursor.getString(16));
+                asignacionModel.setTypeId(cursor.getString(17));
+                asignacionModel.setTypeName(cursor.getString(18));
+
+                listAsignacion.add(asignacionModel);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listAsignacion;
+    }
+
     public List<AsignacionModel> getListAsignacion(){
         List<AsignacionModel> listAsignacion = new ArrayList<>();
         try{
             SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
-
-            String rawQuery = "SELECT * FROM " + TablesHelper.xms_asignacion.table
-                    + " WHERE " + TablesHelper.xms_asignacion.estado + " != 'E'";
+            String rawQuery = "SELECT a.* FROM " + TablesHelper.xms_asignacion.table + " AS a " +
+                    "LEFT JOIN " + TablesHelper.xms_asignacion_history.table + " AS h " +
+                    "ON a.number = h.name " +
+                    "WHERE h.name IS NULL;";
 
             Cursor cursor = db.rawQuery(rawQuery, null);
             cursor.moveToFirst();
@@ -1043,20 +1086,24 @@ public class DAOExtras {
 
             if (result.has("status")) {
                 int status = result.getInt("status");
-
                 if (status == 200) {
-                    SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
-                    String where = TablesHelper.xms_asignacion.number + " = ?";
 
-                    ContentValues updateValues = new ContentValues();
-                    updateValues.put(TablesHelper.xms_asignacion.estado, "E");
+                    try{
+                        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                        ContentValues Nreg = new ContentValues();
 
-                    String[] args = { numeroPedido };
+                        Nreg.put(TablesHelper.xms_asignacion_history.name,        numeroPedido);
+                        Nreg.put(TablesHelper.xms_asignacion_history.estado,       "E");
 
-                    Log.i(TAG, "Actualizar "+TablesHelper.xms_asignacion.table + ": modificando..." + numeroPedido);
-                    db.update(TablesHelper.xms_asignacion.table, updateValues, where, args );
+                        db.insert(TablesHelper.xms_asignacion_history.table, null, Nreg);
+                        Log.i(TAG, "xms_asignacion_history: Registro insertado");
 
-                    return Order.FLAG_ENVIADO;
+                        return Order.FLAG_ENVIADO;
+                    }catch (Exception e) {
+                        Log.e(TAG, "xms_asignacion_history: Error al insertar registro");
+                        e.printStackTrace();
+                        return Order.FLAG_PENDIENTE;
+                    }
                 } else {
                     System.out.println("Status no es 200");
                 }
@@ -1068,6 +1115,15 @@ public class DAOExtras {
         }
 
         return Order.FLAG_PENDIENTE;
+    }
+
+    public void refrescarCache(){
+        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+        Log.i(TAG, "Eliminando todos los registros de la tabla " + TablesHelper.xms_asignacion_history.table);
+        int rowsDeleted = db.delete(TablesHelper.xms_asignacion_history.table, null, null);
+
+        Log.i(TAG, "Número de filas eliminadas: " + rowsDeleted);
     }
 
 }
