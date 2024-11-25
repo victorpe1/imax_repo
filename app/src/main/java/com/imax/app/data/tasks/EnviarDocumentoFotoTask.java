@@ -8,41 +8,39 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.EasyfactApiInterface;
 import com.imax.app.data.api.XMSApi;
+import com.imax.app.data.api.request.FotoRequest;
+import com.imax.app.data.api.request.FotoRequestWrapper;
 import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.api.request.InspeccionRequestWrapper;
-import com.imax.app.data.api.request.OrderRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.data.dao.DAOPedido;
 import com.imax.app.data.dao.DAOProducto;
 import com.imax.app.models.Order;
 import com.imax.app.ui.activity.MenuPrincipalActivity;
 import com.imax.app.ui.activity.RegistroDespuesInspeccionFirmaActivity;
-import com.imax.app.ui.listapedidos.PedidosFragment;
-import com.imax.app.ui.pedido.PedidoActivity;
+import com.imax.app.ui.foto.RegistroFotoInsert5Activity;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
-    private WeakReference<RegistroDespuesInspeccionFirmaActivity> weakReference;
+public class EnviarDocumentoFotoTask extends AsyncTask<Void, Void, String> {
+    private WeakReference<RegistroFotoInsert5Activity> weakReference;
     private WeakReference<MenuPrincipalActivity> weakReferencePrincipal;
 
     private DAOExtras daoExtras;
@@ -51,16 +49,16 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
     private App app;
     private String numeroPedido;
     private boolean actualizarDocumento = false;
-    private InspeccionRequest inspeccionRequest;
+    private FotoRequest fotoRequest;
 
-    public EnviarDocumentoTask(RegistroDespuesInspeccionFirmaActivity reference, InspeccionRequest inspeccionRequest) {
+    public EnviarDocumentoFotoTask(RegistroFotoInsert5Activity reference, FotoRequest fotoRequest) {
         weakReference = new WeakReference<>(reference);
 
         daoExtras = new DAOExtras(reference.getApplicationContext());
         apiInterface = XMSApi.getApiEasyfactBase2(reference);
         app = (App) reference.getApplicationContext();
 
-        this.inspeccionRequest = inspeccionRequest;
+        this.fotoRequest = fotoRequest;
     }
 
     private String convertImageToBase64(String filePath) {
@@ -84,6 +82,51 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
         }
     }
 
+    private ArrayList<String> arrayList(List<String> fotoList){
+        ArrayList<String> fotoArray1List = new ArrayList<>();
+
+        if (fotoList != null) {
+            for (String item : fotoList) {
+                if (item != null) {
+                    String[] parts = item.split(";");
+                    String mimeType = null;
+                    String fileName = null;
+                    String filePath = null;
+
+                    // Procesa cada parte y revisa el formato esperado
+                    for (String part : parts) {
+                        if (part.startsWith("data:")) {
+                            mimeType = part.replace("data:", "");
+                        } else if (part.startsWith("name=")) {
+                            String[] nameParts = part.split("=");
+                            if (nameParts.length > 1) {
+                                fileName = nameParts[1];
+                            }
+                        } else if (part.startsWith("file,")) {
+                            String[] fileParts = part.split(",");
+                            if (fileParts.length > 1) {
+                                filePath = fileParts[1];
+                            }
+                        }
+                    }
+
+                    if (mimeType != null && fileName != null && filePath != null) {
+                        String base64String = convertImageToBase64(filePath);
+                        if (base64String != null) {
+                            String combinedItem = "data:" + mimeType + ";name=" + fileName + ";base64," + base64String;
+                            fotoArray1List.add(combinedItem);
+                        }
+                    } else {
+                        System.out.println("Formato inesperado en item: " + item);
+                    }
+                } else {
+                    System.out.println("Item nulo en fotoList");
+                }
+            }
+        }
+        return fotoArray1List;
+    }
+
     @Override
     protected String doInBackground(Void... strings) {
         Context context;
@@ -101,57 +144,48 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
                     JSONObject jsonObject = new JSONObject(responseToken.body().string());
                     String access_token = jsonObject.getString("access_token");
 
-                    ArrayList<String> base64List = new ArrayList<>();
-                    if (inspeccionRequest.getFiles() != null) {
-                        for (String item : inspeccionRequest.getFiles()) {
-                            String[] parts = item.split(";");
-                            String mimeType = null;
-                            String fileName = null;
-                            String filePath = null;
+                    ArrayList<String> fotoArray1List = arrayList(fotoRequest.getFotoArray1());
+                    ArrayList<String> fotoArray2List = arrayList(fotoRequest.getFotoArray2());
+                    ArrayList<String> fotoArray3List = arrayList(fotoRequest.getFotoArray3());
+                    ArrayList<String> fotoArray4List = arrayList(fotoRequest.getFotoArray4());
 
-                            for (String part : parts) {
-                                if (part.startsWith("data:")) {
-                                    mimeType = part.replace("data:", "");
-                                } else if (part.startsWith("name=")) {
-                                    fileName = part.split("=")[1];
-                                } else if (part.startsWith("file,")) {
-                                    filePath = part.split(",")[1];
-                                }
-                            }
+                    ArrayList<String> fotosArrayAdjunto1List = arrayList(fotoRequest.getFotosArrayAdjunto1());
+                    ArrayList<String> fotosArrayAdjunto2List = arrayList(fotoRequest.getFotosArrayAdjunto2());
+                    ArrayList<String> fotosArrayAdjunto3List = arrayList(fotoRequest.getFotosArrayAdjunto3());
+                    ArrayList<String> fotosArrayAdjunto4List = arrayList(fotoRequest.getFotosArrayAdjunto4());
+                    ArrayList<String> fotosArrayAdjunto5List = arrayList(fotoRequest.getFotosArrayAdjunto5());
 
-                            if (mimeType != null && fileName != null && filePath != null) {
-                                String base64String = convertImageToBase64(filePath);
-                                if (base64String != null) {
-                                    String combinedItem = "data:" + mimeType + ";name=" + fileName + ";base64," + base64String;
-                                    base64List.add(combinedItem);
-                                }
-                            }else {
-                                System.out.println("Formato inesperado en item.");
-                            }
-                        }
-                    }
+                    fotoRequest.setFotoArray1(fotoArray1List);
+                    fotoRequest.setFotoArray2(fotoArray2List);
+                    fotoRequest.setFotoArray3(fotoArray3List);
+                    fotoRequest.setFotoArray4(fotoArray4List);
 
-                    inspeccionRequest.setFiles(base64List);
-                    inspeccionRequest.setUser_email("jose.lunarejo@imax.com.pe");
+                    fotoRequest.setFotosArrayAdjunto1(fotosArrayAdjunto1List);
+                    fotoRequest.setFotosArrayAdjunto2(fotosArrayAdjunto2List);
+                    fotoRequest.setFotosArrayAdjunto3(fotosArrayAdjunto3List);
+                    fotoRequest.setFotosArrayAdjunto4(fotosArrayAdjunto4List);
+                    fotoRequest.setFotosArrayAdjunto5(fotosArrayAdjunto5List);
 
-                    ArrayList<InspeccionRequest> inspeccionRequestWrappers = new ArrayList<>();
-                    inspeccionRequestWrappers.add(inspeccionRequest);
-                    InspeccionRequestWrapper inspeccionRequestWrapper =
-                            new InspeccionRequestWrapper(inspeccionRequestWrappers);
+                    fotoRequest.setUser_email("jose.lunarejo@imax.com.pe");
 
-                    String json = new Gson().toJson(inspeccionRequestWrapper);
-                    Log.i("VENTA REQUEST", json);
+                    ArrayList<FotoRequest> fotoRequestWrappers = new ArrayList<>();
+                    fotoRequestWrappers.add(fotoRequest);
+                    FotoRequestWrapper fRequestWrapper =
+                            new FotoRequestWrapper(fotoRequestWrappers);
+
+                    String json = new Gson().toJson(fRequestWrapper);
+                    Log.i("fRequestWrapper REQUEST", json);
 
                     Response<ResponseBody> response = apiInterface.
-                            enviarRegistro(access_token, inspeccionRequestWrapper).execute();
+                            enviarRegistroFoto(access_token, fRequestWrapper).execute();
 
                     if (response.code() == 400) {
                         return Constants.FAIL_TIME_MAX;
                     }
 
                     if (response.isSuccessful()) {
-                        return daoExtras.actualizarRepuestaRegistro(response,
-                                inspeccionRequest.getNumInspeccion());
+                        return daoExtras.actualizarRepuestaRegistroFoto(response,
+                                fotoRequest.getNumInspeccion());
                     } else {
                         return Constants.FAIL_OTHER;
                     }

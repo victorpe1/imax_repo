@@ -301,4 +301,6 @@
     <string name="send_to_contact">Enviar a un contacto</string>
     <string name="send_to_other">Enviar a otro número</string>
 
+    <string name="registro_supervisor">Registro inspeccion - supervisor</string>
+
 </resources>

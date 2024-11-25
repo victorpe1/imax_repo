@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.supervisor.RegistroSupervisorInformacionGeneral">
+    <include layout="@layout/actionbar_toolbar" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminate="true"/>
+
+    <TextView
+        android:id="@+id/tv_razonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INSPECCIÓN"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:paddingTop="10dp"
+        android:gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_asignar"
+                style="@style/TextViewAsInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_size_small"
+                android:text="INSPECCIONES ASIGNADAS"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B"/>
+            <Spinner
+                android:id="@+id/spn_asignarNumero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_asignar"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Colocar Fecha y Hora"
+                android:paddingTop="15dp"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ed_Fecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="date"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Fecha"
+                    android:focusable="false"/>
+
+
+
+                <EditText
+                    android:id="@+id/ed_Hora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="time"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Hora"
+                    android:focusable="false"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Proyecto"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B"
+                android:layout_marginTop="@dimen/margin_vertical_medium"/>
+            <EditText
+                android:id="@+id/ed_Proyecto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:padding="10dp"
+                android:hint="Proyecto"
+                android:gravity="top"
+                android:textSize="@dimen/text_size_small"
+                android:focusable="false"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solicitud"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B"
+                android:layout_marginTop="@dimen/margin_vertical_medium"/>
+            <EditText
+                android:id="@+id/ed_Solicitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"                    android:padding="10dp"
+                android:hint="Solicitud"
+                android:gravity="top"
+                android:textSize="@dimen/text_size_small"
+                android:focusable="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Respon. Obra"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B"
+                android:layout_marginTop="@dimen/margin_vertical_medium"/>
+            <EditText
+                android:id="@+id/ed_Respon_Obra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:padding="10dp"
+                android:hint="Obra"
+                android:gravity="top"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cargo"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B"
+                android:layout_marginTop="@dimen/margin_vertical_medium"/>
+            <EditText
+                android:id="@+id/ed_Cargo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:padding="10dp"
+                android:hint="Cargo"
+                android:gravity="top"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Colocar Sotano y Piso"
+                android:paddingTop="15dp"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ed_Sotano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Sotano"/>
+
+
+                <EditText
+                    android:id="@+id/ed_Piso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Piso"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Colocar Meses de Obra y Torres"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#00796B"
+                android:layout_marginTop="@dimen/margin_vertical_medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ed_Obra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Obra"/>
+
+                <EditText
+                    android:id="@+id/ed_Torres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Torres"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

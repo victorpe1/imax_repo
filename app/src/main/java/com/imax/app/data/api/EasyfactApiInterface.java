@@ -1,5 +1,6 @@
 package com.imax.app.data.api;
 
+import com.imax.app.data.api.request.FotoRequestWrapper;
 import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.api.request.InspeccionRequestWrapper;
 import com.imax.app.data.api.request.OrderRequest;
@@ -82,6 +83,12 @@ public interface EasyfactApiInterface {
     Call<ResponseBody> enviarRegistro(
             @Header("Access-Token") String token,
             @Body InspeccionRequestWrapper request);
+
+    @Headers({"Content-Type: application/json"})
+    @POST("api/save_rg_photo")
+    Call<ResponseBody> enviarRegistroFoto(
+            @Header("Access-Token") String token,
+            @Body FotoRequestWrapper request);
 
 
     @Headers({"Content-Type: application/json"})

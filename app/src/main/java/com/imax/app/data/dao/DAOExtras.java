@@ -11,10 +11,12 @@ import com.google.gson.reflect.TypeToken;
 import com.imax.app.App;
 import com.imax.app.data.api.request.FotoRequest;
 import com.imax.app.data.api.request.InspeccionRequest;
+import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.CaracteristicasEdificacion;
 import com.imax.app.intents.CaracteristicasGenerales;
 import com.imax.app.intents.DespuesInspeccion;
+import com.imax.app.intents.supervisor.InspeccionSupervisor_1;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
@@ -419,8 +421,10 @@ public class DAOExtras {
         List<AsignacionModel> listAsignacion = new ArrayList<>();
         try{
             SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
-            String rawQuery = "SELECT * FROM " + TablesHelper.xms_asignacion.table
-                    + " WHERE " + TablesHelper.xms_asignacion.estado + " != 'E'";
+            String rawQuery = "SELECT a.* FROM " + TablesHelper.xms_asignacion.table + " AS a " +
+                    "LEFT JOIN " + TablesHelper.xms_asignacion_history_foto.table + " AS h " +
+                    "ON a.number = h.name " +
+                    "WHERE h.name IS NULL AND a.number LIKE 'TAS%'";
 
             Cursor cursor = db.rawQuery(rawQuery, null);
             cursor.moveToFirst();
@@ -464,7 +468,7 @@ public class DAOExtras {
             String rawQuery = "SELECT a.* FROM " + TablesHelper.xms_asignacion.table + " AS a " +
                     "LEFT JOIN " + TablesHelper.xms_asignacion_history.table + " AS h " +
                     "ON a.number = h.name " +
-                    "WHERE h.name IS NULL;";
+                    "WHERE h.name IS NULL AND a.number LIKE 'TAS%'";
 
             Cursor cursor = db.rawQuery(rawQuery, null);
             cursor.moveToFirst();
@@ -490,6 +494,10 @@ public class DAOExtras {
                 asignacionModel.setPartnerLongitude(cursor.getString(16));
                 asignacionModel.setTypeId(cursor.getString(17));
                 asignacionModel.setTypeName(cursor.getString(18));
+                asignacionModel.setApplicantId(cursor.getString(20));
+                asignacionModel.setApplicantName(cursor.getString(21));
+                asignacionModel.setTaskId(cursor.getString(22));
+                asignacionModel.setTaskName(cursor.getString(23));
 
                 listAsignacion.add(asignacionModel);
                 cursor.moveToNext();
@@ -499,6 +507,39 @@ public class DAOExtras {
             e.printStackTrace();
         }
         return listAsignacion;
+    }
+
+    public SupervisorRequest getListAsignacionByNumeroSupervisor(String numero) {
+        SupervisorRequest supervisorRequest = new SupervisorRequest();
+        try {
+            SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+            String rawQuery =
+                    "SELECT * FROM " + TablesHelper.xml_inspeccion_supervisor.table + " WHERE num_inspeccion = ?";
+            Cursor cursor = db.rawQuery(rawQuery, new String[]{numero});
+
+            if (cursor.moveToFirst()) {
+                supervisorRequest.setNumInspeccion(cursor.getString(1));
+                supervisorRequest.setNumInspeccion(cursor.getString(2));
+                supervisorRequest.setFecha(cursor.getString(3));
+                supervisorRequest.setHora(cursor.getString(4));
+                supervisorRequest.setProyecto(cursor.getString(5));
+                supervisorRequest.setSolicitante(cursor.getString(6));
+                supervisorRequest.setResponsableObra(cursor.getString(7));
+                supervisorRequest.setCargo(cursor.getString(8));
+                supervisorRequest.setSotanos(cursor.getString(9));
+                supervisorRequest.setPisos(cursor.getString(10));
+                supervisorRequest.setMesas(cursor.getString(11));
+                supervisorRequest.setTorres(cursor.getString(12));
+
+                supervisorRequest.setProyectoId(cursor.getString(14));
+                supervisorRequest.setSolicitanteId(cursor.getString(15));
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return supervisorRequest;
     }
 
 
@@ -642,6 +683,23 @@ public class DAOExtras {
         return inspeccionRequest;
     }
 
+    public boolean existeRegistroSupervisor(String idAsignacion){
+        boolean existe = false;
+
+        String rawQuery = "SELECT num_inspeccion FROM xml_inspeccion_supervisor WHERE num_inspeccion = ?";
+        SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+        Cursor cur = db.rawQuery(rawQuery, new String[]{idAsignacion});
+
+        cur.moveToFirst();
+        while (!cur.isAfterLast()) {
+            existe = true;
+            cur.moveToNext();
+        }
+        cur.close();
+
+        return existe;
+    }
+    
     public boolean existeRegistro(String idAsignacion){
         boolean existe = false;
 
@@ -675,6 +733,38 @@ public class DAOExtras {
 
         return existe;
     }
+
+    public void actualizarRegistroInpeccionSupervisor(InspeccionSupervisor_1 antesInspeccion){
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { antesInspeccion.getNumInspeccion() };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.fecha,        antesInspeccion.getFecha());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.hora,         antesInspeccion.getHora());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.proyecto,        antesInspeccion.getProyecto());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.solicitante,           antesInspeccion.getSolicitante());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.responsable_obra,   antesInspeccion.getResponsableObra());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.cargo,           antesInspeccion.getCargo());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.sotanos,        antesInspeccion.getSotanos());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.pisos,           antesInspeccion.getPisos());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.mesas,   antesInspeccion.getMesas());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.torres,           antesInspeccion.getTorres());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.proyecto_id,           antesInspeccion.getProyectoId());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.solicitante_id,           antesInspeccion.getSolicitanteId());
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
 
     public void actualizarRegistroInpeccion(AntesInspeccion antesInspeccion){
         String where = TablesHelper.xml_inspeccion.numInspeccion + " = ?";
@@ -996,6 +1086,37 @@ public class DAOExtras {
         }
     }
 
+    public void crearRegistroSupervisor(InspeccionSupervisor_1 antesInspeccion){
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.num_inspeccion,        antesInspeccion.getNumInspeccion());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.fecha,        antesInspeccion.getFecha());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.hora,         antesInspeccion.getHora());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.proyecto,        antesInspeccion.getProyecto());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.solicitante,           antesInspeccion.getSolicitante());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.responsable_obra,   antesInspeccion.getResponsableObra());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.cargo,           antesInspeccion.getCargo());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.sotanos,        antesInspeccion.getSotanos());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.pisos,           antesInspeccion.getPisos());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.mesas,   antesInspeccion.getMesas());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.torres,           antesInspeccion.getTorres());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.proyecto_id,           antesInspeccion.getProyectoId());
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.solicitante_id,           antesInspeccion.getSolicitanteId());
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.estado,       "P");
+
+            db.insert(TablesHelper.xml_inspeccion_supervisor.table, null, Nreg);
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro insertado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspecxml_inspeccion_supervisorcion: Error al insertar registro");
+            e.printStackTrace();
+        }
+    }
+
+
     public void crearRegistro(AntesInspeccion antesInspeccion){
         try {
             SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
@@ -1076,6 +1197,48 @@ public class DAOExtras {
         return inscripciones;
     }
 
+    public String actualizarRepuestaRegistroFoto(Response<ResponseBody> response,
+                                             String numeroPedido) throws Exception{
+
+        JSONObject body = new JSONObject(response.body().string());
+
+        if (body.has("result")) {
+            JSONObject result = body.getJSONObject("result");
+
+            if (result.has("status")) {
+                int status = result.getInt("status");
+                if (status == 200) {
+
+                    try{
+                        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                        ContentValues Nreg = new ContentValues();
+
+                        Nreg.put(TablesHelper.xms_asignacion_history_foto.name,        numeroPedido);
+                        Nreg.put(TablesHelper.xms_asignacion_history_foto.estado,       "E");
+
+                        db.insert(TablesHelper.xms_asignacion_history_foto.table, null, Nreg);
+                        Log.i(TAG, "xms_asignacion_history_foto: Registro insertado");
+
+                        return Order.FLAG_ENVIADO;
+                    }catch (Exception e) {
+                        Log.e(TAG, "xms_asignacion_history: Error al insertar registro");
+                        e.printStackTrace();
+                        return Order.FLAG_PENDIENTE;
+                    }
+                } else {
+                    System.out.println("Status no es 200");
+                }
+            } else {
+                System.out.println("No se encontró 'status' en 'result'");
+            }
+        } else {
+            System.out.println("No se encontró 'result' en el cuerpo");
+        }
+
+        return Order.FLAG_PENDIENTE;
+    }
+
+
     public String actualizarRepuestaRegistro(Response<ResponseBody> response,
                                              String numeroPedido) throws Exception{
 
@@ -1122,6 +1285,19 @@ public class DAOExtras {
 
         Log.i(TAG, "Eliminando todos los registros de la tabla " + TablesHelper.xms_asignacion_history.table);
         int rowsDeleted = db.delete(TablesHelper.xms_asignacion_history.table, null, null);
+
+        Log.i(TAG, "Número de filas eliminadas: " + rowsDeleted);
+    }
+
+
+
+
+
+    public void refrescarFotoCache(){
+        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+        Log.i(TAG, "Eliminando todos los registros de la tabla " + TablesHelper.xms_asignacion_history_foto.table);
+        int rowsDeleted = db.delete(TablesHelper.xms_asignacion_history_foto.table, null, null);
 
         Log.i(TAG, "Número de filas eliminadas: " + rowsDeleted);
     }

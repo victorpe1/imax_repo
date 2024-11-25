@@ -943,6 +943,39 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                         cv.put("type_name", typeArray.getString(1));
                     }
                 }
+
+                if (jsonData.has("applicant_id") && !jsonData.isNull("applicant_id")) {
+                    if (jsonData.get("applicant_id") instanceof JSONArray) {
+                        JSONArray motiveArray = jsonData.getJSONArray("applicant_id");
+                        if (motiveArray.length() > 1) {
+                            cv.put("applicant_id", motiveArray.getInt(0));
+                            cv.put("applicant_name", motiveArray.getString(1));
+                        }
+                    } else if (jsonData.get("applicant_id") instanceof Boolean) {
+                        boolean motiveBool = jsonData.getBoolean("applicant_id");
+                        if (!motiveBool) {
+                            cv.put("applicant_id", 0);
+                            cv.put("applicant_name", "-");
+                        }
+                    }
+                }
+
+                if (jsonData.has("task_id") && !jsonData.isNull("task_id")) {
+                    if (jsonData.get("task_id") instanceof JSONArray) {
+                        JSONArray motiveArray = jsonData.getJSONArray("task_id");
+                        if (motiveArray.length() > 1) {
+                            cv.put("task_id", motiveArray.getInt(0));
+                            cv.put("task_name", motiveArray.getString(1));
+                        }
+                    } else if (jsonData.get("task_id") instanceof Boolean) {
+                        boolean motiveBool = jsonData.getBoolean("task_id");
+                        if (!motiveBool) {
+                            cv.put("task_id", 0);
+                            cv.put("task_name", "-");
+                        }
+                    }
+                }
+
                 db.insertOrThrow(table, null, cv);
             }
 

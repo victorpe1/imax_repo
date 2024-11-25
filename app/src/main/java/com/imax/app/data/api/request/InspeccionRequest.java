@@ -94,6 +94,8 @@ public class InspeccionRequest implements Serializable {
     private String observacion;
     private String base64Firma;
 
+    private String user_email;
+
     public  InspeccionRequest(AntesInspeccion antesInspeccion,
                              CaracteristicasGenerales caracteristicasGenerales,
                              CaracteristicasEdificacion caracteristicasEdificacion,
@@ -747,5 +749,13 @@ public class InspeccionRequest implements Serializable {
 
     public void setBase64Firma(String base64Firma) {
         this.base64Firma = base64Firma;
+    }
+
+    public String getUser_email() {
+        return user_email;
+    }
+
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 }

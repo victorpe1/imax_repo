@@ -1,5 +1,6 @@
 package com.imax.app.data.tasks;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -18,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
@@ -40,6 +42,29 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
         this.password = password;
         this.daoExtras = new DAOExtras(loginActivity.getApplicationContext());
         app = (App) loginActivity.getApplicationContext();
+    }
+
+    public void clearCache(Context context) {
+        try {
+            File cacheDir = context.getCacheDir();
+            if (cacheDir != null && cacheDir.isDirectory()) {
+                deleteDir(cacheDir);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String child : children) {
+                boolean success = deleteDir(new File(dir, child));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
     }
 
     @Override
@@ -78,12 +103,14 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
                                     consultarUsuario(access_token, body).execute();
 
                     if (responseLogin.isSuccessful()) {
+                        clearCache(weakReference.get().getApplicationContext());
                         usuarioModel = new UsuarioModel();
 
                         app.setPref_serieUsuario(usuario);
                         app.setPref_token(password);
 
                         daoExtras.refrescarCache();
+                        daoExtras.refrescarFotoCache();
                     }else{
                         switch (response.code()) {
                             case 401:

@@ -539,12 +539,13 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         @Override
         protected String doInBackground(Void... voids) {
             try {
-
+                String usuario = app.getPref_serieUsuario();
                 if (Util.isConnectingToRed(RegistroFotoInsertActivity.this)) {
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"user_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
+                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
+                    domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroFotoInsertActivity.this.getApplicationContext())
                             .obtenerTickets(domain, 500).execute();

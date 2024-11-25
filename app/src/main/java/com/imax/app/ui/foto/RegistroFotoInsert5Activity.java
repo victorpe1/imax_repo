@@ -2,6 +2,7 @@ package com.imax.app.ui.foto;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -46,10 +47,13 @@ import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.FotoRequest;
 import com.imax.app.data.dao.DAOExtras;
+import com.imax.app.data.tasks.EnviarDocumentoFotoTask;
+import com.imax.app.data.tasks.EnviarDocumentoTask;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
 import com.imax.app.ui.activity.MenuPrincipalActivity;
+import com.imax.app.ui.activity.RegistroDespuesInspeccionFirmaActivity;
 import com.imax.app.ui.adapters.FilesAdapter;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.MyDetailDialog;
@@ -314,9 +318,16 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
 
                 daoExtras.actualizarRegistroInpeccionFoto5(fotoRequest);
 
-                Intent intent = new Intent(this, MenuPrincipalActivity.class);
-                //intent.putExtra("numAsignacion", numAsignacion);
-                startActivity(intent);
+                new AlertDialog.Builder(this)
+                        .setTitle("Confirmación")
+                        .setMessage("¿Estás seguro de que deseas continuar?")
+                        .setPositiveButton("Sí", (dialog, which) -> {
+                            FotoRequest fotoRequestSend = daoExtras.getListFotoByNumero(numAsignacion);
+                            new EnviarDocumentoFotoTask(RegistroFotoInsert5Activity.this, fotoRequestSend).execute();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
                 break;
             case android.R.id.home:
                 finish();
@@ -417,6 +428,32 @@ public class RegistroFotoInsert5Activity extends AppCompatActivity implements Fi
 
     public void hideLoader() {
         progressDialog.dismiss();
+    }
+
+
+    public void mostrarPopup(@StringRes int tituloRes, @StringRes int mensajeRes, @DrawableRes int iconResId) {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView2 = inflater.inflate(R.layout.popup_gracias, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView2);
+
+        AlertDialog dialog2 = builder.create();
+        dialog2.show();
+
+        ImageView imageViewCheck = dialogView2.findViewById(R.id.imageViewCheck);
+        TextView tvSubtitulo = dialogView2.findViewById(R.id.tvSubtitulo);
+        Button btnAceptar = dialogView2.findViewById(R.id.btnAceptar);
+
+        imageViewCheck.setImageResource(iconResId);
+        tvSubtitulo.setText(mensajeRes);
+
+        btnAceptar.setOnClickListener(v -> {
+            dialog2.dismiss();
+            finish();
+            Intent intent = new Intent(this, MenuPrincipalActivity.class);
+            startActivity(intent);
+        });
     }
 
 }

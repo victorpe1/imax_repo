@@ -10,6 +10,14 @@ public class TablesHelper {
         public static final String estado = "estado";
     }
 
+    public static final class xms_asignacion_history_foto {
+        public static final String table = "xms_asignacion_history_foto";
+
+        public static final String id = "id";
+        public static final String name = "name";
+        public static final String estado = "estado";
+    }
+
     public static final class xms_asignacion {
         public static final String table = "xms_asignacion";
 
@@ -141,7 +149,27 @@ public class TablesHelper {
         public static final String descripcion = "descripcion";
     }
 
-    public static final class xml_inspeccion {
+    public static final class xml_inspeccion_supervisor {
+        public static final String table = "xml_inspeccion_supervisor";
+
+        public static final String num_inspeccion = "num_inspeccion";
+        public static final String fecha = "fecha";
+        public static final String hora = "hora";
+        public static final String proyecto = "proyecto";
+        public static final String solicitante = "solicitante";
+        public static final String responsable_obra = "responsable_obra";
+        public static final String cargo = "cargo";
+        public static final String sotanos = "sotanos";
+        public static final String pisos = "pisos";
+        public static final String mesas = "mesas";
+        public static final String torres = "torres";
+
+        public static final String proyecto_id = "proyecto_id";
+        public static final String solicitante_id = "solicitante_id";
+        public static final String estado = "estado";
+    }
+
+        public static final class xml_inspeccion {
         public static final String table = "xml_inspeccion";
 
         // Columnas de la tabla 'inspeccion'

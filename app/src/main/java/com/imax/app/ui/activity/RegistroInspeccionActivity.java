@@ -317,6 +317,10 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
     }
 
     private boolean validarCampos() {
+        if(lista.size() == 0){
+            return false;
+        }
+
         boolean isValid = true;
         Drawable errorBackground = ContextCompat.getDrawable(this, R.drawable.error_border);
 
@@ -334,6 +338,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
 
         return isValid;
     }
+
     private boolean validarEditText(EditText editText, Drawable errorBackground) {
         if (editText.getText().toString().trim().isEmpty()) {
             editText.setBackground(errorBackground);
@@ -463,11 +468,14 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         protected String doInBackground(Void... voids) {
             try {
 
+                String usuario = app.getPref_serieUsuario();
+
                 if (Util.isConnectingToRed(RegistroInspeccionActivity.this)) {
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"user_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
+                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
+                    domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroInspeccionActivity.this.getApplicationContext())
                             .obtenerTickets(domain, 500).execute();

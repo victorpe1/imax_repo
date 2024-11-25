@@ -93,7 +93,7 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
     private LinearLayout filesContainer;
 
     private List<String> filePaths = new ArrayList<>();
-    private List<String> fileBase64List = new ArrayList<>();
+    private List<String> fileMIMEList = new ArrayList<>();
     private List<String> filesNameList = new ArrayList<>();
 
     @Override
@@ -183,15 +183,13 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
 
         if(inspeccionRequest.getFiles() != null){
             for (String file : inspeccionRequest.getFiles()) {
-                int base64Start = file.indexOf(";base64,") + 8;
                 int nameStart = file.indexOf("name=") + 5;
-                int nameEnd = file.indexOf(";base64,");
+                int nameEnd = file.indexOf(";index=");
 
-                String base64Data = file.substring(base64Start);
                 String fileName = file.substring(nameStart, nameEnd);
 
                 filesNameList.add(fileName);
-                fileBase64List.add(base64Data);
+                fileMIMEList.add(file);
                 filePaths.add("Rutas");
             }
             showFiles();
@@ -200,14 +198,12 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
 
     private void removeFile(int index) {
         filesNameList.remove(index);
-        fileBase64List.remove(index);
+        fileMIMEList.remove(index);
 
         showFiles();
     }
-
     private void showFiles() {
         filesContainer.removeAllViews();
-
         for (int i = 0; i < filesNameList.size(); i++) {
             final int index = i;
 
@@ -223,9 +219,7 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
             filesContainer.addView(fileItemView);
         }
     }
-
     private void openFilePicker() {
-
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -279,13 +273,10 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                     String especificar = edt_especificar.getText().toString();
                     String especificar2 = edt_especificar_2.getText().toString();
 
-                    List<String> selectedFiles = filesNameList;
-
                     DespuesInspeccion despuesInspeccion = new DespuesInspeccion(tiene, tiene2,
-                            especificar, especificar2, selectedFiles);
+                            especificar, especificar2, fileMIMEList);
 
-                    List<String> combinedList = combineBase64AndFileNames(fileBase64List, filesNameList);
-                    daoExtras.actualizarRegistroDespuesInspeccion(despuesInspeccion, inspeccion.getNumInspeccion(), combinedList);
+                    daoExtras.actualizarRegistroDespuesInspeccion(despuesInspeccion, inspeccion.getNumInspeccion(), fileMIMEList);
 
                     Intent intent = new Intent(RegistroDespuesInspeccionActivity.this, RegistroDespuesInspeccionFirmaActivity.class);
                     intent.putExtra("despuesInspeccion", despuesInspeccion);
@@ -307,20 +298,6 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         return super.onOptionsItemSelected(item);
     }
 
-    public static List<String> combineBase64AndFileNames(List<String> fileBase64List, List<String> filesList) {
-        List<String> combined = new ArrayList<>();
-
-        for (int i = 0; i < fileBase64List.size(); i++) {
-            String base64 = fileBase64List.get(i);
-            String fileName = filesList.get(i);
-
-            String mimeType = getMimeType(fileName);
-            String combinedItem = "data:" + mimeType + ";name=" + fileName + ";base64," + base64;
-            combined.add(combinedItem);
-        }
-        return combined;
-    }
-
     public static String getMimeType(String fileName) {
         if (fileName.endsWith(".png")) {
             return "image/png";
@@ -332,19 +309,6 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
             return "text/plain";
         }
         return "application/octet-stream";
-    }
-    private String convertFileToBase64FromPath(String filePath) {
-        try {
-            File file = new File(filePath);
-            FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] bytes = new byte[(int) file.length()];
-            fileInputStream.read(bytes);
-            fileInputStream.close();
-            return Base64.encodeToString(bytes, Base64.DEFAULT);  // Convertir a Base64
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
@@ -377,32 +341,32 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         filesContainer.removeAllViews();
         if (requestCode == PICK_FILES_REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
+                filesContainer.removeAllViews();
                 if (data.getClipData() != null) {
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
                         Uri fileUri = data.getClipData().getItemAt(i).getUri();
                         String fileName = getFileName(fileUri);
-                        String fileBase64 = convertFileToBase64(fileUri);
-                        String filePath = saveFileToInternalStorage(fileBase64, fileName);
+                        String mimeType = getMimeType(fileUri.toString());
+
+                        String filePath = saveFileToInternalStorage(fileUri, fileName);
                         if (filePath != null) {
                             filePaths.add(filePath);
-
-                            File file = new File(filePath);
-                            if (file.exists()) fileBase64List.add(fileBase64);
+                            String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=" + i + ";file," + filePath;
+                            fileMIMEList.add(combinedItem);
                         }
                         filesNameList.add(fileName);
                     }
                 } else if (data.getData() != null) {
                     Uri fileUri = data.getData();
                     String fileName = getFileName(fileUri);
-                    String fileBase64 = convertFileToBase64(fileUri);
-                    String filePath = saveFileToInternalStorage(fileBase64, fileName);
+                    String mimeType = getMimeType(fileUri.toString());
 
+                    String filePath = saveFileToInternalStorage(fileUri, fileName);
                     if (filePath != null) {
                         filePaths.add(filePath);
-
-                        File file = new File(filePath);
-                        if (file.exists()) fileBase64List.add(fileBase64);
+                        String combinedItem = "data:" + mimeType + ";name=" + fileName + ";index=0;file," + filePath;
+                        fileMIMEList.add(combinedItem);
                     }
                     filesNameList.add(fileName);
                 }
@@ -412,21 +376,37 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
                 }
                 filesAdapter.notifyDataSetChanged();
             }
+
         }
     }
 
-    private String saveFileToInternalStorage(String base64Data, String fileName) {
+    private String saveFileToInternalStorage(Uri fileUri, String fileName) {
         try {
-            File file = new File(getFilesDir(), fileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            byte[] decodedBytes = Base64.decode(base64Data, Base64.DEFAULT);
-            fos.write(decodedBytes);
-            fos.close();
-            return file.getAbsolutePath();  // Retorna la ruta completa del archivo guardado
+            File directory = new File(getFilesDir(), "images");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+
+            File file = new File(directory, fileName);
+
+            InputStream inputStream = getContentResolver().openInputStream(fileUri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+
+            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     @SuppressLint("Range")
@@ -440,33 +420,13 @@ public class RegistroDespuesInspeccionActivity extends AppCompatActivity impleme
         return fileName;
     }
 
-    private String convertFileToBase64(Uri uri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-            }
-            inputStream.close();
-
-            byte[] fileBytes = byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(fileBytes, Base64.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @Override
     public void onFileRemoved(int position) {
-        filesNameList.remove(position);
-        fileBase64List.remove(position);
-        filePaths.remove(position);
 
+        filesNameList.remove(position);
+        filePaths.remove(position);
         filesAdapter.notifyItemRemoved(position);
+
         if (filesNameList.isEmpty()) {
             recyclerFiles.setVisibility(View.GONE);
         }
