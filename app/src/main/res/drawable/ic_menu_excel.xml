@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Fondo transparente -->
+    <!-- Contorno negro -->
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"
+        android:pathData="M3,3h18v18h-18z"
+        android:fillAlpha="0"/>
+    <!-- "X" del ícono -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M7,6l4,6 -4,6h3l3,-4.5l3,4.5h3l-4,-6l4,-6h-3l-3,4.5l-3,-4.5h-3z" />
+</vector>

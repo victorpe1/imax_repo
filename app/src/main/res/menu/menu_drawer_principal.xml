@@ -9,6 +9,10 @@
             android:id="@+id/nav_foto"
             android:icon="@drawable/ic_menu_cuenta"
             android:title="REGISTRO FOTOGRAFICO" />
+        <item
+            android:id="@+id/nav_supervisor"
+            android:icon="@drawable/ic_menu_excel"
+            android:title="REGISTRO SUPERVISOR" />
     </group>
 
     <group android:id="@+id/grupo2" android:checkableBehavior="single">

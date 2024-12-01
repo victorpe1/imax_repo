@@ -65,7 +65,9 @@
         <activity android:name="com.imax.app.ui.foto.RegistroFotoInsert3Activity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.foto.RegistroFotoInsert4Activity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.foto.RegistroFotoInsert5Activity" android:screenOrientation="portrait"/>
-
+        <activity android:name="com.imax.app.ui.Supervisor.RegistroSupervisor_Informacion_General" android:screenOrientation="portrait"/>
+        <activity android:name="com.imax.app.ui.Supervisor.RegistroListadoDocumentos" android:screenOrientation="portrait"/>
+        <activity android:name="com.imax.app.ui.Supervisor.RegistroResumenporNiveles" android:screenOrientation="portrait"/>
         tools:ignore="Instantiatable" />
 
         <provider

@@ -109,6 +109,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Util.actualizarToolBar(getString(R.string.nuevo_registro), true, this, R.drawable.ic_action_close);
         progress = findViewById(R.id.progress);
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());

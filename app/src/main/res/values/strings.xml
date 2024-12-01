@@ -1,4 +1,5 @@
 <resources>
+
     <string name="powered_by">Powered by</string>
     <string name="company">POS Sale APP</string>
     <string name="configuraciones">Configuraciones</string>
@@ -7,7 +8,7 @@
     <string name="registrate1">¿Aún no tienes una cuenta?</string>
     <string name="registrate">Regístrate</string>
     <string name="olvido_contraseña">¿Olvidaste tu contraseña?</string>
-
+    <string name="Supervisor">INSPECCION - SUPERVISOR</string>
     <string name="hint_ruc">RUC</string>
     <string name="hint_usuario">Usuario</string>
     <string name="hint_usuario_correo">Usuario o Correo electrónico</string>
@@ -120,7 +121,6 @@
     <string name="nuevo_pedido">Nuevo pedido</string>
     <string name="nuevo_registro">Nuevo registro</string>
     <string name="caracteristicas">Caracteristicas generales</string>
-
     <string name="agregar_cliente">Agregar cliente</string>
 
     <string name="label_cantidad">Cantidad:&#160;&#160;</string>
@@ -300,5 +300,11 @@
     <string name="confirm_order_cancelation">¿Está seguro que desea anular el pedido?</string>
     <string name="send_to_contact">Enviar a un contacto</string>
     <string name="send_to_other">Enviar a otro número</string>
-
+    <string-array name="medio_options">
+        <item>Foto</item>
+        <item>IMP</item>
+        <item>PDF</item>
+        <item>N.E</item>
+        <item>P.V</item>
+    </string-array>
 </resources>

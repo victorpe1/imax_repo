@@ -35,6 +35,7 @@ import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOPedido;
 import com.imax.app.intents.CaracteristicasGenerales;
 import com.imax.app.models.UsuarioModel;
+import com.imax.app.ui.Supervisor.RegistroSupervisor_Informacion_General;
 import com.imax.app.ui.foto.RegistroFotoActivity;
 import com.imax.app.ui.pedido.PedidoActivity;
 import com.imax.app.utils.Util;
@@ -130,6 +131,9 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
             case R.id.nav_foto:
                 nuevoRegistroFotografico();
                 break;
+            case R.id.nav_supervisor:
+                RegistroSupervisor();
+                break;
             case R.id.nav_salir:
                 Salir();
                 break;
@@ -142,6 +146,7 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
         Intent intent = new Intent(this, RegistroInspeccionActivity.class);
         intent.putExtra("accion", RegistroInspeccionActivity.ACCION_NUEVO_REGISTRO);
         startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);
+
     }
 
     private void nuevoRegistroFotografico() {
@@ -149,6 +154,13 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
         intent.putExtra("accion", RegistroInspeccionActivity.ACCION_NUEVO_REGISTRO);
         startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);
     }
+
+    private  void RegistroSupervisor(){
+        Intent intent = new Intent(this, RegistroSupervisor_Informacion_General.class);
+        intent.putExtra("accion", RegistroInspeccionActivity.ACCION_NUEVO_REGISTRO);
+        startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);
+    }
+
 
     private void Salir() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

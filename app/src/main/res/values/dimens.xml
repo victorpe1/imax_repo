@@ -43,7 +43,7 @@
     <dimen name="newsMoreTextSize">12sp</dimen>
     <dimen name="loginCardRadius">20dp</dimen>
     <dimen name="loginViewsMargin">20dp</dimen>
-
+    <dimen name="edit_text_width">200dp</dimen>
     <dimen name="signup_text_margin_top">10dp</dimen>
 
 </resources>
