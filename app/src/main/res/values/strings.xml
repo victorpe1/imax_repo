@@ -302,5 +302,12 @@
     <string name="send_to_other">Enviar a otro número</string>
 
     <string name="registro_supervisor">Registro inspeccion - supervisor</string>
+    <string-array name="medio_options">
+        <item>Foto</item>
+        <item>IMP</item>
+        <item>PDF</item>
+        <item>N.E</item>
+        <item>P.V</item>
+    </string-array>
 
 </resources>

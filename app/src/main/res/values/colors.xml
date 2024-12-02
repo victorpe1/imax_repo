@@ -8,10 +8,12 @@
     <color name="grey_500">#9E9E9E</color>
     <color name="grey_600">#757575</color>
     <color name="grey_800">#424242</color>
+    <color name="red_300">#F67370</color>
     <color name="red_400">#EF5350</color>
     <color name="red_500">#F44336</color>
     <color name="amber_50">#FFF8E1</color>
     <color name="amber_600">#FFB300</color>
+    <color name="green_300">#94D898</color>
     <color name="green_400">#66BB6A</color>
     <color name="green_500">#4CAF50</color>
     <color name="green_A400">#00E676</color>

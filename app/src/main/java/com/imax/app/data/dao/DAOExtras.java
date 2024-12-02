@@ -518,21 +518,23 @@ public class DAOExtras {
             Cursor cursor = db.rawQuery(rawQuery, new String[]{numero});
 
             if (cursor.moveToFirst()) {
+                //supervisorRequest.setNumInspeccion(cursor.getString(0));
                 supervisorRequest.setNumInspeccion(cursor.getString(1));
-                supervisorRequest.setNumInspeccion(cursor.getString(2));
-                supervisorRequest.setFecha(cursor.getString(3));
-                supervisorRequest.setHora(cursor.getString(4));
-                supervisorRequest.setProyecto(cursor.getString(5));
-                supervisorRequest.setSolicitante(cursor.getString(6));
-                supervisorRequest.setResponsableObra(cursor.getString(7));
-                supervisorRequest.setCargo(cursor.getString(8));
-                supervisorRequest.setSotanos(cursor.getString(9));
-                supervisorRequest.setPisos(cursor.getString(10));
-                supervisorRequest.setMesas(cursor.getString(11));
-                supervisorRequest.setTorres(cursor.getString(12));
+                supervisorRequest.setFecha(cursor.getString(2));
+                supervisorRequest.setHora(cursor.getString(3));
+                supervisorRequest.setProyecto(cursor.getString(4));
+                supervisorRequest.setSolicitante(cursor.getString(5));
+                supervisorRequest.setResponsableObra(cursor.getString(6));
+                supervisorRequest.setCargo(cursor.getString(7));
+                supervisorRequest.setSotanos(cursor.getString(8));
+                supervisorRequest.setPisos(cursor.getString(9));
+                supervisorRequest.setMesas(cursor.getString(10));
+                supervisorRequest.setTorres(cursor.getString(11));
+                //estado
+                supervisorRequest.setProyectoId(cursor.getString(13));
+                supervisorRequest.setSolicitanteId(cursor.getString(14));
 
-                supervisorRequest.setProyectoId(cursor.getString(14));
-                supervisorRequest.setSolicitanteId(cursor.getString(15));
+                supervisorRequest.setListadoDocumentos(cursor.getString(15));
             }
 
             cursor.close();
@@ -732,6 +734,26 @@ public class DAOExtras {
         cur.close();
 
         return existe;
+    }
+
+    public void actualizarRegistroInspeccion2(String numeroAsignacion, String detallesJson) {
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { numeroAsignacion };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.listadoDocumentos, detallesJson);
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
     }
 
     public void actualizarRegistroInpeccionSupervisor(InspeccionSupervisor_1 antesInspeccion){

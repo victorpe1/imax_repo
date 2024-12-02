@@ -1106,6 +1106,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
             tablesMap.put("iiss", "iiss");
             tablesMap.put("sistema_incendio", "sistema_incendio");
             tablesMap.put("iiee", "iiee");
+            tablesMap.put("certificado_pruebas_concreto", "certificado_pruebas_concreto");
 
             for (Map.Entry<String, String> entry : tablesMap.entrySet()) {
                 String tableName = entry.getKey();

@@ -28,14 +28,10 @@ import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.supervisor.InspeccionSupervisor_1;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
-import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.activity.RegistrarCaractGeneralesActivity;
-import com.imax.app.ui.activity.RegistroInspeccionActivity;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.MyDetailDialog;
 import com.imax.app.utils.UnauthorizedException;
@@ -177,7 +173,7 @@ public class RegistroSupervisorInformacionGeneral extends AppCompatActivity {
 
         if(ed_Proyecto.getText().toString().equals("-")){
             Toast.makeText(this, "No exite proyecto asignado.", Toast.LENGTH_SHORT).show();
-            return false;
+            return true; //false
         }
 
 
@@ -290,7 +286,7 @@ public class RegistroSupervisorInformacionGeneral extends AppCompatActivity {
                     }
 
                     Intent intent = new Intent(RegistroSupervisorInformacionGeneral.this,
-                            RegistroInspeccionActivity.class);
+                            RegistroListadoDocumentos.class);
                     intent.putExtra("InspeccionSupervisor_1", inspeccion);
                     startActivity(intent);
                 }

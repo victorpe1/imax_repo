@@ -3,7 +3,7 @@ package com.imax.app.data.api.request;
 import java.io.Serializable;
 
 public class SupervisorRequest implements Serializable {
-    // Datos de Inspección
+    // Ispección 1
     private String numInspeccion;
     private String fecha;
     private String hora;
@@ -15,9 +15,20 @@ public class SupervisorRequest implements Serializable {
     private String pisos;
     private String mesas;
     private String torres;
-
     private String proyectoId;
     private String solicitanteId;
+
+    // Ispección 2
+    private String listadoDocumentos;
+
+
+    public String getListadoDocumentos() {
+        return listadoDocumentos;
+    }
+
+    public void setListadoDocumentos(String listadoDocumentos) {
+        this.listadoDocumentos = listadoDocumentos;
+    }
 
     public SupervisorRequest() {
         this.numInspeccion = "";

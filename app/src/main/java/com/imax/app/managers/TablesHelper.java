@@ -167,6 +167,8 @@ public class TablesHelper {
         public static final String proyecto_id = "proyecto_id";
         public static final String solicitante_id = "solicitante_id";
         public static final String estado = "estado";
+
+        public static final String listadoDocumentos = "listadoDocumentos";
     }
 
         public static final class xml_inspeccion {
