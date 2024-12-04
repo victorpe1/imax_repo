@@ -905,18 +905,34 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                 cv.put("partner_longitude", jsonData.optDouble("partner_longitude", 0.0));
 
                 if (jsonData.has("coordinator_id") && !jsonData.isNull("coordinator_id")) {
-                    JSONArray coordinatorArray = jsonData.getJSONArray("coordinator_id");
-                    if (coordinatorArray.length() > 1) {
-                        cv.put("coordinator_id", coordinatorArray.getInt(0)); // ID
-                        cv.put("coordinator_name", coordinatorArray.getString(1)); // Descripción
+                    if (jsonData.get("coordinator_id") instanceof JSONArray) {
+                        JSONArray motiveArray = jsonData.getJSONArray("coordinator_id");
+                        if (motiveArray.length() > 1) {
+                            cv.put("coordinator_id", motiveArray.getInt(0));
+                            cv.put("coordinator_name", motiveArray.getString(1));
+                        }
+                    } else if (jsonData.get("coordinator_id") instanceof Boolean) {
+                        boolean motiveBool = jsonData.getBoolean("coordinator_id");
+                        if (!motiveBool) {
+                            cv.put("coordinator_id", 0);
+                            cv.put("coordinator_name", "-");
+                        }
                     }
                 }
 
                 if (jsonData.has("inspector_id") && !jsonData.isNull("inspector_id")) {
-                    JSONArray inspectorArray = jsonData.getJSONArray("inspector_id");
-                    if (inspectorArray.length() > 1) {
-                        cv.put("inspector_id", inspectorArray.getInt(0)); // ID
-                        cv.put("inspector_name", inspectorArray.getString(1)); // Descripción
+                    if (jsonData.get("inspector_id") instanceof JSONArray) {
+                        JSONArray motiveArray = jsonData.getJSONArray("inspector_id");
+                        if (motiveArray.length() > 1) {
+                            cv.put("inspector_id", motiveArray.getInt(0));
+                            cv.put("inspector_name", motiveArray.getString(1));
+                        }
+                    } else if (jsonData.get("inspector_id") instanceof Boolean) {
+                        boolean motiveBool = jsonData.getBoolean("inspector_id");
+                        if (!motiveBool) {
+                            cv.put("inspector_id", 0);
+                            cv.put("inspector_name", "-");
+                        }
                     }
                 }
 
@@ -937,10 +953,18 @@ public class DataBaseHelper extends SQLiteAssetHelper {
                 }
 
                 if (jsonData.has("type_id") && !jsonData.isNull("type_id")) {
-                    JSONArray typeArray = jsonData.getJSONArray("type_id");
-                    if (typeArray.length() > 1) {
-                        cv.put("type_id", typeArray.getInt(0));
-                        cv.put("type_name", typeArray.getString(1));
+                    if (jsonData.get("type_id") instanceof JSONArray) {
+                        JSONArray motiveArray = jsonData.getJSONArray("type_id");
+                        if (motiveArray.length() > 1) {
+                            cv.put("type_id", motiveArray.getInt(0));
+                            cv.put("type_name", motiveArray.getString(1));
+                        }
+                    } else if (jsonData.get("type_id") instanceof Boolean) {
+                        boolean motiveBool = jsonData.getBoolean("type_id");
+                        if (!motiveBool) {
+                            cv.put("type_id", 0);
+                            cv.put("type_name", "-");
+                        }
                     }
                 }
 

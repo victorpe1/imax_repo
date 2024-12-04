@@ -139,6 +139,13 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
     }
 
     private boolean validateRows() {
+        if(tableLayout.getChildCount() == 0){
+            Toast.makeText(this, "Deberiamos tener al menos 1 registro.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
             TableRow row = (TableRow) tableLayout.getChildAt(i);
 

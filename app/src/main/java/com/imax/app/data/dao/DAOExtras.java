@@ -468,7 +468,7 @@ public class DAOExtras {
             String rawQuery = "SELECT a.* FROM " + TablesHelper.xms_asignacion.table + " AS a " +
                     "LEFT JOIN " + TablesHelper.xms_asignacion_history.table + " AS h " +
                     "ON a.number = h.name " +
-                    "WHERE h.name IS NULL AND a.number LIKE 'TAS%'";
+                    "WHERE h.name IS NULL AND a.number LIKE 'EMP%'";
 
             Cursor cursor = db.rawQuery(rawQuery, null);
             cursor.moveToFirst();

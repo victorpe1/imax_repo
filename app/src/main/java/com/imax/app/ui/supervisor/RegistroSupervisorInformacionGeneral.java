@@ -173,7 +173,7 @@ public class RegistroSupervisorInformacionGeneral extends AppCompatActivity {
 
         if(ed_Proyecto.getText().toString().equals("-")){
             Toast.makeText(this, "No exite proyecto asignado.", Toast.LENGTH_SHORT).show();
-            return true; //false
+            return false; //false
         }
 
 
