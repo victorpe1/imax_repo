@@ -30,7 +30,7 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
     private TableRow TableRow1;
     private TableRow tableRow;
     private TableLayout tableLayout;
-
+    private int numeroTorres;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +45,7 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
         Button addColumnButton1 = findViewById(R.id.addColumnButton1);
         tableLayout = findViewById(R.id.tableLayout);
 
+        numeroTorres = getIntent().getIntExtra("NUMERO_TORRES", 0);
 
         addColumnButton.setOnClickListener(new View.OnClickListener() {
             int rowCount = 0;
@@ -146,6 +147,7 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 Intent intent = new Intent(RegistroListadoDocumentos.this, RegistroResumenporNiveles.class);
+                intent.putExtra("NUMERO_TORRES", numeroTorres);
                 startActivity(intent);
                 break;
             case android.R.id.home:

@@ -36,6 +36,8 @@ public class RegistroSupervisor_Informacion_General extends AppCompatActivity {
         ed_Piso = findViewById(R.id.ed_Piso);
         ed_Obra = findViewById(R.id.ed_Obra);
         ed_Torres = findViewById(R.id.ed_Torres);
+
+
     }
     //Libre
 
@@ -58,14 +60,24 @@ public class RegistroSupervisor_Informacion_General extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_pedido_siguiente:
+                String torres = ed_Torres.getText().toString().trim();
+
+                if (torres.isEmpty() || Integer.parseInt(torres) <= 0) {
+                    ed_Torres.setError("Ingrese un número válido de torres");
+                    return false;
+                }
+
                 Intent intent = new Intent(RegistroSupervisor_Informacion_General.this, RegistroListadoDocumentos.class);
+                intent.putExtra("NUMERO_TORRES", Integer.parseInt(torres));
                 startActivity(intent);
                 break;
+
             case android.R.id.home:
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
