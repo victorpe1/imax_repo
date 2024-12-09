@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -90,14 +88,19 @@ public class RegistroResumenporNiveles extends AppCompatActivity {
         // Encuentra el layout de la torre seleccionada
         int index = listaTorres.indexOf(torreSeleccionada);
         if (index == -1) return;
-
         LinearLayout torreLayout = torresLayouts.get(index);
+
+        // Contenedor principal para todo el contenido
+        LinearLayout contenedorPrincipal = new LinearLayout(this);
+        contenedorPrincipal.setOrientation(LinearLayout.VERTICAL);
+        contenedorPrincipal.setPadding(16, 16, 16, 16);
 
         // Contenedor horizontal para "De" y "A"
         LinearLayout deALayout = new LinearLayout(this);
         deALayout.setOrientation(LinearLayout.HORIZONTAL);
 
         // Spinner: De
+
         Spinner spinnerDe = new Spinner(this);
         ArrayAdapter<String> adapterDe = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{
                 "De", "S05", "S04", "S03", "S02", "S01", "SS", "P01", "P02", "P03", "P04", "P06",
@@ -105,6 +108,11 @@ public class RegistroResumenporNiveles extends AppCompatActivity {
         });
         adapterDe.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDe.setAdapter(adapterDe);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                370, // Ancho en píxeles
+                LinearLayout.LayoutParams.WRAP_CONTENT // Altura
+        );
+        spinnerDe.setLayoutParams(layoutParams);
         deALayout.addView(spinnerDe);
 
         // Spinner: A
@@ -115,9 +123,13 @@ public class RegistroResumenporNiveles extends AppCompatActivity {
         });
         adapterA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerA.setAdapter(adapterA);
+        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(
+                370, // Ancho en píxeles
+                LinearLayout.LayoutParams.WRAP_CONTENT // Altura
+        );
+        spinnerA.setLayoutParams(layoutParams1);
         deALayout.addView(spinnerA);
-
-        torreLayout.addView(deALayout);
+        contenedorPrincipal.addView(deALayout);
 
         // EditText: Descripción de Avance
         EditText descripcion = new EditText(this);
@@ -125,21 +137,23 @@ public class RegistroResumenporNiveles extends AppCompatActivity {
         descripcion.setMinLines(3);
         descripcion.setPadding(8, 8, 8, 8);
         descripcion.setBackgroundResource(android.R.drawable.edit_text);
-        torreLayout.addView(descripcion);
+        contenedorPrincipal.addView(descripcion);
 
+        // Añade el contenedor principal al layout de la torre
+        torreLayout.addView(contenedorPrincipal);
     }
-    
-    private void eliminarUltimoDetalle(String torreSeleccionada ) {
+
+    private void eliminarUltimoDetalle(String torreSeleccionada) {
+        // Encuentra el layout de la torre seleccionada
         int index = listaTorres.indexOf(torreSeleccionada);
         if (index == -1) return;
-
         LinearLayout torreLayout = torresLayouts.get(index);
 
-        // Protege la base de la torre y elimina la última fila dinámica completa
+        // Verifica si hay algún detalle para eliminar
         if (torreLayout.getChildCount() > 1) {
+            // Elimina el último hijo del layout
             View ultimaFila = torreLayout.getChildAt(torreLayout.getChildCount() - 1);
-
-            // Asegurarse de eliminar solo las filas dinámicas completas
+            torreLayout.removeViewAt(torreLayout.getChildCount() - 1);
             torreLayout.removeView(ultimaFila);
         }
     }
