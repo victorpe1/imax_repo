@@ -17,10 +17,41 @@
         android:textSize="17sp"
         android:paddingTop="10dp"
         android:gravity="center" />
-    <TableLayout
-        android:id="@+id/tableLayout1"
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="607dp">
+
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*" />
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="*" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spn_Torres1"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/Agregar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar" />
+
+        <Button
+            android:id="@+id/Eliminar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar" />
+    </LinearLayout>
+
 </LinearLayout>
 
