@@ -68,6 +68,9 @@
         <activity android:name="com.imax.app.ui.Supervisor.RegistroSupervisor_Informacion_General" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.Supervisor.RegistroListadoDocumentos" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.Supervisor.RegistroResumenporNiveles" android:screenOrientation="portrait"/>
+        <activity android:name="com.imax.app.ui.Supervisor.RegistroCalidad" android:screenOrientation="portrait"/>
+        <activity android:name="com.imax.app.ui.Supervisor.RegistroseguridadTrabajoySeñalizacion" android:screenOrientation="portrait"/>
+
         tools:ignore="Instantiatable" />
 
         <provider

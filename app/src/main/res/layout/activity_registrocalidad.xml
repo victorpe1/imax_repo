@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.Supervisor.RegistroCalidad">
+    <include layout="@layout/actionbar_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_registro_calidad"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:text="CALIDAD"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Promedio: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textPromedio"
+            android:layout_width="138dp"
+            android:layout_height="43dp" />
+
+    </LinearLayout>
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Inspeccionar"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="74dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Check"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Calificación"
+            android:textStyle="bold" />
+
+    </TableRow>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="307dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion1"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta un Plan de Calidad enmarcada en la GE-030?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck1"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion1"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow3"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion2"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta registro documentario en obra?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck2"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion2"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow4"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion3"
+                    android:layout_width="216dp"
+                    android:layout_height="89dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta procesos adecuados en las diferentes etapas del proyecto?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck3"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion3"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow5"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion4"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta materiales adecuados?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck4"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion4"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow6"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion5"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta variaciones y/o cambios en arquitectura?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck5"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion5"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow7"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion6"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta variaciones y/o cambios en estructuras?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck6"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion6"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow8"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion7"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿El proyecto presenta variaciones y/o cambios en instalaciones?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck7"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion7"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tableRow9"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:background="@android:drawable/edit_text">
+
+                <TextView
+                    android:id="@+id/Descripcion8"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="¿Se recopilan documentos en obra?"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioCheck8"
+                    android:layout_width="49dp"
+                    android:layout_height="wrap_content">
+
+                </RadioButton>
+
+                <Spinner
+                    android:id="@+id/spinnerCalificacion8"
+                    android:layout_width="162dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textObservaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Observaciones"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/edt_observaciones"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="Escribe tus observaciones aquí"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:maxLines="10"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

@@ -41,7 +41,6 @@ public class RegistroSupervisor_Informacion_General extends AppCompatActivity {
     }
     //Libre
 
-
     //Aqui es donde hace que cambie otra ecena de la app
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

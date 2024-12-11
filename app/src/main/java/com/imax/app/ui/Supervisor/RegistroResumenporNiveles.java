@@ -175,7 +175,7 @@ public class RegistroResumenporNiveles extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_pedido_siguiente:
-                Intent intent = new Intent(RegistroResumenporNiveles.this, RegistroResumenporNiveles.class);
+                Intent intent = new Intent(RegistroResumenporNiveles.this, RegistroCalidad.class);
                 startActivity(intent);
                 break;
             case android.R.id.home:
