@@ -174,7 +174,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:background="@android:drawable/edit_text"
-                    android:hint="Sotano"/>
+                    android:hint="# Sotano"/>
 
 
                 <EditText
@@ -185,7 +185,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:background="@android:drawable/edit_text"
-                    android:hint="Piso"/>
+                    android:hint="# Piso"/>
 
             </LinearLayout>
             <TextView
@@ -209,7 +209,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:background="@android:drawable/edit_text"
-                    android:hint="Obra"/>
+                    android:hint="# Meses obra"/>
 
                 <EditText
                     android:id="@+id/ed_Torres"
@@ -219,7 +219,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:background="@android:drawable/edit_text"
-                    android:hint="Torres"/>
+                    android:hint="# Torres"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

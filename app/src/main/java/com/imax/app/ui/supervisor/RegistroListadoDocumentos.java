@@ -47,7 +47,7 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Util.actualizarToolBar(getString(R.string.registro_supervisor), true, this, R.drawable.ic_action_close);
+        Util.actualizarToolBar(getString(R.string.registro_supervisor), true, this, R.drawable.ic_action_back);
         daoExtras = new DAOExtras(getApplicationContext());
 
         tableRow = findViewById(R.id.tableRow);
@@ -145,7 +145,6 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
             return false;
         }
 
-
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
             TableRow row = (TableRow) tableLayout.getChildAt(i);
 
@@ -221,7 +220,6 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 if (validateRows()) {
-
                     List<InspeccionSupervisor_2> filas = new ArrayList<>();
                     for (int i = 0; i < tableLayout.getChildCount(); i++) {
                         TableRow row = (TableRow) tableLayout.getChildAt(i);
@@ -243,6 +241,7 @@ public class RegistroListadoDocumentos extends AppCompatActivity {
                     daoExtras.actualizarRegistroInspeccion2(inspeccion.getNumInspeccion(), detallesJson);
 
                     Intent intent = new Intent(RegistroListadoDocumentos.this, RegistroResumenporNiveles.class);
+                    intent.putExtra("InspeccionSupervisor_1", inspeccion);
                     startActivity(intent);
                 }
                 break;

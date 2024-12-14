@@ -468,6 +468,54 @@ public class DAOExtras {
             String rawQuery = "SELECT a.* FROM " + TablesHelper.xms_asignacion.table + " AS a " +
                     "LEFT JOIN " + TablesHelper.xms_asignacion_history.table + " AS h " +
                     "ON a.number = h.name " +
+                    "WHERE h.name IS NULL AND a.number LIKE 'TAS%'";
+
+            Cursor cursor = db.rawQuery(rawQuery, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                AsignacionModel asignacionModel = new AsignacionModel();
+
+                asignacionModel.setId(cursor.getString(0));
+                asignacionModel.setAddress(cursor.getString(1));
+                asignacionModel.setCoordinatorId(cursor.getString(2));
+                asignacionModel.setCoordinatorName(cursor.getString(3));
+                asignacionModel.setCustomField1(cursor.getString(4));
+                asignacionModel.setCustomField19(cursor.getString(5));
+                asignacionModel.setCustomField2(cursor.getString(6));
+                asignacionModel.setCustomField3(cursor.getString(7));
+                asignacionModel.setInspectionDate(cursor.getString(8));
+                asignacionModel.setInspectorId(cursor.getString(9));
+                asignacionModel.setInspectorName(cursor.getString(10));
+                asignacionModel.setMotiveId(cursor.getString(11));
+                asignacionModel.setMotiveName(cursor.getString(12));
+                asignacionModel.setName(cursor.getString(13));
+                asignacionModel.setNumber(cursor.getString(14));
+                asignacionModel.setPartnerLatitude(cursor.getString(15));
+                asignacionModel.setPartnerLongitude(cursor.getString(16));
+                asignacionModel.setTypeId(cursor.getString(17));
+                asignacionModel.setTypeName(cursor.getString(18));
+                asignacionModel.setApplicantId(cursor.getString(20));
+                asignacionModel.setApplicantName(cursor.getString(21));
+                asignacionModel.setTaskId(cursor.getString(22));
+                asignacionModel.setTaskName(cursor.getString(23));
+
+                listAsignacion.add(asignacionModel);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listAsignacion;
+    }
+
+    public List<AsignacionModel> getListAsignacionSupervisor(){
+        List<AsignacionModel> listAsignacion = new ArrayList<>();
+        try{
+            SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+            String rawQuery = "SELECT a.* FROM " + TablesHelper.xms_asignacion.table + " AS a " +
+                    "LEFT JOIN " + TablesHelper.xms_asignacion_history_supervisor.table + " AS h " +
+                    "ON a.number = h.name " +
                     "WHERE h.name IS NULL AND a.number LIKE 'EMP%'";
 
             Cursor cursor = db.rawQuery(rawQuery, null);
@@ -530,11 +578,40 @@ public class DAOExtras {
                 supervisorRequest.setPisos(cursor.getString(9));
                 supervisorRequest.setMesas(cursor.getString(10));
                 supervisorRequest.setTorres(cursor.getString(11));
+
                 //estado
                 supervisorRequest.setProyectoId(cursor.getString(13));
                 supervisorRequest.setSolicitanteId(cursor.getString(14));
 
+                //Inpseccion2
                 supervisorRequest.setListadoDocumentos(cursor.getString(15));
+
+                //Inspeccion3
+                supervisorRequest.setResumenNiveles(cursor.getString(22));
+
+                //Inspeccion4
+                supervisorRequest.setMoneda(cursor.getString(16));
+                supervisorRequest.setTipoMoneda(cursor.getString(17));
+                supervisorRequest.setDescripcion(cursor.getString(18));
+                supervisorRequest.setTotalesAvance(cursor.getDouble(19));
+                supervisorRequest.setPresupuesto(cursor.getDouble(20));
+                supervisorRequest.setDetalles(cursor.getString(21));
+
+                //Inspeccion Calidad
+                supervisorRequest.setRadioCheckCalidad(cursor.getString(24));
+                supervisorRequest.setCalificacionCalidad(cursor.getString(25));
+                supervisorRequest.setPromedioCalidad(cursor.getString(26));
+                supervisorRequest.setObservacionCalidad(cursor.getString(30));
+
+                //Inspeccion Seguridad
+                supervisorRequest.setRadioCheckSeguridad(cursor.getString(27));
+                supervisorRequest.setCalificacionSeguridad(cursor.getString(28));
+                supervisorRequest.setPromedioSeguridad(cursor.getString(29));
+                supervisorRequest.setObservacionSeguridad(cursor.getString(31));
+
+                //Inspeccion Final
+                supervisorRequest.setFotosAdicional(cursor.getString(23));
+
             }
 
             cursor.close();
@@ -647,7 +724,6 @@ public class DAOExtras {
         return inspeccionRequest;
     }
 
-
     public FotoRequest getListFotoByNumero(String numero) {
         FotoRequest inspeccionRequest = new FotoRequest();
         try {
@@ -676,6 +752,28 @@ public class DAOExtras {
                 inspeccionRequest.setFotosArrayAdjunto4(gson.fromJson(cursor.getString(9), listType));
 
                 inspeccionRequest.setFotosArrayAdjunto5(gson.fromJson(cursor.getString(10), listType));
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inspeccionRequest;
+    }
+
+
+    public SupervisorRequest getListFotoByNumeroSupervisor(String numero) {
+        SupervisorRequest inspeccionRequest = new SupervisorRequest();
+        try {
+            SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+            String rawQuery =
+                    "SELECT * FROM " +
+                            TablesHelper.xml_inspeccion_supervisor.table + " WHERE numInspeccion = ?";
+            Cursor cursor = db.rawQuery(rawQuery, new String[]{numero});
+
+            if (cursor.moveToFirst()) {
+                inspeccionRequest.setNumInspeccion(cursor.getString(1));
+
             }
 
             cursor.close();
@@ -746,6 +844,107 @@ public class DAOExtras {
             ContentValues Nreg = new ContentValues();
 
             Nreg.put(TablesHelper.xml_inspeccion_supervisor.listadoDocumentos, detallesJson);
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroSupervisor5(String numeroAsignacion, String radioChecksJson, String calificacionesJson
+    , String promedio, String observacion) {
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { numeroAsignacion };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.radio_checks, radioChecksJson);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.calificaciones, calificacionesJson);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.promedio, promedio);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.observacion_calidad, observacion);
+
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroSupervisor6(String numeroAsignacion, String radioChecksJson, String calificacionesJson
+            , String promedio, String observacion) {
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { numeroAsignacion };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.radio_checks_2, radioChecksJson);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.calificaciones_2, calificacionesJson);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.promedio_2, promedio);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.observacion_2, observacion);
+
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroSupervisor3(String numeroAsignacion, String detallesJson) {
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { numeroAsignacion };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.resumenNiveles, detallesJson);
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarRegistroSupervisor4(String numeroAsignacion,
+                                              String detallesJson,
+                                              String tipoMoneda,
+                                              String tipoCambio,
+                                              String observacion,
+                                              double totalPresupuesto,
+                                              double totalAvance) {
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { numeroAsignacion };
+
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.moneda, tipoMoneda);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.tipoMoneda, tipoCambio);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.presupuesto, totalPresupuesto);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.totalesAvance, totalAvance);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.descripcion, observacion);
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.detalles, detallesJson);
 
             db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
 
@@ -942,6 +1141,8 @@ public class DAOExtras {
             e.printStackTrace();
         }
     }
+
+
 
 
     public void actualizarRegistroCaracGeneral(CaracteristicasGenerales caracteristicasGenerales, String numInspeccion){
@@ -1219,6 +1420,56 @@ public class DAOExtras {
         return inscripciones;
     }
 
+    public List<CatalogModel> obtenerMonedas() {
+        List<CatalogModel> inscripciones = new ArrayList<>();
+
+        inscripciones.add(new CatalogModel("1", "PEN")); // Código 1 para PEN
+        inscripciones.add(new CatalogModel("2", "USD")); // Código 2 para USD
+
+        return inscripciones;
+    }
+
+    public String actualizarRepuestaRegistroSupervisor(Response<ResponseBody> response,
+                                                 String numeroPedido) throws Exception{
+
+        JSONObject body = new JSONObject(response.body().string());
+
+        if (body.has("result")) {
+            JSONObject result = body.getJSONObject("result");
+
+            if (result.has("status")) {
+                int status = result.getInt("status");
+                if (status == 200) {
+
+                    try{
+                        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                        ContentValues Nreg = new ContentValues();
+
+                        Nreg.put(TablesHelper.xms_asignacion_history_supervisor.name,        numeroPedido);
+                        Nreg.put(TablesHelper.xms_asignacion_history_supervisor.estado,       "E");
+
+                        db.insert(TablesHelper.xms_asignacion_history_supervisor.table, null, Nreg);
+                        Log.i(TAG, "xms_asignacion_history_supervisor: Registro insertado");
+
+                        return Order.FLAG_ENVIADO;
+                    }catch (Exception e) {
+                        Log.e(TAG, "xms_asignacion_history_supervisor: Error al insertar registro");
+                        e.printStackTrace();
+                        return Order.FLAG_PENDIENTE;
+                    }
+                } else {
+                    System.out.println("Status no es 200");
+                }
+            } else {
+                System.out.println("No se encontró 'status' en 'result'");
+            }
+        } else {
+            System.out.println("No se encontró 'result' en el cuerpo");
+        }
+
+        return Order.FLAG_PENDIENTE;
+    }
+
     public String actualizarRepuestaRegistroFoto(Response<ResponseBody> response,
                                              String numeroPedido) throws Exception{
 
@@ -1312,8 +1563,25 @@ public class DAOExtras {
     }
 
 
+    public void actualizarRegistroSupervisorFinal(String numeroAsignacion, String torresJsonString) {
+        String where = TablesHelper.xml_inspeccion_supervisor.num_inspeccion + " = ?";
+        String[] args = { numeroAsignacion };
 
+        try {
+            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
 
+            ContentValues Nreg = new ContentValues();
+
+            Nreg.put(TablesHelper.xml_inspeccion_supervisor.fotos_adicional, torresJsonString);
+
+            db.update(TablesHelper.xml_inspeccion_supervisor.table, Nreg, where, args);
+
+            Log.i(TAG, "xml_inspeccion_supervisor: Registro actualizado");
+        } catch (Exception e) {
+            Log.e(TAG, "xml_inspeccion_supervisor: Error al actualizar registro");
+            e.printStackTrace();
+        }
+    }
 
     public void refrescarFotoCache(){
         SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
@@ -1323,5 +1591,15 @@ public class DAOExtras {
 
         Log.i(TAG, "Número de filas eliminadas: " + rowsDeleted);
     }
+
+    public void refrescarSupervisorCache(){
+        SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+
+        Log.i(TAG, "Eliminando todos los registros de la tabla " + TablesHelper.xms_asignacion_history_supervisor.table);
+        int rowsDeleted = db.delete(TablesHelper.xms_asignacion_history_supervisor.table, null, null);
+
+        Log.i(TAG, "Número de filas eliminadas: " + rowsDeleted);
+    }
+
 
 }

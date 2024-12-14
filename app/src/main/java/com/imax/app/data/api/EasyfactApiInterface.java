@@ -4,6 +4,7 @@ import com.imax.app.data.api.request.FotoRequestWrapper;
 import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.api.request.InspeccionRequestWrapper;
 import com.imax.app.data.api.request.OrderRequest;
+import com.imax.app.data.api.request.SupervisorRequestWrapper;
 import com.imax.app.data.api.request.VentaRequest;
 
 import okhttp3.RequestBody;
@@ -89,6 +90,12 @@ public interface EasyfactApiInterface {
     Call<ResponseBody> enviarRegistroFoto(
             @Header("Access-Token") String token,
             @Body FotoRequestWrapper request);
+
+    @Headers({"Content-Type: application/json"})
+    @POST("api/save_supervision")
+    Call<ResponseBody> enviarRegistroSupervisor(
+            @Header("Access-Token") String token,
+            @Body SupervisorRequestWrapper request);
 
 
     @Headers({"Content-Type: application/json"})

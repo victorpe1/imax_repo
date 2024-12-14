@@ -111,6 +111,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 
                         daoExtras.refrescarCache();
                         daoExtras.refrescarFotoCache();
+                        daoExtras.refrescarSupervisorCache();
                     }else{
                         switch (response.code()) {
                             case 401:

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Columna 1: Descripción -->
+    <EditText
+        android:id="@+id/editDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:layout_weight="1"
+        android:inputType="text" />
+
+    <!-- Columna 2: Presupuesto -->
+    <EditText
+        android:id="@+id/editPresupuesto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="0.00"
+        android:layout_weight="1"
+        android:inputType="numberDecimal" />
+
+    <!-- Columna 3: Avance estimado -->
+    <EditText
+        android:id="@+id/editAvanceEstimado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="0%"
+        android:layout_weight="1"
+        android:inputType="numberDecimal" />
+</TableRow>

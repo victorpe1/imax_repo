@@ -1,0 +1,72 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/captureLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/actionbar_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <!-- Encabezado con Torre y Piso -->
+        <TextView
+            android:id="@+id/tvSeccionActual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Torre X - Piso Y"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal" />
+        <!-- Botón para tomar foto -->
+        <Button
+            android:id="@+id/btnTomarFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tomar Foto"
+            android:layout_marginTop="24dp" />
+        <!-- Galería de Fotos -->
+        <TextView
+            android:id="@+id/tvGaleria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fotos Tomadas:"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp" />
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:id="@+id/galeriaFotos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+        <!-- Botones de Acción -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnEliminarTodas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eliminar Todas"
+                android:layout_marginEnd="16dp" />
+
+            <Button
+                android:id="@+id/btnFinalizar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finalizar" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

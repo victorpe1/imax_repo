@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.supervisor.RegistroResumenporNiveles">
+    <include layout="@layout/actionbar_toolbar" />
+    <TextView
+        android:id="@+id/tv_listado_documentos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resumen por Niveles"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:paddingTop="10dp"
+        android:gravity="center" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/linear">
+
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" />
+        </ScrollView>
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <Spinner
+                android:id="@+id/spn_Torres1"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/Agregar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agregar" />
+            <Button
+                android:id="@+id/Eliminar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eliminar" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

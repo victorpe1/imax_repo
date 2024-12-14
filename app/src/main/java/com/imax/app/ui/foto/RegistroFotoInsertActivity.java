@@ -544,7 +544,8 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
+                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]],[\"team_id.id\",\"=\",2]]";
+
                     domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroFotoInsertActivity.this.getApplicationContext())

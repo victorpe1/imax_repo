@@ -119,6 +119,7 @@
 
     <string name="nuevo_pedido">Nuevo pedido</string>
     <string name="nuevo_registro">Nuevo registro</string>
+    <string name="tomar_foto">Tomar foto</string>
     <string name="caracteristicas">Caracteristicas generales</string>
 
     <string name="agregar_cliente">Agregar cliente</string>
@@ -309,5 +310,8 @@
         <item>N.E</item>
         <item>P.V</item>
     </string-array>
+
+    <string name="select_torre">Seleccione una torre</string>
+    <string name="select_piso">Seleccione un piso</string>
 
 </resources>

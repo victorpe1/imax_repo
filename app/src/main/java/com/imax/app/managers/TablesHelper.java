@@ -10,6 +10,14 @@ public class TablesHelper {
         public static final String estado = "estado";
     }
 
+    public static final class xms_asignacion_history_supervisor {
+        public static final String table = "xms_asignacion_history_supervisor";
+
+        public static final String id = "id";
+        public static final String name = "name";
+        public static final String estado = "estado";
+    }
+
     public static final class xms_asignacion_history_foto {
         public static final String table = "xms_asignacion_history_foto";
 
@@ -169,6 +177,34 @@ public class TablesHelper {
         public static final String estado = "estado";
 
         public static final String listadoDocumentos = "listadoDocumentos";
+
+        //Inspeccion 3
+        public static final String resumenNiveles = "resumenNiveles";
+
+        //Inspecion 4
+
+        public static final String moneda = "moneda";
+        public static final String tipoMoneda = "tipoMoneda";
+        public static final String descripcion = "descripcion";
+        public static final String totalesAvance = "totalesAvance";
+        public static final String presupuesto = "presupuesto";
+        public static final String detalles = "detalles";
+
+        //Inpseciion 5
+        public static final String radio_checks = "radioCheckCalidad";
+        public static final String calificaciones = "calificacionesCalidad";
+        public static final String promedio = "promedioCalidad";
+        public static final String observacion_calidad = "observacion_calidad";
+
+
+        //Inpseciion 6
+        public static final String radio_checks_2 = "radioCheckSeguridad";
+        public static final String calificaciones_2 = "calificacionesSeguridad";
+        public static final String promedio_2 = "promedioSeguridad";
+        public static final String observacion_2 = "observacion_seguridad";
+
+        //Inpsecion final
+        public static final String fotos_adicional = "fotos_adicional";
     }
 
         public static final class xml_inspeccion {

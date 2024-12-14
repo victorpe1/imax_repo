@@ -62,26 +62,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_above="@+id/linear">
+            android:layout_above="@+id/linear"
+            android:orientation="vertical">
+
             <TableLayout
                 android:id="@+id/tableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:stretchColumns="*">
-            </TableLayout>
+                android:stretchColumns="*"></TableLayout>
         </ScrollView>
+
         <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/addColumnButton"
                 android:layout_width="150dp"
@@ -89,6 +92,7 @@
                 android:layout_margin="4dp"
                 android:background="#FFD700"
                 android:text="Agregar" />
+
             <Button
                 android:id="@+id/addColumnButton1"
                 android:layout_width="150dp"

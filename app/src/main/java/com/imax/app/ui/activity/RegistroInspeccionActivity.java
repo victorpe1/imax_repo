@@ -249,21 +249,28 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        if (date != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;  // Mes de 0 a 11, por eso sumamos 1
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+            // Restar 5 horas
+            calendar.add(Calendar.HOUR_OF_DAY, -5);
 
-        String formattedDate = String.format("%02d/%02d/%04d", day, month, year);  // dd/MM/yyyy
-        String formattedTime = String.format("%02d:%02d", hour, minute);  // HH:mm
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1;  // Mes de 0 a 11, por eso sumamos 1
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
 
-        edtFecha.setText(formattedDate);
-        edtHora.setText(formattedTime);
+            String formattedDate = String.format("%02d/%02d/%04d", day, month, year);  // dd/MM/yyyy
+            String formattedTime = String.format("%02d:%02d", hour, minute);  // HH:mm
+
+            edtFecha.setText(formattedDate);
+            edtHora.setText(formattedTime);
+        }
     }
+
+
     private void openGoogleMaps(String latitude, String longitude) {
         try {
             double lat = Double.parseDouble(latitude);
@@ -474,7 +481,7 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]]]";
+                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]],[\"team_id.id\",\"=\",2]]";
                     domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroInspeccionActivity.this.getApplicationContext())
