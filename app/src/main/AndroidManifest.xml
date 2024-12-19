@@ -52,8 +52,6 @@
         <activity
             android:name="com.imax.app.ui.detallepedido.DetallePedidoActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.imax.app.ui.pedido.PedidoActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.imax.app.ui.pedido.AgregarProductoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.activity.ConfiguracionActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.activity.RegistroInspeccionActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.activity.RegistrarCaractGeneralesActivity" android:screenOrientation="portrait"/>

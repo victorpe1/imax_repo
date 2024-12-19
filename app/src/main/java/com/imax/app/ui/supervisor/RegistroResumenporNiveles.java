@@ -9,13 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,38 +32,18 @@ import com.imax.app.R;
 import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.intents.supervisor.InspeccionSupervisor_1;
-import com.imax.app.intents.supervisor.InspeccionSupervisor_2;
 import com.imax.app.intents.supervisor.InspeccionSupervisor_3;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.models.AsignacionModel;
-import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.foto.RegistroFotoActivity;
-import com.imax.app.ui.foto.RegistroFotoInsertActivity;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Util;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class RegistroResumenporNiveles extends AppCompatActivity {
     private final String TAG = getClass().getName();
-
-    public static final int ACCION_NUEVO_REGISTRO = 1;
-
-    public static final String EXTRA_DIRECCION = "direccion";
-
-
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
-
-    public String idTipoDocumentoOriginal = "";
-
-    private boolean cabeceraGuardada = false;
 
     private ProgressDialog progressDialog;
     private ViewPager mViewPager;
@@ -399,23 +377,6 @@ public class RegistroResumenporNiveles extends AppCompatActivity {
         builder.setNegativeButton(getString(R.string.cancelar), null);
         builder.show();
 
-    }
-
-    public void noPermitirCerrar() {
-        Util.actualizarToolBar("", false, this);
-        cabeceraGuardada = true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_AGREGAR_PRODUCTO) {
-            if (resultCode == RESULT_OK) {
-                AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                        AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-            }
-        }
     }
 
     public void showLoader() {

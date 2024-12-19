@@ -166,7 +166,7 @@ public class EnviarDocumentoFotoTask extends AsyncTask<Void, Void, String> {
                     fotoRequest.setFotosArrayAdjunto4(fotosArrayAdjunto4List);
                     fotoRequest.setFotosArrayAdjunto5(fotosArrayAdjunto5List);
 
-                    fotoRequest.setUser_email("jose.lunarejo@imax.com.pe");
+                    fotoRequest.setUser_email(usuario);
 
                     ArrayList<FotoRequest> fotoRequestWrappers = new ArrayList<>();
                     fotoRequestWrappers.add(fotoRequest);

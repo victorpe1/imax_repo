@@ -2,12 +2,10 @@ package com.imax.app.ui.activity;
 
 import android.content.DialogInterface;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
@@ -20,12 +18,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,14 +28,10 @@ import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOPedido;
-import com.imax.app.intents.CaracteristicasGenerales;
 import com.imax.app.models.UsuarioModel;
 import com.imax.app.ui.foto.RegistroFotoActivity;
-import com.imax.app.ui.pedido.PedidoActivity;
 import com.imax.app.ui.supervisor.RegistroSupervisorInformacionGeneral;
 import com.imax.app.utils.Util;
-import com.imax.app.ui.configuraciones.ConfiguracionesFragment;
-import com.imax.app.ui.listapedidos.PedidosFragment;
 
 public class MenuPrincipalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = getClass().getName();
@@ -150,7 +141,7 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
 
     private void nuevoRegistroFotografico() {
         Intent intent = new Intent(this, RegistroFotoActivity.class);
-        intent.putExtra("accion", RegistroFotoActivity.ACCION_NUEVO_REGISTRO);
+        intent.putExtra("accion",  RegistroSupervisorInformacionGeneral.ACCION_NUEVO_REGISTRO);
         startActivityForResult(intent, REQUEST_NUEVO_REGISTRO);
     }
 

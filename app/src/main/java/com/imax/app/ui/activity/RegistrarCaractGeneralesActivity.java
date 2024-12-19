@@ -1,79 +1,46 @@
 package com.imax.app.ui.activity;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.imax.app.App;
 import com.imax.app.R;
-import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.data.dao.DAOPedido;
-import com.imax.app.data.dao.DAOProducto;
 import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.CaracteristicasGenerales;
-import com.imax.app.managers.DataBaseHelper;
-import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
 import com.imax.app.models.CatalogModel;
-import com.imax.app.models.ListaPrecioModel;
-import com.imax.app.models.OrderDetail;
-import com.imax.app.models.XMSProductModel;
-import com.imax.app.ui.adapters.AutoCompleteProductoAdapter;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
-import com.imax.app.ui.pedido.PedidoActivity;
-import com.imax.app.utils.Constants;
-import com.imax.app.utils.MyDetailDialog;
-import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
     private final String TAG = getClass().getName();
@@ -84,11 +51,7 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
 
     public int ACCION_PEDIDO = ACCION_NUEVO_REGISTRO;
 
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
-
     public String idTipoDocumentoOriginal = "";
-
-    private boolean cabeceraGuardada = false;
 
     private ProgressDialog progressDialog;
     private ViewPager mViewPager;
@@ -381,25 +344,6 @@ public class RegistrarCaractGeneralesActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
-
-    public void noPermitirCerrar() {
-        Util.actualizarToolBar("", false, this);
-        cabeceraGuardada = true; //Para que el onBack valide y no deje retroceder
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_AGREGAR_PRODUCTO) {
-            if (resultCode == RESULT_OK) {
-                AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                        AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-
-            }
-        }
-    }
-
 
     public void showLoader() {
         progressDialog.show();

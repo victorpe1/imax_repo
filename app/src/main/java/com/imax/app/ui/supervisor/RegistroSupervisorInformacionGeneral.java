@@ -325,7 +325,7 @@ public class RegistroSupervisorInformacionGeneral extends AppCompatActivity {
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]],[\"team_id.id\",\"=\",2]]";
+                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Visita Programada\"]]]";
                     domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroSupervisorInformacionGeneral.this.getApplicationContext())

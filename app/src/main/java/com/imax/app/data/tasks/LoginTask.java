@@ -44,27 +44,32 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
         app = (App) loginActivity.getApplicationContext();
     }
 
-    public void clearCache(Context context) {
+    public void limpiarCache(Context context) {
         try {
             File cacheDir = context.getCacheDir();
             if (cacheDir != null && cacheDir.isDirectory()) {
-                deleteDir(cacheDir);
+                eliminarDirectorio(cacheDir);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private boolean deleteDir(File dir) {
+
+    private boolean eliminarDirectorio(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
             for (String child : children) {
-                boolean success = deleteDir(new File(dir, child));
+                boolean success = eliminarDirectorio(new File(dir, child));
                 if (!success) {
                     return false;
                 }
             }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
         }
-        return dir.delete();
     }
 
     @Override
@@ -103,7 +108,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
                                     consultarUsuario(access_token, body).execute();
 
                     if (responseLogin.isSuccessful()) {
-                        clearCache(weakReference.get().getApplicationContext());
+                        limpiarCache(weakReference.get().getApplicationContext());
                         usuarioModel = new UsuarioModel();
 
                         app.setPref_serieUsuario(usuario);

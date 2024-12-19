@@ -1,15 +1,11 @@
 package com.imax.app.ui.foto;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,24 +22,17 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -53,40 +41,27 @@ import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.FotoRequest;
-import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.intents.AntesInspeccion;
-import com.imax.app.intents.SignatureView;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
-import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.activity.RegistrarCaractGeneralesActivity;
-import com.imax.app.ui.activity.RegistroInspeccionActivity;
 import com.imax.app.ui.adapters.FilesAdapter;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.MyDetailDialog;
 import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
-import java.nio.file.Files;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -94,16 +69,7 @@ import retrofit2.Response;
 public class RegistroFotoInsertActivity extends AppCompatActivity implements FilesAdapter.OnFileRemoveListener{
     private final String TAG = getClass().getName();
 
-    public static final int ACCION_NUEVO_REGISTRO = 1;
-
-    public static final String EXTRA_DIRECCION = "direccion";
-
-
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
-
     public String idTipoDocumentoOriginal = "";
-
-    private boolean cabeceraGuardada = false;
 
     private ProgressDialog progressDialog;
     private ViewPager mViewPager;
@@ -544,9 +510,8 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]],[\"team_id.id\",\"=\",2]]";
-
-                    domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
+                    String domain = "[[\"inspector_id.login\",\"=\",\"dumi121@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\"]]]";
+                    domain = domain.replace("dumi121@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroFotoInsertActivity.this.getApplicationContext())
                             .obtenerTickets(domain, 500).execute();

@@ -43,6 +43,8 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
     private TextView textPromedio;
     private InspeccionSupervisor_1 inspeccion;
     private EditText edt_especificar;
+    private int promedioFinal = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,91 +92,70 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
             });
         }
 
-        // Cargar datos guardados
         cargarDatos(inspeccion.getNumInspeccion());
 
     }
 
     private void actualizarPromedio() {
-        int sumaPrimerBloque = 0;
-        int sumaSegundoBloque = 0;
-        int cantidadPrimerBloque = 0;
-        int cantidadSegundoBloque = 0;
+        int sumaPrimerGrupo = 0, contadorPrimerGrupo = 0;
+        int sumaSegundoGrupo = 0, contadorSegundoGrupo = 0;
 
-        // Iteramos sobre el primer bloque (spinnersCalificacion[0] a spinnersCalificacion[3])
-        for (int i = 0; i < 4; i++) {
-            String seleccion = spinnersCalificacion[i].getSelectedItem().toString();
-            int valor = 0;
-
-            // Asignamos un valor numérico a cada opción
-            switch (seleccion) {
-                case "Bueno":
-                    valor = 3;
-                    break;
-                case "Regular":
-                    valor = 2;
-                    break;
-                case "Malo":
-                    valor = 1;
-                    break;
-                case "Seleccionar":
-                    continue; // Si está en "Seleccionar", no contamos esta calificación
+        for (int i = 0; i < 5; i++) {
+            if (radioChecks[i].isChecked()) { // Considerar solo si el radioCheck está habilitado
+                String seleccion = spinnersCalificacion[i].getSelectedItem().toString();
+                int valor = obtenerValorCalificacion(seleccion);
+                if (valor != -1) {
+                    sumaPrimerGrupo += valor;
+                    contadorPrimerGrupo++;
+                }
             }
-
-            sumaPrimerBloque += valor;
-            cantidadPrimerBloque++;
         }
 
-        // Iteramos sobre el segundo bloque (spinnersCalificacion[4] a spinnersCalificacion[7])
-        for (int i = 4; i < 8; i++) {
-            String seleccion = spinnersCalificacion[i].getSelectedItem().toString();
-            int valor = 0;
-
-            // Asignamos un valor numérico a cada opción
-            switch (seleccion) {
-                case "Bueno":
-                    valor = 3;
-                    break;
-                case "Regular":
-                    valor = 2;
-                    break;
-                case "Malo":
-                    valor = 1;
-                    break;
-                case "Seleccionar":
-                    continue; // Si está en "Seleccionar", no contamos esta calificación
+        for (int i = 5; i < 10; i++) {
+            if (radioChecks[i].isChecked()) { // Considerar solo si el radioCheck está habilitado
+                String seleccion = spinnersCalificacion[i].getSelectedItem().toString();
+                int valor = obtenerValorCalificacion(seleccion);
+                if (valor != -1) {
+                    sumaSegundoGrupo += valor;
+                    contadorSegundoGrupo++;
+                }
             }
-
-            sumaSegundoBloque += valor;
-            cantidadSegundoBloque++;
         }
 
-        // Si ambos bloques no tienen calificaciones válidas, mostramos una cadena vacía
-        if (cantidadPrimerBloque == 0 && cantidadSegundoBloque == 0) {
-            textPromedio.setText("");
+        int sumaTotal = sumaPrimerGrupo + sumaSegundoGrupo;
+        int contadorTotal = contadorPrimerGrupo + contadorSegundoGrupo;
+
+        if (contadorTotal == 0) {
+            textPromedio.setText("Sin calificaciones");
+            return;
+        }
+
+        double promedio = (double) sumaTotal / contadorTotal;
+        int promedioRedondeado = (int) Math.round(promedio);
+
+        String calificacionFinal = obtenerCalificacion(promedioRedondeado);
+
+
+        promedioFinal = promedioRedondeado;
+        textPromedio.setText(String.format("Promedio:  %d - %s", promedioRedondeado, calificacionFinal));
+    }
+
+    private int obtenerValorCalificacion(String calificacion) {
+        switch (calificacion) {
+            case "Malo": return 1;
+            case "Regular": return 2;
+            case "Bueno": return 3;
+            default: return -1; // Indica que no se seleccionó una calificación válida
+        }
+    }
+
+    private String obtenerCalificacion(int promedioRedondeado) {
+        if (promedioRedondeado < 2) {
+            return "Mala";
+        } else if (promedioRedondeado < 3) {
+            return "Regular";
         } else {
-            // Calculamos los promedios de ambos bloques
-            double promedioPrimerBloque = (cantidadPrimerBloque == 0) ? 0 : (double) sumaPrimerBloque / cantidadPrimerBloque;
-            double promedioSegundoBloque = (cantidadSegundoBloque == 0) ? 0 : (double) sumaSegundoBloque / cantidadSegundoBloque;
-
-            // Calculamos el promedio total de ambos bloques
-            double promedioTotal = (promedioPrimerBloque + promedioSegundoBloque) / 2;
-
-            // Redondeamos el promedio total
-            int promedioRedondeado = (int) Math.round(promedioTotal);
-
-            // Determinamos el texto a mostrar según el promedio
-            String promedioTexto = "";
-            if (promedioRedondeado >= 3) {
-                promedioTexto = "Bueno";
-            } else if (promedioRedondeado == 2) {
-                promedioTexto = "Regular";
-            } else if (promedioRedondeado == 1) {
-                promedioTexto = "Malo";
-            }
-
-            // Actualizamos el TextView con el texto correspondiente
-            textPromedio.setText(promedioTexto);
+            return "Buena";
         }
     }
 
@@ -188,6 +169,8 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
 
         if (inspeccionRequest.getRadioCheckSeguridad() != null) {
             edt_especificar.setText(observa);
+            int calificacionFinal  = Integer.parseInt(inspeccionRequest.getPromedioCalidad() == null ? "0" : inspeccionRequest.getPromedioCalidad());
+            textPromedio.setText(String.format("Promedio:  %d - %s", calificacionFinal, obtenerCalificacion(calificacionFinal)));
 
             Gson gson = new Gson();
             Type radioChecksType = new TypeToken<List<Boolean>>() {}.getType();
@@ -297,7 +280,7 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
                     Gson gson = new Gson();
                     String radioChecksJson = gson.toJson(radioChecksList);
                     String calificacionesJson = gson.toJson(calificacionesList);
-                    String promedio = "";
+                    String promedio = String.valueOf(promedioFinal);
                     String observacion = edt_especificar.getText().toString();
 
                     daoExtras.actualizarRegistroSupervisor6(inspeccion.getNumInspeccion(),

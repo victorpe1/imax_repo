@@ -1,27 +1,14 @@
 package com.imax.app.ui.foto;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
@@ -33,50 +20,23 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.imax.app.App;
 import com.imax.app.R;
-import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.managers.DataBaseHelper;
-import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
-import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.activity.RegistrarCaractGeneralesActivity;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
-import com.imax.app.utils.Constants;
-import com.imax.app.utils.MyDetailDialog;
-import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 public class RegistroFotoActivity extends AppCompatActivity {
     private final String TAG = getClass().getName();
 
-    public static final int ACCION_NUEVO_REGISTRO = 1;
-
-    public static final String EXTRA_DIRECCION = "direccion";
-
-
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
-
     public String idTipoDocumentoOriginal = "";
 
-    private boolean cabeceraGuardada = false;
-
     private ProgressDialog progressDialog;
-    private ViewPager mViewPager;
 
     private DAOExtras daoExtras;
 
@@ -190,22 +150,6 @@ public class RegistroFotoActivity extends AppCompatActivity {
 
     }
 
-    public void noPermitirCerrar() {
-        Util.actualizarToolBar("", false, this);
-        cabeceraGuardada = true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_AGREGAR_PRODUCTO) {
-            if (resultCode == RESULT_OK) {
-                AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                        AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-            }
-        }
-    }
 
     public void showLoader() {
         progressDialog.show();

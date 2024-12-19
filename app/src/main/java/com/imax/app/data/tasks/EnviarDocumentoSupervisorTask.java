@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.imax.app.App;
 import com.imax.app.R;
@@ -67,19 +69,6 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
         this.supervisorRequest = fotoRequest;
     }
 
-    private String convertImageToBase64(String filePath) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(byteArray, Base64.DEFAULT);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -129,6 +118,25 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
         }
     }
 
+    public static String transformarCalificacionCalidad(String calificacionCalidad, String radioCheckCalidad) {
+        Gson gson = new Gson();
+
+        String[] calificaciones = gson.fromJson(calificacionCalidad, String[].class);
+        Boolean[] radioChecks = gson.fromJson(radioCheckCalidad, Boolean[].class);
+
+        JsonArray resultadoArray = new JsonArray();
+
+        for (int i = 0; i < calificaciones.length; i++) {
+            JsonObject item = new JsonObject();
+            item.addProperty("id", i + 1); // El ID es el índice + 1
+            item.addProperty("check", radioChecks[i]);
+            item.addProperty("calificacion", calificaciones[i]);
+            resultadoArray.add(item);
+        }
+
+        return gson.toJson(resultadoArray);
+    }
+
     @Override
     protected String doInBackground(Void... strings) {
         Context context;
@@ -144,6 +152,17 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
                 if (responseToken.isSuccessful()) {
                     JSONObject jsonObject = new JSONObject(responseToken.body().string());
                     String access_token = jsonObject.getString("access_token");
+
+                    supervisorRequest.setUser_email(usuario);
+
+                    String mapeoCalidad = transformarCalificacionCalidad(supervisorRequest.getCalificacionCalidad(),
+                            supervisorRequest.getRadioCheckCalidad());
+
+                    String mapeoSeguridad = transformarCalificacionCalidad(supervisorRequest.getCalificacionSeguridad(),
+                            supervisorRequest.getRadioCheckSeguridad());
+
+                    supervisorRequest.setMapeoRequestCalidad(mapeoCalidad);
+                    supervisorRequest.setMapeoRequestSegurida(mapeoSeguridad);
 
                     Log.i("supervisorRequest -> ", new Gson().toJson(supervisorRequest));
 

@@ -107,13 +107,14 @@
             </TableLayout>
         </ScrollView>
 
+
         <!-- Total Presupuesto -->
         <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="20sp"
+            android:paddingTop="10sp"
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
             android:gravity="center">
@@ -188,7 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="10dp"
             android:background="@color/white">
             <TextView
                 android:id="@+id/tv_inmueble_multiple"
@@ -207,8 +208,6 @@
                 android:gravity="top"
                 android:padding="10dp"
                 android:textSize="@dimen/text_size_small"
-                android:minLines="5"
-                android:maxLines="10"
                 android:scrollbars="vertical" />
         </LinearLayout>
 

@@ -6,13 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
@@ -30,12 +26,7 @@ import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.CaracteristicasEdificacion;
 import com.imax.app.intents.CaracteristicasGenerales;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Util;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class RegistroCaractInfraestruturaActivity extends AppCompatActivity {
     private final String TAG = getClass().getName();
@@ -210,22 +201,6 @@ public class RegistroCaractInfraestruturaActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setNegativeButton(getString(R.string.aceptar), (dialog, which) -> finish());
         builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case ACCION_NUEVO_REGISTRO: {
-                if (resultCode == RESULT_OK) {
-                    AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                            AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-
-                }
-                break;
-            }
-        }
     }
 
     public void showLoader() {

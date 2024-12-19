@@ -14,15 +14,11 @@ import com.imax.app.data.api.EasyfactApiInterface;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.InspeccionRequest;
 import com.imax.app.data.api.request.InspeccionRequestWrapper;
-import com.imax.app.data.api.request.OrderRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.data.dao.DAOPedido;
 import com.imax.app.data.dao.DAOProducto;
 import com.imax.app.models.Order;
 import com.imax.app.ui.activity.MenuPrincipalActivity;
 import com.imax.app.ui.activity.RegistroDespuesInspeccionFirmaActivity;
-import com.imax.app.ui.listapedidos.PedidosFragment;
-import com.imax.app.ui.pedido.PedidoActivity;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
@@ -36,8 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
@@ -132,7 +126,7 @@ public class EnviarDocumentoTask extends AsyncTask<Void, Void, String> {
                     }
 
                     inspeccionRequest.setFiles(base64List);
-                    inspeccionRequest.setUser_email("jose.lunarejo@imax.com.pe");
+                    inspeccionRequest.setUser_email(usuario);
 
                     ArrayList<InspeccionRequest> inspeccionRequestWrappers = new ArrayList<>();
                     inspeccionRequestWrappers.add(inspeccionRequest);

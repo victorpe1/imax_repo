@@ -206,7 +206,11 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
                 for (File torre : torres) {
                     if (torre.isDirectory()) {
                         JSONObject torreJson = new JSONObject();
-                        torreJson.put("torre", torre.getName());
+                        String torreName = torre.getName();
+
+                        String torreId = torreName.replaceAll("[^0-9]", "");
+                        torreJson.put("torre", torreName);
+                        torreJson.put("torre_id", torreId);
 
                         JSONArray pisosArray = new JSONArray();
                         File[] pisos = torre.listFiles();
@@ -215,7 +219,11 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
                             for (File piso : pisos) {
                                 if (piso.isDirectory()) {
                                     JSONObject pisoJson = new JSONObject();
-                                    pisoJson.put("piso", piso.getName());
+                                    String pisoName = piso.getName();
+
+                                    String pisoId = "p" + pisoName.replaceAll("[^0-9]", "");
+                                    pisoJson.put("piso", pisoName);
+                                    pisoJson.put("piso_id", pisoId);
 
                                     JSONArray fotosArray = new JSONArray();
                                     File[] fotos = piso.listFiles();
@@ -247,9 +255,9 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
         JSONObject resultado = new JSONObject();
         resultado.put("torres", torresArray);
 
-        // Convertir a string para guardar en la base de datos o pasar al siguiente Activity
         return resultado.toString();
     }
+
 
     private static String getMimeType(String path) {
         String type = null;
@@ -299,7 +307,7 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
 
                     new AlertDialog.Builder(this)
                             .setTitle("Confirmación")
-                            .setMessage("¿Estás seguro de que deseas continuar?")
+                            .setMessage("¿Estás seguro de que deseas guardar la información?")
                             .setPositiveButton("Sí", (dialog, which) -> {
                                 SupervisorRequest fotoRequestSend = daoExtras.getListAsignacionByNumeroSupervisor(numAsignacion);
                                 new EnviarDocumentoSupervisorTask(RegistroFotoEvidenciaActivity.this,

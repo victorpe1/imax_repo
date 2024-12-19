@@ -44,12 +44,41 @@ public class SupervisorRequest implements Serializable {
     private String promedioCalidad;
     private String observacionCalidad;
 
+    private String mapeoRequestCalidad;
+
     //Inspeccion Seguridad
     private String calificacionSeguridad;
     private String radioCheckSeguridad;
     private String promedioSeguridad;
     private String observacionSeguridad;
 
+    private String mapeoRequestSegurida;
+
+    private String user_email;
+
+    public String getUser_email() {
+        return user_email;
+    }
+
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
+    }
+
+    public String getMapeoRequestCalidad() {
+        return mapeoRequestCalidad;
+    }
+
+    public void setMapeoRequestCalidad(String mapeoRequestCalidad) {
+        this.mapeoRequestCalidad = mapeoRequestCalidad;
+    }
+
+    public String getMapeoRequestSegurida() {
+        return mapeoRequestSegurida;
+    }
+
+    public void setMapeoRequestSegurida(String mapeoRequestSegurida) {
+        this.mapeoRequestSegurida = mapeoRequestSegurida;
+    }
 
     public String getObservacionCalidad() {
         return observacionCalidad;

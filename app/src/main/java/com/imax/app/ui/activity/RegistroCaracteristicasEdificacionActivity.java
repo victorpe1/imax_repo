@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
@@ -38,8 +36,6 @@ import com.imax.app.intents.AntesInspeccion;
 import com.imax.app.intents.CaracteristicasEdificacion;
 import com.imax.app.intents.CaracteristicasGenerales;
 import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Util;
 
 import java.util.ArrayList;
@@ -846,22 +842,6 @@ public class RegistroCaracteristicasEdificacionActivity extends AppCompatActivit
         builder.setCancelable(false);
         builder.setNegativeButton(getString(R.string.aceptar), (dialog, which) -> finish());
         builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case REQUEST_CODE_AGREGAR_PRODUCTO: {
-                if (resultCode == RESULT_OK) {
-                    AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                            AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-
-                }
-                break;
-            }
-        }
     }
 
     public void showLoader() {

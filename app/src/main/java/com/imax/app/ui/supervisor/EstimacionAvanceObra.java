@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -41,19 +40,14 @@ import com.imax.app.R;
 import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.intents.supervisor.InspeccionSupervisor_1;
-import com.imax.app.intents.supervisor.InspeccionSupervisor_2;
 import com.imax.app.intents.supervisor.RegistroTabla;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.models.AsignacionModel;
 import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Util;
 
 import java.lang.reflect.Type;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -528,18 +522,6 @@ public class EstimacionAvanceObra extends AppCompatActivity {
     public void noPermitirCerrar() {
         Util.actualizarToolBar("", false, this);
         cabeceraGuardada = true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_AGREGAR_PRODUCTO) {
-            if (resultCode == RESULT_OK) {
-                AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                        AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-            }
-        }
     }
 
     public void showLoader() {

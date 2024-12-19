@@ -1,11 +1,9 @@
 package com.imax.app.ui.activity;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -28,12 +26,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -47,8 +43,6 @@ import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.managers.TablesHelper;
 import com.imax.app.models.AsignacionModel;
 import com.imax.app.models.CatalogModel;
-import com.imax.app.ui.pedido.AgregarProductoActivity;
-import com.imax.app.ui.pedido.AgregarProductoArgument;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.MyDetailDialog;
 import com.imax.app.utils.UnauthorizedException;
@@ -59,7 +53,6 @@ import java.net.SocketTimeoutException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,13 +67,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
     public static final int ACCION_NUEVO_REGISTRO = 1;
 
     public static final String EXTRA_DIRECCION = "direccion";
-
-
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
-
-    public String idTipoDocumentoOriginal = "";
-
-    private boolean cabeceraGuardada = false;
 
     private ProgressDialog progressDialog;
     private ViewPager mViewPager;
@@ -438,10 +424,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
 
     }
 
-    public void noPermitirCerrar() {
-        Util.actualizarToolBar("", false, this);
-        cabeceraGuardada = true;
-    }
 
     void showAlertError(String titulo, String mensaje) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -451,18 +433,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setNegativeButton(getString(R.string.aceptar), (dialog, which) -> finish());
         builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_AGREGAR_PRODUCTO) {
-            if (resultCode == RESULT_OK) {
-                AgregarProductoArgument argument = (AgregarProductoArgument) data.getSerializableExtra(
-                        AgregarProductoActivity.EXTRA_PRODUCTO_AGREGADO);
-            }
-        }
     }
 
     class async_sincronizacion extends AsyncTask<Void, String, String> {
@@ -481,8 +451,8 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
                     Log.d(TAG, "sincronizando datos...");
                     Response<ResponseBody> response;
 
-                    String domain = "[[\"inspector_id.login\",\"=\",\"jose.lunarejo@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\",\"Elaboración (Perito)\"]],[\"team_id.id\",\"=\",2]]";
-                    domain = domain.replace("jose.lunarejo@imax.com.pe", usuario);
+                    String domain = "[[\"inspector_id.login\",\"=\",\"dumi121@imax.com.pe\"],[\"stage_id.name\",\"in\",[\"Inspección (Perito)\"]]]";
+                    domain = domain.replace("dumi121@imax.com.pe", usuario);
 
                     response = XMSApi.getApiEasyfact(RegistroInspeccionActivity.this.getApplicationContext())
                             .obtenerTickets(domain, 500).execute();
