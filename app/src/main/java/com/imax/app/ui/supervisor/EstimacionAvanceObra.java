@@ -416,6 +416,8 @@ public class EstimacionAvanceObra extends AppCompatActivity {
         switch (id) {
             case R.id.menu_pedido_siguiente:
                 if (validarDatos()) {
+                    actualizarCalculos();
+
                     List<RegistroTabla> filas = new ArrayList<>();
                     for (int i = 0; i < tableLayout.getChildCount(); i++) {
                         TableRow row = (TableRow) tableLayout.getChildAt(i);
