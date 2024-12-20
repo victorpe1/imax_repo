@@ -2,8 +2,6 @@ package com.imax.app.data.tasks;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -17,15 +15,12 @@ import com.imax.app.App;
 import com.imax.app.R;
 import com.imax.app.data.api.EasyfactApiInterface;
 import com.imax.app.data.api.XMSApi;
-import com.imax.app.data.api.request.FotoRequest;
-import com.imax.app.data.api.request.FotoRequestWrapper;
 import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.data.api.request.SupervisorRequestWrapper;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOProducto;
 import com.imax.app.models.Order;
 import com.imax.app.ui.activity.MenuPrincipalActivity;
-import com.imax.app.ui.foto.RegistroFotoInsert5Activity;
 import com.imax.app.ui.supervisor.RegistroFotoEvidenciaActivity;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.UnauthorizedException;
@@ -35,13 +30,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -186,6 +179,8 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
                     }
 
                     if (response.isSuccessful()) {
+                        eliminarCarpetaInspeccion(supervisorRequest.getNumInspeccion());
+
                         return daoExtras.actualizarRepuestaRegistroSupervisor(response,
                                 supervisorRequest.getNumInspeccion());
                     } else {
@@ -211,6 +206,33 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
             }
         } else {
             return Constants.FAIL_CONNECTION;
+        }
+    }
+
+    private void eliminarCarpetaInspeccion(String numInspeccion) {
+        File directorioBase = new File(app.getExternalFilesDir(null) + "/Fotos/" + numInspeccion);
+
+        if (directorioBase.exists()) {
+            eliminarDirectorio(directorioBase);
+            Log.d("EliminarCarpeta", "Carpeta de inspección eliminada: " + directorioBase.getAbsolutePath());
+        } else {
+            Log.d("EliminarCarpeta", "La carpeta no existe: " + directorioBase.getAbsolutePath());
+        }
+    }
+
+    private void eliminarDirectorio(File directorio) {
+        if (directorio.isDirectory()) {
+            File[] archivos = directorio.listFiles();
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    eliminarDirectorio(archivo);
+                }
+            }
+        }
+        if (directorio.delete()) {
+            Log.d("EliminarDirectorio", "Eliminado: " + directorio.getAbsolutePath());
+        } else {
+            Log.e("EliminarDirectorio", "No se pudo eliminar: " + directorio.getAbsolutePath());
         }
     }
 

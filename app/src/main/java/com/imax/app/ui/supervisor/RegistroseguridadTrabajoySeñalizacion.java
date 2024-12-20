@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -251,10 +252,13 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
             }
             if(radioChecks[i].isChecked()){
                 if (!spinnersCalificacion[i].getSelectedItem().toString().equals("Seleccionar")) {
+                    Toast.makeText(this, "Seleccionar una opcion cuando se haya seleccionado", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
         }
+
+        Toast.makeText(this, "No hay botones seleccionados", Toast.LENGTH_SHORT).show();
         return false;
     }
 

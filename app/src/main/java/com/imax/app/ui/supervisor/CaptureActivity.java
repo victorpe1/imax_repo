@@ -7,8 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -75,13 +75,7 @@ public class CaptureActivity extends AppCompatActivity {
 
         tvSeccionActual.setText(torre + " - " + piso);
 
-        // Configurar directorio de la sección
-        seccionDir = new File(Environment.getExternalStorageDirectory()
-                + "/Fotos/" + asignacion + "/" + torre + "/" + piso);
-
-        if (!seccionDir.exists()) {
-            seccionDir.mkdirs();
-        }
+        solicitarPermisos();
 
         fotosList = new ArrayList<>();
         loadFotos();
@@ -98,6 +92,25 @@ public class CaptureActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
+    }
+
+    private void solicitarPermisos() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        }
+
+        //seccionDir = new File(Environment.getExternalStorageDirectory()+ "/Fotos/" + asignacion + "/" + torre + "/" + piso);
+        seccionDir = new File(getExternalFilesDir(null) + "/Fotos/" + asignacion + "/" + torre + "/" + piso);
+
+
+        if (!seccionDir.exists()) {
+            if (seccionDir.mkdirs()) {
+                Log.i("Directorio", "Directorio creado exitosamente: " + seccionDir.getAbsolutePath());
+            } else {
+                Log.i("Directorio", "No se pudo crear el directorio: " + seccionDir.getAbsolutePath());
+            }
+        }
     }
 
     private void loadFotos() {
@@ -215,6 +228,14 @@ public class CaptureActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if (!seccionDir.exists()) {
+                if (seccionDir.mkdirs()) {
+                    Log.i("Directorio", "Directorio creado exitosamente: " + seccionDir.getAbsolutePath());
+                } else {
+                    Log.i("Directorio", "No se pudo crear el directorio: " + seccionDir.getAbsolutePath());
+                }
+            }
+
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
@@ -233,7 +254,7 @@ public class CaptureActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Error al guardar la foto.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error al guardar la foto", Toast.LENGTH_SHORT).show();
             }
         }
         else {

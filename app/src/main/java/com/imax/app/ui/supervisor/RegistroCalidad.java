@@ -255,10 +255,13 @@ public class RegistroCalidad extends AppCompatActivity {
             }
             if(radioChecks[i].isChecked()){
                 if (!spinnersCalificacion[i].getSelectedItem().toString().equals("Seleccionar")) {
+                    Toast.makeText(this, "Seleccionar una opcion cuando se haya seleccionado", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
         }
+
+        Toast.makeText(this, "No hay botones seleccionados", Toast.LENGTH_SHORT).show();
         return false;
     }
 

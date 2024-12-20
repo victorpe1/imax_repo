@@ -163,7 +163,7 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
     private void loadSeccionesExistentes(String asignacion) {
         seccionesList.clear();
 
-        File fotosDir = new File(Environment.getExternalStorageDirectory(), "Fotos");
+        File fotosDir = new File(getExternalFilesDir(null), "Fotos");
         if (fotosDir.exists() && fotosDir.isDirectory()) {
             File[] asignaciones = fotosDir.listFiles();
             if (asignaciones != null) {
@@ -194,10 +194,10 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
         seccionesAdapter.notifyDataSetChanged();
     }
 
-    public static String construirJsonTorresConMIME(String asignacion) throws JSONException {
+    public String construirJsonTorresConMIME(String asignacion) throws JSONException {
         JSONArray torresArray = new JSONArray();
 
-        File asignacionDir = new File(Environment.getExternalStorageDirectory(), "Fotos/" + asignacion);
+        File asignacionDir = new File(getExternalFilesDir(null), "Fotos/" + asignacion);
 
         if (asignacionDir.exists() && asignacionDir.isDirectory()) {
             File[] torres = asignacionDir.listFiles();

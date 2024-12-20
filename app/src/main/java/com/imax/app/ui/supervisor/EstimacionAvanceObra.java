@@ -57,15 +57,6 @@ public class EstimacionAvanceObra extends AppCompatActivity {
 
     public static final int ACCION_NUEVO_REGISTRO = 1;
 
-    public static final String EXTRA_DIRECCION = "direccion";
-
-
-    private final int REQUEST_CODE_AGREGAR_PRODUCTO = 0;
-
-    public String idTipoDocumentoOriginal = "";
-
-    private boolean cabeceraGuardada = false;
-
     private ProgressDialog progressDialog;
     private ViewPager mViewPager;
 
@@ -474,14 +465,14 @@ public class EstimacionAvanceObra extends AppCompatActivity {
             return false; //false
         }
 
-
+        int verifyRegistry = 0;
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
             TableRow row = (TableRow) tableLayout.getChildAt(i);
             EditText descripcionEditText = (EditText) row.getChildAt(0);
             EditText presupuestoEditText = (EditText) row.getChildAt(1);
 
             String descripcion = descripcionEditText.getText().toString().trim();
-            double presupuesto = 0;
+            double presupuesto = 0.0;
             String presupuestoComa;
             try {
                 if (presupuestoEditText.getText().toString().trim().isEmpty()) {
@@ -494,14 +485,27 @@ public class EstimacionAvanceObra extends AppCompatActivity {
                 System.out.println("presupuesto -> " + presupuesto);
             } catch (NumberFormatException e) {
                 System.out.println("ERROR -> " + e);
-                presupuesto = 0;
+                presupuesto = 0.0;
             }
 
-            if (descripcion.isEmpty() && presupuesto != 0.0) {
+            if (descripcion.trim().isEmpty() && presupuesto != 0.0) {
                 Toast.makeText(this, "Deberiamos tener una descripcion asociada al presupuesto.",
                         Toast.LENGTH_SHORT).show();
                 return false;
             }
+
+            if(descripcion.trim().isEmpty() && presupuesto == 0.0){
+                verifyRegistry++;
+            }
+
+        }
+
+        System.out.println("count tableLayout.getChildCount() " + tableLayout.getChildCount());
+        System.out.println("count " + verifyRegistry);
+        if(verifyRegistry == tableLayout.getChildCount()){
+            Toast.makeText(this, "Deberiamos tener al menos 1 registro.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         return true;
@@ -519,11 +523,6 @@ public class EstimacionAvanceObra extends AppCompatActivity {
         builder.setNegativeButton(getString(R.string.cancelar), null);
         builder.show();
 
-    }
-
-    public void noPermitirCerrar() {
-        Util.actualizarToolBar("", false, this);
-        cabeceraGuardada = true;
     }
 
     public void showLoader() {
