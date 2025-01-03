@@ -13,6 +13,10 @@
             android:id="@+id/nav_supervisor"
             android:icon="@drawable/ic_menu_clientes"
             android:title="INSPECCION SUPERVISOR" />
+        <item
+            android:id="@+id/nav_supervisor_foto"
+            android:icon="@drawable/ic_menu_cuenta"
+            android:title="REGISTRO FOTOGRAFICO - S" />
 
     </group>
 

@@ -610,6 +610,40 @@ public class DAOExtras {
                 supervisorRequest.setObservacionSeguridad(cursor.getString(31));
 
                 //Inspeccion Final
+                //supervisorRequest.setFotosAdicional(cursor.getString(23));
+
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return supervisorRequest;
+    }
+
+    public SupervisorRequest getListAsignacionByNumeroSupervisorFoto(String numero) {
+        SupervisorRequest supervisorRequest = new SupervisorRequest();
+        try {
+            SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+            String rawQuery =
+                    "SELECT * FROM " + TablesHelper.xml_inspeccion_supervisor.table + " WHERE num_inspeccion = ?";
+            Cursor cursor = db.rawQuery(rawQuery, new String[]{numero});
+
+            if (cursor.moveToFirst()) {
+                //supervisorRequest.setNumInspeccion(cursor.getString(0));
+                supervisorRequest.setNumInspeccion(cursor.getString(1));
+                supervisorRequest.setFecha(cursor.getString(2));
+                supervisorRequest.setHora(cursor.getString(3));
+                supervisorRequest.setProyecto(cursor.getString(4));
+                supervisorRequest.setSolicitante(cursor.getString(5));
+                supervisorRequest.setResponsableObra(cursor.getString(6));
+                supervisorRequest.setCargo(cursor.getString(7));
+                supervisorRequest.setSotanos(cursor.getString(8));
+                supervisorRequest.setPisos(cursor.getString(9));
+                supervisorRequest.setMesas(cursor.getString(10));
+                supervisorRequest.setTorres(cursor.getString(11));
+
+                //Inspeccion Final
                 supervisorRequest.setFotosAdicional(cursor.getString(23));
 
             }
@@ -1430,7 +1464,7 @@ public class DAOExtras {
     }
 
     public String actualizarRepuestaRegistroSupervisor(Response<ResponseBody> response,
-                                                 String numeroPedido) throws Exception{
+                                                 String numeroPedido, boolean foto) throws Exception{
 
         JSONObject body = new JSONObject(response.body().string());
 
@@ -1440,6 +1474,10 @@ public class DAOExtras {
             if (result.has("status")) {
                 int status = result.getInt("status");
                 if (status == 200) {
+
+                    if(foto){
+                        return Order.FLAG_ENVIADO;
+                    }
 
                     try{
                         SQLiteDatabase db = dataBaseHelper.getWritableDatabase();

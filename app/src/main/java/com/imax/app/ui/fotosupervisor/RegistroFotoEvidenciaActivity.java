@@ -1,4 +1,4 @@
-package com.imax.app.ui.supervisor;
+package com.imax.app.ui.fotosupervisor;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,22 +21,17 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.gson.Gson;
-import com.imax.app.App;
 import com.imax.app.R;
-import com.imax.app.data.api.request.FotoRequest;
 import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.data.dao.DAOExtras;
-import com.imax.app.data.tasks.EnviarDocumentoFotoTask;
 import com.imax.app.data.tasks.EnviarDocumentoSupervisorTask;
+import com.imax.app.data.tasks.EnviarFotoSupervisorTask;
 import com.imax.app.intents.supervisor.InspeccionSupervisor_1;
 import com.imax.app.managers.DataBaseHelper;
 import com.imax.app.models.AsignacionModel;
 import com.imax.app.ui.activity.MenuPrincipalActivity;
-import com.imax.app.ui.activity.RegistroDespuesInspeccionFirmaActivity;
+import com.imax.app.ui.supervisor.CaptureActivity;
 import com.imax.app.utils.Util;
 
 import org.json.JSONArray;
@@ -45,8 +40,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
     private final String TAG = getClass().getName();
@@ -246,13 +239,11 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
             }
         }
 
-        // Crear un objeto final con "torres"
         JSONObject resultado = new JSONObject();
         resultado.put("torres", torresArray);
 
         return resultado.toString();
     }
-
 
     private static String getMimeType(String path) {
         String type = null;
@@ -262,7 +253,6 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
         }
         return type != null ? type : "application/octet-stream";
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -304,9 +294,9 @@ public class RegistroFotoEvidenciaActivity extends AppCompatActivity {
                             .setTitle("Confirmación")
                             .setMessage("¿Estás seguro de que deseas guardar la información?")
                             .setPositiveButton("Sí", (dialog, which) -> {
-                                SupervisorRequest fotoRequestSend = daoExtras.getListAsignacionByNumeroSupervisor(numAsignacion);
-                                /*new EnviarDocumentoSupervisorTask(RegistroseguridadTrabajoySeñalizacion.this,
-                                        fotoRequestSend).execute(); */
+                                SupervisorRequest fotoRequestSend = daoExtras.getListAsignacionByNumeroSupervisorFoto(numAsignacion);
+                                new EnviarFotoSupervisorTask(RegistroFotoEvidenciaActivity.this,
+                                        fotoRequestSend).execute();
                             })
                             .setNegativeButton("No", null)
                             .show();

@@ -20,10 +20,7 @@ import com.imax.app.data.api.request.SupervisorRequestWrapper;
 import com.imax.app.data.dao.DAOExtras;
 import com.imax.app.data.dao.DAOProducto;
 import com.imax.app.models.Order;
-import com.imax.app.ui.activity.MenuPrincipalActivity;
-import com.imax.app.ui.fotosupervisor.RegistroSupervisorFotoActivity;
-import com.imax.app.ui.supervisor.RegistroFotoEvidenciaActivity;
-import com.imax.app.ui.supervisor.RegistroseguridadTrabajoySeñalizacion;
+import com.imax.app.ui.fotosupervisor.RegistroFotoEvidenciaActivity;
 import com.imax.app.utils.Constants;
 import com.imax.app.utils.UnauthorizedException;
 import com.imax.app.utils.Util;
@@ -41,8 +38,8 @@ import java.util.ArrayList;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String> {
-    private WeakReference<RegistroseguridadTrabajoySeñalizacion> weakReference;
+public class EnviarFotoSupervisorTask extends AsyncTask<Void, Void, String> {
+    private WeakReference<RegistroFotoEvidenciaActivity> weakReference;
 
     private DAOExtras daoExtras;
     private DAOProducto daoProducto;
@@ -53,7 +50,7 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
 
     private SupervisorRequest supervisorRequest;
 
-    public EnviarDocumentoSupervisorTask(RegistroseguridadTrabajoySeñalizacion reference, SupervisorRequest fotoRequest) {
+    public EnviarFotoSupervisorTask(RegistroFotoEvidenciaActivity reference, SupervisorRequest fotoRequest) {
         weakReference = new WeakReference<>(reference);
 
         daoExtras = new DAOExtras(reference.getApplicationContext());
@@ -71,6 +68,46 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
         }
     }
 
+
+    public static String procesarJsonConBase64(String jsonInput) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonInput);
+        JSONArray torresArray = jsonObject.getJSONArray("torres");
+
+        for (int i = 0; i < torresArray.length(); i++) {
+            JSONObject torre = torresArray.getJSONObject(i);
+            JSONArray pisosArray = torre.getJSONArray("pisos");
+
+            for (int j = 0; j < pisosArray.length(); j++) {
+                JSONObject piso = pisosArray.getJSONObject(j);
+                JSONArray fotosArray = piso.getJSONArray("fotos");
+
+                for (int k = 0; k < fotosArray.length(); k++) {
+                    String combinedItem = fotosArray.getString(k);
+                    String[] parts = combinedItem.split(";");
+                    String filePath = parts[2].split(",")[1]; // Extraer la ruta del archivo
+
+                    File imageFile = new File(filePath);
+                    String base64String = encodeFileToBase64(imageFile);
+
+                    String newCombinedItem = parts[0] + ";" + parts[1] + ";base64," + base64String;
+                    fotosArray.put(k, newCombinedItem); // Reemplazar en el array
+                }
+            }
+        }
+
+        return jsonObject.toString();
+    }
+
+    private static String encodeFileToBase64(File file) {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] bytes = new byte[(int) file.length()];
+            fis.read(bytes);
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String transformarCalificacionCalidad(String calificacionCalidad, String radioCheckCalidad) {
         Gson gson = new Gson();
@@ -109,14 +146,10 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
 
                     supervisorRequest.setUser_email(usuario);
 
-                    String mapeoCalidad = transformarCalificacionCalidad(supervisorRequest.getCalificacionCalidad(),
-                            supervisorRequest.getRadioCheckCalidad());
+                    Log.i("supervisorRequestFoto -> ", new Gson().toJson(supervisorRequest));
 
-                    String mapeoSeguridad = transformarCalificacionCalidad(supervisorRequest.getCalificacionSeguridad(),
-                            supervisorRequest.getRadioCheckSeguridad());
-
-                    supervisorRequest.setMapeoRequestCalidad(mapeoCalidad);
-                    supervisorRequest.setMapeoRequestSegurida(mapeoSeguridad);
+                    String jsonBase64Fotos = procesarJsonConBase64(supervisorRequest.getFotosAdicional());
+                    supervisorRequest.setFotosAdicional(jsonBase64Fotos);
 
                     ArrayList<SupervisorRequest> supervisorRequests = new ArrayList<>();
                     supervisorRequests.add(supervisorRequest);
@@ -135,10 +168,8 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
                     }
 
                     if (response.isSuccessful()) {
-                        //eliminarCarpetaInspeccion(supervisorRequest.getNumInspeccion());
-
                         return daoExtras.actualizarRepuestaRegistroSupervisor(response,
-                                supervisorRequest.getNumInspeccion(),true);
+                                supervisorRequest.getNumInspeccion(), true);
                     } else {
                         return Constants.FAIL_OTHER;
                     }
@@ -201,6 +232,7 @@ public class EnviarDocumentoSupervisorTask extends AsyncTask<Void, Void, String>
 
         switch (respuesta) {
             case (Order.FLAG_ENVIADO):
+                eliminarCarpetaInspeccion(supervisorRequest.getNumInspeccion());
                 tituloRes = R.string.enviado;
                 mensajeRes = R.string.venta_registrada;
                 icon = R.drawable.ic_dialog_check;

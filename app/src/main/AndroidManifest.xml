@@ -60,6 +60,10 @@
         <activity android:name="com.imax.app.ui.activity.RegistroDespuesInspeccionActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.activity.RegistroDespuesInspeccionFirmaActivity" android:screenOrientation="portrait"/>
 
+        <activity android:name="com.imax.app.ui.fotosupervisor.RegistroSupervisorFotoActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imax.app.ui.fotosupervisor.CaptureActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imax.app.ui.fotosupervisor.RegistroFotoEvidenciaActivity" android:screenOrientation="portrait"/>
+
         <activity android:name="com.imax.app.ui.foto.RegistroFotoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.foto.RegistroFotoInsertActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imax.app.ui.foto.RegistroFotoInsert2Activity" android:screenOrientation="portrait"/>

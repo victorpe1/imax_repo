@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -411,7 +412,6 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
                     imageUri = Uri.fromFile(imageFile);
                     setImageWhileIndex(currentImageIndex, imageUri);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show();

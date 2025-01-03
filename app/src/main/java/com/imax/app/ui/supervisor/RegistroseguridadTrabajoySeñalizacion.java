@@ -1,20 +1,28 @@
 package com.imax.app.ui.supervisor;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,9 +31,16 @@ import com.google.gson.reflect.TypeToken;
 import com.imax.app.R;
 import com.imax.app.data.api.request.SupervisorRequest;
 import com.imax.app.data.dao.DAOExtras;
+import com.imax.app.data.tasks.EnviarDocumentoSupervisorTask;
 import com.imax.app.intents.supervisor.InspeccionSupervisor_1;
+import com.imax.app.ui.activity.MenuPrincipalActivity;
 import com.imax.app.utils.Util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +60,7 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
     private InspeccionSupervisor_1 inspeccion;
     private EditText edt_especificar;
     private int promedioFinal = 0;
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +110,10 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
 
         cargarDatos(inspeccion.getNumInspeccion());
 
+
+        progressDialog = new ProgressDialog(RegistroseguridadTrabajoySeñalizacion.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
     }
 
     private void actualizarPromedio() {
@@ -234,8 +253,8 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_pedido, menu);
-        menu.findItem(R.id.menu_pedido_siguiente).setVisible(true);
-        menu.findItem(R.id.menu_pedido_guardar).setVisible(false);
+        menu.findItem(R.id.menu_pedido_siguiente).setVisible(false);
+        menu.findItem(R.id.menu_pedido_guardar).setVisible(true);
         return true;
     }
 
@@ -263,11 +282,84 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
     }
 
 
+    public String construirJsonTorresConMIME(String asignacion) throws JSONException {
+        JSONArray torresArray = new JSONArray();
+
+        File asignacionDir = new File(getExternalFilesDir(null), "Fotos/" + asignacion);
+
+        if (asignacionDir.exists() && asignacionDir.isDirectory()) {
+            File[] torres = asignacionDir.listFiles();
+
+            if (torres != null) {
+                for (File torre : torres) {
+                    if (torre.isDirectory()) {
+                        JSONObject torreJson = new JSONObject();
+                        String torreName = torre.getName();
+
+                        String torreId = torreName.replaceAll("[^0-9]", "");
+                        torreJson.put("torre", torreName);
+                        torreJson.put("torre_id", torreId);
+
+                        JSONArray pisosArray = new JSONArray();
+                        File[] pisos = torre.listFiles();
+
+                        if (pisos != null) {
+                            for (File piso : pisos) {
+                                if (piso.isDirectory()) {
+                                    JSONObject pisoJson = new JSONObject();
+                                    String pisoName = piso.getName();
+
+                                    String pisoId = "p" + pisoName.replaceAll("[^0-9]", "");
+                                    pisoJson.put("piso", pisoName);
+                                    pisoJson.put("piso_id", pisoId);
+
+                                    JSONArray fotosArray = new JSONArray();
+                                    File[] fotos = piso.listFiles();
+
+                                    if (fotos != null) {
+                                        for (File foto : fotos) {
+                                            if (foto.isFile() && (foto.getName().endsWith(".jpg") || foto.getName().endsWith(".png"))) {
+                                                String mimeType = getMimeType(foto.getPath());
+                                                String combinedItem = "data:" + mimeType + ";name=" + foto.getName() + ";file," + foto.getAbsolutePath();
+                                                fotosArray.put(combinedItem);
+                                            }
+                                        }
+                                    }
+
+                                    pisoJson.put("fotos", fotosArray);
+                                    pisosArray.put(pisoJson);
+                                }
+                            }
+                        }
+
+                        torreJson.put("pisos", pisosArray);
+                        torresArray.put(torreJson);
+                    }
+                }
+            }
+        }
+
+        // Crear un objeto final con "torres"
+        JSONObject resultado = new JSONObject();
+        resultado.put("torres", torresArray);
+
+        return resultado.toString();
+    }
+
+    private static String getMimeType(String path) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        return type != null ? type : "application/octet-stream";
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.menu_pedido_siguiente:
+            case R.id.menu_pedido_guardar:
                 if(haySeleccionado()){
                     List<Boolean> radioChecksList = new ArrayList<>();
                     List<String> calificacionesList = new ArrayList<>();
@@ -290,9 +382,20 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
                     daoExtras.actualizarRegistroSupervisor6(inspeccion.getNumInspeccion(),
                             radioChecksJson, calificacionesJson, promedio, observacion);
 
-                    Intent intent = new Intent(RegistroseguridadTrabajoySeñalizacion.this, RegistroFotoEvidenciaActivity.class);
-                    intent.putExtra("InspeccionSupervisor_1", inspeccion);
-                    startActivity(intent);
+                    SupervisorRequest fotoRequest = new SupervisorRequest();
+                    fotoRequest.setNumInspeccion(inspeccion.getNumInspeccion());
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Confirmación")
+                            .setMessage("¿Estás seguro de que deseas guardar la información?")
+                            .setPositiveButton("Sí", (dialog, which) -> {
+                                SupervisorRequest fotoRequestSend =
+                                        daoExtras.getListAsignacionByNumeroSupervisor(inspeccion.getNumInspeccion());
+                                  new EnviarDocumentoSupervisorTask(RegistroseguridadTrabajoySeñalizacion.this,
+                                            fotoRequestSend).execute();
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
                 }
                 break;
             case android.R.id.home:
@@ -300,5 +403,39 @@ public class RegistroseguridadTrabajoySeñalizacion extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void showLoader() {
+        progressDialog.show();
+    }
+
+    public void hideLoader() {
+        progressDialog.dismiss();
+    }
+
+    public void mostrarPopup(@StringRes int tituloRes, @StringRes int mensajeRes, @DrawableRes int iconResId) {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView2 = inflater.inflate(R.layout.popup_gracias, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView2);
+
+        AlertDialog dialog2 = builder.create();
+        dialog2.show();
+
+        ImageView imageViewCheck = dialogView2.findViewById(R.id.imageViewCheck);
+        TextView tvSubtitulo = dialogView2.findViewById(R.id.tvSubtitulo);
+        Button btnAceptar = dialogView2.findViewById(R.id.btnAceptar);
+
+        imageViewCheck.setImageResource(iconResId);
+        tvSubtitulo.setText(mensajeRes);
+
+        btnAceptar.setOnClickListener(v -> {
+            dialog2.dismiss();
+            finish();
+            Intent intent = new Intent(RegistroseguridadTrabajoySeñalizacion.this, MenuPrincipalActivity.class);
+            startActivity(intent);
+        });
     }
 }
