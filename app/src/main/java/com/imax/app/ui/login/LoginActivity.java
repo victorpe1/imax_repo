@@ -1,7 +1,9 @@
 package com.imax.app.ui.login;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.imax.app.App;
 import com.imax.app.R;
@@ -34,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         app = (App) getApplicationContext();
+
+        solicitarPermisos();
 
         //region controles
         edt_usuario = findViewById(R.id.edt_usuario);
@@ -59,6 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(v -> {
             login();
         });
+    }
+
+    private void solicitarPermisos() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        }
     }
 
     private void login() {

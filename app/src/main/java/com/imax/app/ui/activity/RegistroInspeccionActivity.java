@@ -424,7 +424,6 @@ public class RegistroInspeccionActivity extends AppCompatActivity {
 
     }
 
-
     void showAlertError(String titulo, String mensaje) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_dialog_error);

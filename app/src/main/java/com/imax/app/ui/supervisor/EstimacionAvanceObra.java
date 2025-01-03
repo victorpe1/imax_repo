@@ -331,7 +331,6 @@ public class EstimacionAvanceObra extends AppCompatActivity {
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
             TableRow fila = (TableRow) tableLayout.getChildAt(i);
             EditText presupuestoEditText = (EditText) fila.getChildAt(1);
-
             FrameLayout avanceLayout = (FrameLayout) fila.getChildAt(2);
             EditText avanceEditText = (EditText) avanceLayout.getChildAt(1);
 
@@ -341,7 +340,6 @@ public class EstimacionAvanceObra extends AppCompatActivity {
                 if (presupuesto > 0) {
                     totalPresupuesto += presupuesto;
                     contadorPresupuestosValidos++;
-
                     String avanceTexto = avanceEditText.getText().toString().replace("%", "").replace(",", ".").trim();
                     try {
                         double avance = Double.parseDouble(avanceTexto) / 100.0;
@@ -459,7 +457,7 @@ public class EstimacionAvanceObra extends AppCompatActivity {
 
 
     public boolean validarDatos() {
-        if(editTipoCambio.getText().toString().equals("-")){
+        if(editTipoCambio.getText().toString().equals("-") || editTipoCambio.getText().toString().trim().equals("")){
             Toast.makeText(this, "No existe un tipo de cambio", Toast.LENGTH_SHORT).show();
             editTipoCambio.setError("No existe un tipo de cambio.");
             return false; //false

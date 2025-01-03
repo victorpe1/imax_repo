@@ -1,7 +1,9 @@
 package com.imax.app.ui.foto;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -62,6 +65,8 @@ public class RegistroFotoActivity extends AppCompatActivity {
         progress = findViewById(R.id.progress);
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
 
+        solicitarPermisos();
+
         app = (App) getApplicationContext();
         calendar = Calendar.getInstance();
         daoExtras = new DAOExtras(getApplicationContext());
@@ -73,6 +78,14 @@ public class RegistroFotoActivity extends AppCompatActivity {
         defaultBackground = ContextCompat.getDrawable(this, R.drawable.default_border);
 
     }
+
+    private void solicitarPermisos() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        }
+    }
+
 
     public void setDateTimeInEditText(String fecha, EditText edtFecha, EditText edtHora) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

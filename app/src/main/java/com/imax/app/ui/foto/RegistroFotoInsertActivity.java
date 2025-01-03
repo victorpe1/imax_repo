@@ -1,11 +1,14 @@
 package com.imax.app.ui.foto;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,12 +35,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.imax.app.App;
+import com.imax.app.BuildConfig;
 import com.imax.app.R;
 import com.imax.app.data.api.XMSApi;
 import com.imax.app.data.api.request.FotoRequest;
@@ -119,11 +125,13 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
     private String[] imagePaths = new String[6];
     private LinearLayout filesContainer;
+    File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_foto_1);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -213,6 +221,7 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
         showAlertMaxMB("ADVENTENCIA", "Solo se acepta fotograficas con maximo de 8MB, de otro modo configurar resolución.");
     }
+
 
     private void initBotones(){
         imgPreview1.setVisibility(View.GONE);
@@ -310,10 +319,23 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Seleccionar archivos"), PICK_FILES_REQUEST);
     }
+
     private void openCamera() {
+        Uri photoURI;
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            try {
+                imageFile = createImageFile();
+                if (imageFile != null) {
+                    photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", imageFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                Toast.makeText(this, "Error al crear el archivo de la imagen", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -360,43 +382,42 @@ public class RegistroFotoInsertActivity extends AppCompatActivity implements Fil
 
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            if (imageBitmap != null) {
-                int width = imageBitmap.getWidth();
-                int height = imageBitmap.getHeight();
+            if (imageFile.exists()) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+
+                int width = options.outWidth;
+                int height = options.outHeight;
                 int totalPixels = width * height;
 
                 if (totalPixels > MAX_PIXELS) {
                     Toast.makeText(this, "La imagen no debe superar los 8 MP", Toast.LENGTH_SHORT).show();
+                    if (imageFile.delete()) {
+                        Toast.makeText(this, "Imagen eliminada debido a tamaño excesivo", Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }
 
                 try {
-                    File photoFile = createImageFile();
-                    if (photoFile != null) {
-                        FileOutputStream fos = new FileOutputStream(photoFile);
-                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        fos.flush();
-                        fos.close();
+                    String filePath = imageFile.getAbsolutePath();
+                    String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
+                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
 
-                        String filePath = photoFile.getAbsolutePath();
-                        String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
-                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+                    String combinedItem = "data:" + mimeType + ";name=" + imageFile.getName() + ";index=" +
+                            currentImageIndex + ";file," + filePath;
 
-                        String combinedItem = "data:" + mimeType + ";name=" + photoFile.getName() + ";index=" +
-                                currentImageIndex + ";file," + filePath;
+                    imagePaths[currentImageIndex] = combinedItem;
 
-                        imagePaths[currentImageIndex] = combinedItem;
+                    imageUri = Uri.fromFile(imageFile);
+                    setImageWhileIndex(currentImageIndex, imageUri);
 
-                        imageUri = Uri.fromFile(photoFile);
-                        setImageWhileIndex(currentImageIndex, imageUri);
-
-                    }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(this, "El archivo de imagen no existe", Toast.LENGTH_SHORT).show();
             }
         }
     }

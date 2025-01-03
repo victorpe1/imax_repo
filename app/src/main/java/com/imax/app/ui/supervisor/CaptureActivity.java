@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.imax.app.BuildConfig;
 import com.imax.app.R;
 import com.imax.app.utils.Util;
 
@@ -51,7 +55,7 @@ public class CaptureActivity extends AppCompatActivity {
     private ArrayList<File> fotosList;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,12 +165,12 @@ public class CaptureActivity extends AppCompatActivity {
 
     private void addFotoToGallery(final File foto) {
         ImageView imageView = new ImageView(this);
+
         Bitmap bitmap = BitmapFactory.decodeFile(foto.getAbsolutePath());
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
         imageView.setImageBitmap(scaledBitmap);
         imageView.setPadding(8, 8, 8, 8);
 
-        // Opcional: agregar funcionalidad para eliminar individualmente
         imageView.setOnLongClickListener(view -> {
             confirmarEliminarFoto(foto);
             return true;
@@ -178,9 +182,16 @@ public class CaptureActivity extends AppCompatActivity {
     private void tomarFoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String imageFileName = "IMG_" + timeStamp + ".jpg";
+            imageFile = new File(seccionDir, imageFileName);
+
+            Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", imageFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -236,28 +247,10 @@ public class CaptureActivity extends AppCompatActivity {
                 }
             }
 
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            fotosList.add(imageFile);
+            addFotoToGallery(imageFile);
 
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-            String imageFileName = "IMG_" + timeStamp + ".jpg";
-            File imageFile = new File(seccionDir, imageFileName);
-
-            try {
-                FileOutputStream fos = new FileOutputStream(imageFile);
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.flush();
-                fos.close();
-
-                fotosList.add(imageFile);
-                addFotoToGallery(imageFile);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Error al guardar la foto", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -277,7 +270,7 @@ public class CaptureActivity extends AppCompatActivity {
         builder.setIcon(icon);
         builder.setCancelable(false);
 
-       builder.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
+        builder.setPositiveButton(getString(R.string.aceptar), (dialog, which) -> {
             /*Intent intent = new Intent(getApplicationContext(), DetallePedidoActivity.class);
             intent.putExtra("numeroPedido",numeroPedido);
             intent.putExtra("idCliente",idCliente);
