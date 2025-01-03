@@ -610,7 +610,7 @@ public class DAOExtras {
                 supervisorRequest.setObservacionSeguridad(cursor.getString(31));
 
                 //Inspeccion Final
-                //supervisorRequest.setFotosAdicional(cursor.getString(23));
+                supervisorRequest.setFotosAdicional("");
 
             }
 
